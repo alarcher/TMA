@@ -1,0 +1,173 @@
+
+\chapter{Adaptive error control}
+
+In Section \ref{sec:error_analysis}. we derived \apriori error estimates which give a control of the discretization error for any approximate solution.
+The order of convergence given by the exponent $O(\sizeT^\alpha)$ is an indication on ``how close'' to the continuous solution any approximate solution is expected to be.
+Provided that we are able to compute an approximate solution $\uh$, we want now to evaluate the ``quality'' of this solution in the sense of the residual of the equation: such an estimate is thus called \aposteriori as it gives a quality measure of a computed solution.
+
+\medskip
+\Question How can we evaluate the quality of a computed approximate solution in the sense of the residual of the equation ?
+
+\section{\textit{A posteriori} error estimate}
+
+Let $u$ and $\uh$ be respectively the solutions to Problem \eqref{pb:weak_poissonHone} and Problem \eqref{pb:poisson_p1}
+\begin{eqnarray*}
+\snHoneD{e_h}^2 &=& \int_\dom \Grad e_h \xDot \Grad e_h \dx \\
+                &=& \int_\dom \Grad e_h \xDot \Grad (e_h - \Projh{h} e_h)\dx \\
+                &=& \int_\dom \Grad u \xDot  \Grad (e_h - \Projh{h} e_h)  \dx - \int_\dom \Grad \uh \xDot \Grad (e_h - \Projh{h} e_h) \dx \\
+                &=& \int_\dom f\; (e_h - \Projh{h} e_h)  \dx - \int_\dom \Grad \uh \xDot \Grad (e_h - \Projh{h} e_h) \dx
+\end{eqnarray*}
+To obtain the residual $\Res \uh$ we need to consider the equation element-wise, then integrating by part on any cell $K \in \meshT$, we obtain
+\begin{equation*}
+\int_K \Grad \uh \xDot \Grad (e_h - \Projh{h} e_h) \dx = \int_{\partial K} \Grad \uh \xDot \n\;(e_h - \Projh{h} e_h) \dx - \int_K \Delta \uh \; (e_h - \Projh{h} e_h) \dx
+\end{equation*}
+with
+\begin{equation*}
+\ResK{\uh} = (f + \Delta \uh)\rvert_K
+\end{equation*}
+Summing again over the domain yields
+\begin{equation*}
+\snHoneD{e_h}^2 = \sum _{K\in\meshT}\left[\int_K \ResK{\uh}\; \Grad (e_h - \Projh{h} e_h) \dx + \int_{\partial K} \Grad \uh \xDot \n\;(e_h - \Projh{h} e_h) \dx \right]
+\end{equation*}
+noting that in the case of continuous elements the boundary term cancels.
+Using first the Cauchy--Schwarz inequality
+\begin{equation*}
+\snHoneD{e_h}^2 \leq \nLtwo{\Res{\uh}} \nLtwo{e_h - \Projh{h} e_h}
+\end{equation*}
+then the interpolation inequality with constant $C_I$
+\begin{equation*}
+\snHoneD{e_h}^2 \leq C_I \nLtwo{\Res{\uh}} \snHoneD{h e_h}
+\end{equation*}
+Consequenlty, we conclude
+\begin{equation*}
+\snHoneD{e_h} \leq C_I \sizeT \nLtwo{\Res{\uh}}
+\end{equation*}
+
+\section{Dual weighted residual estimate}
+
+\subsection{Adjoint operator}
+
+\begin{dfntn}[Adjoint operator]
+Let us define $\opA\dual$, the adjoint operator of $\opA$ as:
+\begin{equation*}
+\Inner{\opA u}{v} = \Inner{u}{\opA\dual v}
+\end{equation*}
+\end{dfntn}
+
+\begin{xmpl}[Matrix of $\xMatR{N}$]
+Let $\opA = \matA$ be a real square matrix of dimension $N\times N$ and $x,y \in \xR^N$:
+\begin{equation*}
+\Inner{\opA x}{y} = \Inner{\matA x}{y} = \Inner{x}{\matA^t y} = \Inner{x}{\opA\dual y}
+\end{equation*}
+with $\Inner{\xDot}{\xDot}$ the scalar product of $\xR^N$, then $\opA\dual = \matA^t$.
+\end{xmpl}
+
+\begin{xmpl}[Weak derivative]
+Let $\opA = {\mathrm D}_x $ and $u,v \in \xLtwo(\dom)$, with compact support on $\dom$:
+\begin{equation*}
+\Inner{\opA u}{v} = \Inner{{\mathrm D}_x u}{v} = -\,\Inner{u}{{\mathrm D}_x v} = \Inner{u}{\opA\dual v}
+\end{equation*}
+with $\Inner{\xDot}{\xDot}$ the scalar product of $\xLtwo(\dom)$, then $\opA\dual = - {\mathrm D}_x$.
+\end{xmpl}
+
+\begin{xmpl}[Laplace operator]
+Let $\opA = -\Lap$ and $u,v \in \xHonec(\dom)$:
+\begin{equation*}
+\Inner{\opA u}{v} = \Inner{- \Lap u}{v} = \Inner{\Grad u}{\Grad v} = \Inner{u}{- \Lap v} = \Inner{u}{\opA\dual v}
+\end{equation*}
+with $\Inner{\xDot}{\xDot}$ the scalar product of $\xLtwo(\dom)$, then $\opA\dual = - \Lap$. The Laplace operator is said \textit{self-adjoint}.
+\end{xmpl}
+
+\subsection{Duality-based \aposteriori error estimate}
+
+We define the dual problem as seeking $\eta$ satisfying $\opA^\star\eta = e_h$, which gives a control on the discretization error, using the definition of the adjoint operator $\opA^\star$:
+\begin{eqnarray*}
+\nLtwo{e_h} &=& \Inner{e_h}{e_h}\\
+            &=& \Inner{e_h}{\opA^\star\eta}\\
+            &=& \Inner{\opA e_h}{\eta}\\
+            &=& \Inner{\opA u}{\eta} - \Inner{\opA \uh}{\eta}\\
+            &=& \Inner{f - \opA \uh}{\eta}\\
+            &=& \Inner{\Res \uh}{\eta}
+\end{eqnarray*}
+with $\Res \uh = f -  \opA \uh$. Moreover, if the dual problem is stable then there exists a constant $\Stab$ such that the dual solution $\eta$ is bounded:
+\begin{equation*}
+\nLtwo{\eta} \leq \Stab \nLtwo{e_h}
+\end{equation*}
+with the stability factor $\Stab$ satisfying
+\begin{equation*}
+\Stab = \max_{\theta\in\xLtwo(\dom)}\dfrac{\snHtwoD{\eta}}{\nLtwo{\theta}}
+\end{equation*}
+Thus we can obtain a bound of the form:
+\begin{equation*}
+\nLtwo{e_h} \leq \Stab \nLtwo{\Res \uh}
+\end{equation*}
+
+\medskip
+Combining this estimate with an interpolation inequality in $\xH^\alpha$, we can bound the discretization error in terms of the residual and the stability factor.
+For instance, if we control the second derivatives of the dual solution, \ie $\alpha = 2$,
+\begin{eqnarray*}
+\nLtwo{e_h} \leq C_I\;\nLtwo{h^2\Res \uh}\dfrac{\snHtwoD{\eta}}{\nLtwo{e_h}}
+\end{eqnarray*}
+Consequently,
+\begin{eqnarray*}
+\nLtwo{e_h} \leq C_I\;\Stab\nLtwo{h^2\Res \uh}
+\end{eqnarray*}
+
+\section{Method}
+
+\begin{dfntn}[$h$-adaptivity]
+Given a tolerance parameter $\Etol > 0$ defining a quality criterion for the computed solution $\uh$, adapt the mesh such that it satisfies:
+\begin{equation*}
+\EindT = \sum_{K\in\meshT} \EindK < \Etol
+\end{equation*}
+\end{dfntn}
+
+\medskip
+\begin{lgrthm}[Adaptive mesh strategy] The following
+procedure applies:
+\begin{itemize}
+\item Generate an initial coarse mesh $\meshT^0$.
+\item Perform adaptive iterations for levels $\ell = 0, \cdots,\ell_{\mathrm max}$\;:
+\begin{enumerate}
+\item Solve the primal problem with solution $\uh^0 \in \xVh^\ell$.
+\item Compute the residual of the equation $\Res{\uh^\ell}$.
+\item If dual weighted, solve the dual problem with solution $\eta \in \xW_h^\ell$.
+\item Compute error indicators $\EindK$, $\forany K \in \meshT^\ell$.
+\item
+If ($\EindT \geq \Etol$)\;:\\
+$\rightarrow$ Generate mesh $\meshT^{\ell+1}$ by refining cells with largest values of $\EindK$.\\
+Else\;:\\
+$\rightarrow$ Terminate adaptive iterations, $\ell_{\mathrm max} = \ell$.
+\end{enumerate}
+\end{itemize}
+\end{lgrthm}
+
+\section{Exercises}
+
+\begin{xrcs}[Diffusion--Reaction problem on the unit interval]
+
+Consider the following one-dimensional problem:
+\begin{equation*}
+- \pdx\bigl(a(x)\;\pdx u(x)\bigr) + c(x)\;u(x) = f(x)\quad,\;\forany x\in \dom = [0,1]
+\end{equation*}
+with $a > 0$, $c \geq 0$, and supplemented with homogeneous Dirichlet boundary conditions
+\begin{equation*}
+u(0) = u(1) = 0
+\end{equation*}
+\begin{enumerate}
+\item Write the weak formulation for the given problem and its approximation by piecewise linear Lagrange elements.
+\item Write the dual problem for unknown $\eta$.
+\item Obtain the following estimate:
+\begin{equation*}
+\nLtwo{e_h} \leq \nLtwo{h^2 \Res \uh} \nLtwo{h^{-2} (\eta - \Projh{1}\eta)}
+\end{equation*}
+with the discretization error $e_h = u - \uh$, the equation residual $\Res \uh = f + \pdx\bigl(a\,\pdx \uh\bigr) - c\,\uh$ and the Lagrange $\xP^1$ intepolation operator $\Projh{1}$. First you should test the dual equation against $e_h$, then write the expression element-wise to be able to define the residual.
+\item Conclude that the \aposteriori error estimate holds
+\begin{eqnarray*}
+\nLtwo{e_h} \leq C_I\;\Stab\nLtwo{h^2\Res \uh}
+\end{eqnarray*}
+with $C_I$ the interpolation constant and $\Stab$ a stability factor that you will define.
+\end{enumerate}
+\end{xrcs}
+
+

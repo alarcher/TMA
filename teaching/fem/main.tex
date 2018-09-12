@@ -1,0 +1,126 @@
+\documentclass[a4paper]{tmanotes}
+
+\input{fem}
+\input{latin}
+\input{operators}
+\input{physics}
+\input{spaces}
+
+
+%\renewcommand{\nomname}{List of Notations}
+%\renewcommand*{\pagedeclaration}[1]{\unskip\dotfill\hyperpage{#1}}
+\makeindex
+
+\begin{document}
+
+%===============================================================================
+\title{Short notes on the Finite Element Method}
+\author{Aurélien Larcher}
+\bibliographystyle{plain}
+\date{}
+
+\maketitle
+
+\newpage
+
+\tableofcontents
+%===============================================================================
+
+
+\newpage
+%-------------------------------------------------------------------------------
+% Introduction.
+% 1.5 p
+\input{00-introduction}
+
+\newpage
+%-------------------------------------------------------------------------------
+\makenomenclature
+\printnomenclature
+
+\newpage
+%-------------------------------------------------------------------------------
+% Chapter 1. Weak solutions and variational formulation of PDEs
+% 4.5 p
+\input{01-weak-formulation}
+
+\newpage
+%-------------------------------------------------------------------------------
+% Chapter 2. Ritz and Galerkin methods for elliptic problems
+% 5.0 p
+\input{02-ritz-galerkin}
+
+\newpage
+%-------------------------------------------------------------------------------
+% Chapter 3. Finite Element spaces
+% 4.0 p
+%\input{03-finite-element}
+
+\newpage
+%-------------------------------------------------------------------------------
+% Chapter 4. Simplicial Lagrange Finite Element
+% 2.5 p
+%\input{04-simplex-lagrange}
+
+\newpage
+%-------------------------------------------------------------------------------
+% Chapter 5. Error analysis
+% 3.0 p
+%\input{05-error-analysis}
+
+\newpage
+%-------------------------------------------------------------------------------
+% Chapter 6. Time-dependent problems
+% 0.0 p
+%\input{06-time-dependent}
+
+\newpage
+%-------------------------------------------------------------------------------
+% Chapter 7. Adaptive control
+% 3.0 p
+%\input{07-adaptive-control}
+
+\newpage
+%-------------------------------------------------------------------------------
+% Chapter 8. Stabilized methods for advection dominated problems
+% 0.0 p
+%\input{08-stabilized-methods}
+
+\newpage
+%-------------------------------------------------------------------------------
+% Chapter 9. Mixed problems
+% 0.0 p
+%\input{09-mixed-problems}
+
+\newpage
+%===============================================================================
+\appendix
+
+% Total: 5.0 p
+
+%-------------------------------------------------------------------------------
+% Appendix A. Definitions
+\input{../appendix/Definitions}
+
+%-------------------------------------------------------------------------------
+% Appendix B. Duality in finite dimension
+\input{../appendix/Duality}
+
+%-------------------------------------------------------------------------------
+% Appendix C. Functional spaces
+\input{../appendix/Spaces}
+
+%-------------------------------------------------------------------------------
+% Appendix D. Inequalities
+\input{../appendix/Inequalities}
+
+%-------------------------------------------------------------------------------
+% Hints to exercises
+\input{EX-exercises}
+
+%===============================================================================
+\newpage
+\bibliography{main}
+
+\end{document}
+

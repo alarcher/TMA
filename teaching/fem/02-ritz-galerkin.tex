@@ -1,0 +1,409 @@
+
+\chapter[Ritz and Galerkin for elliptic problems]{Ritz and Galerkin methods for elliptic problems}\label{sec:rg}
+
+In Section \ref{sec:wf}. we have reformulated the Dirichlet problem to seek weak solutions and we showed its well-posedness. The problem being infinite dimensional, it is not computable.
+
+\medskip
+\Question Can we construct an approximation to Problem \eqref{pb:poisson} which is also well-posed?
+
+\section{Approximate problem}
+
+In the previous section we showed how a classical PDE problem such as Problem \eqref{pb:poisson} can be reformulated as a weak problem.
+The abstract problem for this class of PDE reads then:
+\begin{equation}\label{pb:rg_abstract}
+\left\lvert
+\begin{array}{ll}
+\mbox{Find $u \in \xV$, such that:}\\[2ex]
+\displaystyle a( u, v ) = L(v)\quad,\;\forany  v\in \xV
+\end{array}
+\right .
+\end{equation}
+with $a(\xDot,\xDot)$ a coercive continuous bilinear form on $\xV\times\xV$ and $L(\xDot)$ a continuous linear form on $\xV$.
+
+\medskip
+Since in the case of the Poisson problem the bilinear form is continuous, coercive and symmetric, the well-posedness follows directly from Riesz--Fréchet representation Theorem. If the bilinear form is still coercive but not symmetric then we will see that the well-posedness is proven by the Lax--Milgram Theorem.
+
+But for the moment, let us focus on the symmetric case: we want now to construct an approximate solution $u_n$ to the Problem \eqref{pb:rg_abstract} then prove that the solution to the obtained approximate problem exists and is unique.
+
+\section{Ritz method for symmetric bilinear forms}
+
+\subsection{Variational formulation and minimization problem}
+
+Ritz's idea is to replace the solution space $\xV$ (which is infinite dimensional) by a finite dimensional subspace $\xV_n \subset \xV$, $\dim(\xV_n) = n$.
+
+\medskip
+Problem \eqref{pb:ritz_weak} is the approximate weak problem by Ritz's method:
+\begin{equation}\label{pb:ritz_weak}
+\left\lvert
+\begin{array}{ll}
+\mbox{Find $u_n \in \xV_n$, $\xV_n \subset \xV$, such that:}\\[2ex]
+a( u_n, v_n ) = L(v_n)\quad,\forany  v_n \in \xV_n\\[2ex]
+\end{array}
+\right .
+\end{equation}
+with $a(\xDot,\xDot)$ a coercive symmetric continuous bilinear form on $\xV\times\xV$ and $L(\xDot)$ a continuous linear form on $\xV$.
+
+\medskip
+Provided that the bilinear form is symmetric, Problem \eqref{pb:ritz_variational} is the equivalent approximate variational problem under minimization form:
+\begin{equation}\label{pb:ritz_variational}
+\left\lvert
+\begin{array}{ll}
+\mbox{Find $u_n \in \xV_n$, $\xV_n \subset \xV$, such that:}\\[2ex]
+J(u_n) \leq J(v_n)\quad,\forany  v_n \in \xV_n\\[2ex]
+\mbox{with $J(v_n) = \displaystyle\frac{1}{2} a(v_n,v_n) - L(v_n)$}
+\end{array}
+\right .
+\end{equation}
+
+\begin{prpstn}{Equivalence of weak and variational formulations}
+Problem \ref{pb:ritz_weak} and \ref{pb:ritz_variational} are equivalent.
+\end{prpstn}
+
+\medskip
+Before moving to the well-posedness of the approximate variational problem some definitions are introduced to caracterize the solution of mimimization problems, then the equivalence of formulations for the Poisson problem with homogeneous Dirichlet boundary conditions in one dimension of space is given as example.
+
+
+\begin{dfntn}[Directional derivative]
+Let $\xV$ be a Hilbert space, for any $u\in\xV$ the relation:
+\begin{equation}\label{eq:directional_derivative}
+J'(u; w) = \lim_{\varepsilon\tendsto 0} \displaystyle \frac{1}{\varepsilon}\bigr( J(u + \varepsilon w) - J(u) \bigl)
+\end{equation}
+defines $J'(\cdot; \cdot): \xV\times\xV \rightarrow\xR$ derivative of the functional $J$ at $u$ in the direction $w$.
+\end{dfntn}
+
+\begin{dfntn}[Fréchet derivative]
+Let $\xV$ be a Hilbert space, $J$ is Fréchet-derivable at $u$ if:
+\begin{equation}\label{eq:directional_derivative}
+J(u + v) =  J(u) + L_u(v) + \varepsilon(v) \norm{v}_\xV
+\end{equation}
+with $L_u$ a continuous linear form on $\xV$ and $\varepsilon(v)\tendsto 0$ as $v \tendsto 0$.
+\end{dfntn}
+
+\begin{prpstn}[Optimality conditions]
+Let $\xV$ be a Hilbert space and $J$ a twice Fréchet-derivable functional, $u_0 \in\xV$ is solution to
+\begin{equation}\label{eq:minimization}
+\inf_{v\in\xV} J(v)
+\end{equation}
+if the following conditions are satisfied:
+\begin{enumerate}
+\item $J'(u_0) = 0$ (Euler condition).
+\item $\Inner{J''(u)w}{w} \geq 0$ (Legendre condition).
+\end{enumerate}
+\end{prpstn}
+
+Both conditions can be interpreted in terms of the simpler case of real functions: the first one requires that the first derivative cancels so that $u_0$ is an extremum, while the second condition is a convexity argument.
+Moreover, a sufficient condition is given by $\Inner{J''(\tilde u)w}{w} \geq 0$ for any $\tilde u$ in a neighbourhood of $u_0$ (strong Legendre condition).
+The coercivity of the bilinear form $a(\cdot, \cdot)$ is an even stronger condition equivalent to: $\exists \alpha > 0$ such that $\Inner{J''(\tilde u)w}{w} \geq \alpha (w,w)$.
+
+\medskip
+\begin{xmpl}Equivalence of weak and variational formulations for the Dirichlet problem posed on $\dom = (0,1)$.
+Let us derive the expression of $J'(u;w)$ defined by \eqref{eq:directional_derivative} given $\varepsilon > 0$ and $w\in\xV$.
+
+\medskip
+First let us verify that if $u$ solves the minimization problem then it solves the corresponding weak problem.
+\begin{subequations}
+\begin{eqnarray*}
+J(u + \varepsilon w) &=& \frac{1}{2} \int_\dom \bigl[(u + \varepsilon w)' \bigr]^2 \md x - \int_\dom f (u + \varepsilon w) \md x\\
+                     &=& \frac{1}{2} \int_\dom \bigl[(u')^2 + 2\varepsilon u'w' + \varepsilon^2 (v')^2 \bigr] \md x - \int_\dom f u \md x - \varepsilon\int_\dom f w \md x\\
+                     &=& J(u) + \varepsilon\left[\int_\dom u'w' \md x - \int_\dom f w \md x \right] + \frac{1}{2}\;\varepsilon^2\int_\dom (w')^2 \md x
+\end{eqnarray*}
+Writing the derivative gives,
+\begin{equation*}
+\lim_{\varepsilon\tendsto 0} \displaystyle \frac{1}{\varepsilon}\bigr( J(u + \varepsilon w) - J(u) \bigl) = \lim_{\varepsilon\tendsto 0} \left[\int_\dom u'w' \md x - \int_\dom f w \md x + \frac{1}{2}\;\varepsilon\snorm{w}_{\xHonec} \right]
+\end{equation*}
+so that the Euler condition holds if for any $w\in\xV = \xHonec(\dom)$
+\begin{equation*}
+J'(u; w) = \int_\dom u'w' \md x - \int_\dom f w \md x = 0
+\end{equation*}
+\end{subequations}
+In this case the functional $J$ is Fréchet-derivable as $L_u$ is linear.
+\end{xmpl}
+
+\medskip
+Secondly, the other way around considering that the weak formulation holds for the test function $\varepsilon w \in \xV$ then in the relation
+\begin{equation*}
+J(u + \varepsilon w) = J(u) + \varepsilon\left[\int_\dom u'w' \md x - \int_\dom f w \md x \right] + \frac{1}{2}\;\varepsilon^2\int_\dom (w')^2 \md x
+\end{equation*}
+the second term of the right-hand side cancels, and the third term is non-negative, then
+\begin{equation*}
+J(u + \varepsilon w) \geq J(u)
+\end{equation*}
+so that $u$ is solution to the minimization problem.
+
+\medskip
+The same result holds for the continuous problem in $\xV$ and the approximation in $\xV_n$ since only requirement is to work in a Hilbert space.
+Actually the following result for the Dirichlet problem is due to Stampacchia which characterizes the solution to the weak problem in term of minimization.
+\begin{thrm}[Stampacchia] Let $a(\cdot, \cdot)$ be a bilinear coercive continuous form on $\xH$ a Hilbert space, and $K$ be a convex closed non-empty subset of $H$.
+Given $\phi\in H'$, $\exists ! u \in K$ such that
+\begin{equation*}
+a\Inner{u}{v -u} \geq \DualP{\phi}{v - u}_{H', H},\qquad \forany v \in K
+\end{equation*}
+and if $a$ is symmetric then
+\begin{equation*}
+u = \argmin{v\in K} \left\lbrace \frac{1}{2} a\Inner{v}{v} - \DualP{\phi}{v}_{H', H} \right\rbrace
+\end{equation*}
+\end{thrm}
+The solution can be seen as satisfying a minimization of energy, also called Dirichlet principle.
+
+\subsection{Well-posedness}
+
+\medskip
+\begin{thrm}[Well-posedness]
+Let $\xV$ be a Hilbert space and $\xV_n$ a finite dimensional subspace of $\xV$, $\dim(\xV_n) = n$, Problem \eqref{pb:ritz_weak} admits a unique solution $u_n$.
+\end{thrm}
+
+\begin{proof}
+Given that the weak formulation differs only by introducting finite dimensional subspaces the proof could conclude directly with the Lax--Milgram Theorem.
+Instead we show that there exists a unique solution to the equivalent minimisation problem \eqref{pb:ritz_variational} by explicitly constructing an approximation $u_n \in \xV_n$ decomposed uniquely on a basis $(\varphi_1,\cdots,\varphi_n)$ of $\xV_n$:
+\begin{equation*}
+u_n = \sum_{j=1}^{n} u_j\; \varphi_j
+\end{equation*}
+In practice this basis is not any basis but the one constructed to define the approximation space $\xV_n$: to one chosen approximation space will correspond one carefully constructed basis.
+In so doing, the constructive approach paves the way to the Finite Element Method and is thus chosen as a prequel to establishing the Galerkin method.
+
+\medskip
+Writing the minimisation functional for $u_n$ reads:
+\begin{eqnarray*}
+J(u_n) &=& \frac{1}{2}\,a(u_n,u_n) - L(u_n) \\
+       &=& \frac{1}{2}\,a(\sum_{j = 1}^{n} u_j \varphi_j,\sum_{i = 1}^{n} u_i \varphi_i) - L(\sum_{j = 1}^{n} u_i \varphi_i) \\
+       &=& \frac{1}{2}\,\sum_{i = 1}^{n} \sum_{j = 1}^{n} a(u_j \varphi_j,u_i \varphi_i) - \sum_{j = 1}^{n}  L(u_i \varphi_i) \\
+       &=& \frac{1}{2}\,\sum_{i = 1}^{n} \sum_{j = 1}^{n} u_j u_i a(\varphi_j, \varphi_i) - \sum_{j = 1}^{n} u_i L(\varphi_i)
+\end{eqnarray*}
+
+\medskip
+Collecting the entries by index $i$, the functional can be rewritten under algebraic form:
+\begin{equation*}
+\matJ(\vecu) = \frac{1}{2} \vecu^\trans\matA \vecu - \vecu^\trans\vecb
+\end{equation*}
+where $\vecu$ is the vector of algebraic unknowns also called\textit{degrees of freedom}
+\begin{equation*}
+\vecu^\trans= (u_1,\dots,u_n)
+\end{equation*}
+and $\matA$, $\vecb$ are respectively the stiffness matrix and the load vector:
+\begin{equation*}
+\matA_{ij} = a(\varphi_j, \varphi_i), \vecb_{i} = L(\varphi_i)
+\end{equation*}
+
+\begin{prpstn}[Convexity of a quadratic form]\label{prp:convexity_J}
+\begin{equation*}
+\matJ(\vecu) = \vecu^\trans\matK \vecu - \vecu^\trans \matG + \matF
+\end{equation*}
+is a strictly convex quadratic functional iff $\matK$ symmetric positive definite non-singular.
+\end{prpstn}
+
+As a consequence to Proposition \ref{prp:convexity_J} $\matJ$ is a strictly convex quadratic form, then there exists a unique  $\vecu \in \xR^n\;:\:\matJ(\vecu) \leq \matJ(\vecv), \forany  \vecv \in \xR^n$, which in turns proves the existence and uniqueness of $u_n \in \xV_n$.
+
+\medskip
+The minimum is achieved with $\vecu$ satisfying $\matA \vecu = \vecb$ which corresponds to the Euler condition $J'(u_n) = 0$
+\end{proof}
+
+The general setting for Galerkin methods will be to construct approximate solutions of the form:
+\begin{equation}\label{eq:galerkin_decomposition}
+u_n = \sum_{j = 1}^{n} u_j \varphi_j
+\end{equation}
+where $\Fam{u_j}_{1\leq j \leq n}$ is a family of real numbers and $\Basis= (\varphi_1,\dots,\varphi_n)$ a basis of $\xV_n$.
+Since $\xV_n$ is finite dimensional, there exist a unique decomposition \eqref{eq:galerkin_decomposition} on the basis. This basis can be chosen in a way that seems natural so that in practice we will construct a unique basis for a given type of space $\xV_n$ and which will define the approximation properties (the basis itself is not unique but we need to choose one that possesses good properties).
+
+\subsection{Convergence}
+
+The question in this section is: considering a sequence of discrete solutions $\left(u_n\right)_{n\in\xN}$, with each $u_n$ belonging to $\xV_n$, can we prove that $u_n \tendsto u$ in $\xV$ as $n \tendsto \infty$?
+The ingredients are similar to the Lax principle: stability and consistency implies convergence.
+
+\begin{lmm}[Estimate in the energy norm]\label{lm:energy_norm}
+Let $\xV$ be a Hilbert space and $\xV_n$ a finite dimensional subspace of $\xV$.
+We denote by $u \in \xV$, $u_n \in \xV_n$ respectively the solution to Problem \eqref{pb:rg_abstract} and the solution to approximate Problem \eqref{pb:ritz_weak}.
+Let us define the energy norm $\norm{\xDot}_a = a(\xDot,\xDot)^{1/2}$, then the following inequality holds:
+\begin{equation*}
+\norm{u - u_n}_a  \leq \norm{u - v_n}_a\quad,\; \forany v_n \in \xV_n
+\end{equation*}
+\end{lmm}
+
+\begin{proof}
+Using the coercivity and the continuity of the bilinear form, we have:
+\begin{equation*}
+\alpha \norm{u}_\xV^2 \leq \norm{u}^2_a \leq M \norm{u}^2_\xV
+\end{equation*}
+then $\norm{u}_a$ is norm equivalent to $\norm{u}_\xV$, thus $(\xV,\norm{\xDot}_a)$ is a Hilbert space.
+\begin{equation*}
+a( u - \Proj{\xV_n} u, v_n ) = 0\quad,\forany  v_n \in \xV_n
+\end{equation*}
+by definition of $\Proj{\xV_n}$ as the orthogonal projection of $u$ onto $\xV_n$ with respect to the scalar product defined by the bilinear form $a$.
+\begin{equation*}
+\norm{u - u_n}_a^2 = a(u-u_n, u - v_n) + a(u - u_n, v_n - u_n)\quad,\forany  v_n \in \xV_n
+\end{equation*}
+Since the second term of the right-hand side cancels due to the consistency of the approximation, we deduce $u_n = \Proj{\xV_n} u$, then $u_n$ minimizes the distance from $u$ to $\xV_n$:
+\begin{equation*}
+\norm{u - u_n}_a^2 \leq \norm{u - v_n}_a^2\quad,\forany  v_n \in \xV_n
+\end{equation*}
+which means that the error estimate is \textit{optimal} in the energy norm.
+\end{proof}
+
+\begin{lmm}[Céa's Lemma]\label{lm:cea}
+Let $\xV$ be a Hilbert space and $\xV_n$ a finite dimensional subspace of $\xV$.
+we denote by $u \in \xV$, $u_n \in \xV_n$ respectively the solution to Problem \eqref{pb:rg_abstract} and the solution to approximate Problem \eqref{pb:ritz_weak}
+, then the following inequality holds:
+\begin{equation*}
+\norm{u - u_n}_\xV  \leq \sqrt{\dfrac{M}{\alpha}} \norm{u - v_n}_\xV\quad,\; \forany v_n \in \xV_n
+\end{equation*}
+with $M > 0$ the continuity constant and $\alpha > 0$ the coercivity constant.
+\end{lmm}
+\begin{proof}
+Using the coercivity and continuity of the bilinear form, we bound the left-hand side of the estimate \eqref{lm:energy_norm} from below and its right-hand side from above:
+\begin{equation*}
+\alpha \norm{u - u_n}_\xV^2 \leq M \norm{u - v_n}_\xV^2\quad \,\forany  v_n \in \xV_n
+\end{equation*}
+Consequently:
+\begin{equation*}
+\norm{u - u_n}_\xV \leq \sqrt{\dfrac{M}{\alpha}} \norm{u - v_n}_\xV\quad,\; \forany v_n \in \xV_n
+\end{equation*}
+\end{proof}
+
+Lemma \eqref{lm:cea} gives a control on the discretisation error $e_n = u - u_n$ which is \textit{quasi-optimal} in the $\xV$-norm (\ie bound multiplied by a constant).
+
+\begin{lmm}[Stability]\label{lm:stability_elliptic}
+Any solution $u_n \in \xV_n$ to Problem \eqref{pb:ritz_weak} satisfies:
+\begin{equation*}
+\norm{u_n}_\xV  \leq \dfrac{\norm{L}_{\xV'}}{\alpha}
+\end{equation*}
+\end{lmm}
+\begin{proof}
+Direct using the coercivity and the dual norm.
+\end{proof}
+
+\subsection{Method}
+
+\begin{lgrthm}[Ritz's method]\label{alg:ritz} The following procedure applies:
+\begin{enumerate}
+\item Chose an approximation space $\xV_n$
+\item Construct a basis $\Basis= (\varphi_1,\dots,\varphi_n)$
+\item Assemble stiffness matrix $\matA$ and load vector $\vecb$
+\item Solve $\matA \vecu = \vecb$ as a minimisation problem
+\end{enumerate}
+\end{lgrthm}
+
+\section{Galerkin method}
+
+\subsection{Formulation}
+
+We use a similar approach as for Ritz's method, except that the abstract problem does not require the symmetry of the bilinear form.
+Therefore we cannot endow $\xV$ with a norm defined from the scalar product based on $a(\xDot,\xDot)$.
+
+\medskip
+Problem \eqref{pb:galerkin_weak} is the approximate weak problem by Galerkin's method:
+\begin{equation}\label{pb:galerkin_weak}
+\left\lvert
+\begin{array}{ll}
+\mbox{Find $u_n \in \xV_n$, $\xV_n \subset \xV$, such that:}\\[2ex]
+a( u_n, v_n ) = L(v_n)\quad,\forany  v_n \in \xV_n\\[2ex]
+\end{array}
+\right .
+\end{equation}
+with $a(\xDot,\xDot)$ a coercive continuous bilinear form on $\xV\times\xV$ and $L(\xDot)$ a continuous linear form on $\xV$.
+
+
+\subsection{Convergence}
+
+The following property is merely a consequence of the consistency, as the continuous solution $u$ is solution to the discrete problem (\ie the bilinear form is the ``same''), but it is quite useful to derive error estimates.
+Consequently, whenever needed we will refer to the following proposition:
+\begin{prpstn}[Galerkin orthogonality]
+ Let $u \in \xV$, $u_n \in \xV_n$ respectively the solution to Problem \eqref{pb:rg_abstract} and the solution to approximate Problem \eqref{pb:galerkin_weak}, then:
+\begin{equation*}
+a(\;u - u_n, v_n\;) = 0\quad,\;\forany v_n \in \xV_n
+\end{equation*}
+\end{prpstn}
+\begin{proof}
+Direct consequence of the consistency of the method.
+\end{proof}
+
+\begin{lmm}[Consistency]
+Let $\xV$ be a Hilbert space and $\xV_n$ a finite dimensional subspace of $\xV$.
+we denote by $u \in \xV$, $u_n \in \xV_n$ respectively the solution to Problem \eqref{pb:rg_abstract} and the solution to approximate Problem \eqref{pb:galerkin_weak}, then the following inequality holds:
+\begin{equation*}
+\norm{u - u_n}_\xV  \leq \dfrac{M}{\alpha} \norm{u - v_n}_\xV\quad,\; \forany v_n \in \xV_n
+\end{equation*}
+with $M > 0$ the continuity constant and $\alpha > 0$ the coercivity constant.
+\end{lmm}
+\begin{proof}
+Using the coercivity:
+\begin{eqnarray*}
+\alpha \norm{u - u_n}_\xV^2 &\leq& a(u - u_n, u - u_n)\\
+ &\leq& a(u - u_n, u - v_n) + \underbrace{a(u - u_n, v_n - u_n)}_{0}\\
+ &\leq& a(u - u_n, u - v_n)\\
+ &\leq& M \norm{u - u_n}_\xV \norm{u - v_n}_\xV\\
+\norm{u - u_n}_\xV &\leq& \dfrac{M}{\alpha} \norm{u - v_n}_\xV\\
+\end{eqnarray*}
+\end{proof}
+
+The only difference with the symmetric case is that the constant is squared due to the loss of the symmetry.
+
+\subsection{Method}
+
+\begin{lgrthm}[Galerkin's method]\label{alg:galerkin} The following procedure applies:
+\begin{enumerate}
+\item Chose an approximation space $\xV_n$
+\item Construct a basis $\Basis= (\varphi_1,\dots,\varphi_n)$
+\item Assemble stiffness matrix $\matA$ and load vector $\vecb$
+\item Solve $\matA \vecu = \vecb$
+\end{enumerate}
+\end{lgrthm}
+
+%\section{A note on the Petrov--Galerkin method}
+
+
+\newpage
+
+\section{Exercises}
+
+\begin{xrcs}
+Given an abstract weak problem posed in a Hilbert space $\xV$:
+\begin{equation*}
+\left\lvert
+\begin{array}{ll}
+\mbox{Find $u \in \xV$, $\xV$, such that:}\\[2ex]
+a( u, v ) = L(v)\quad,\forany  v \in \xV\\[2ex]
+\end{array}
+\right .
+\end{equation*}
+and a minimization problem
+\begin{equation*}
+\left\lvert
+\begin{array}{ll}
+\mbox{Find $u \in \xV$, $\xV$, such that:}\\[2ex]
+J(u) \leq J(v)\quad,\forany  v \in \xV\\[2ex]
+\mbox{with $J(v) = \displaystyle\frac{1}{2} a(v,v) - L(v)$}
+\end{array}
+\right .
+\end{equation*}
+\begin{tmatsks}
+\item Show the equivalence of the formulations when $a$ is bilinear symmetric positive definite and $L$ linear.
+\item Show that if $\xV = \xR^n$ the minimization problem can be recast into a stricly convex quadratic form $J(u) = \frac{1}{2} \vecu^T A \matA - u^T b$ and the unique solution satisfies $A u = b$.
+\end{tmatsks}
+\end{xrcs}
+
+\begin{xrcs}
+Let us consider the Poisson problem posed on the domain $\dom = (0,1)$:
+\begin{subequations}\label{pb:poisson_unit}
+\begin{equation}\label{pb:poisson_unit_eq}
+- u''(x) = f(x), \qquad\forany x\in\dom
+\end{equation}
+with $f\in \xLtwo(\dom)$, and satisfying the boundary condition on $\bound$
+\begin{equation}\label{pb:poisson_unit_bc}
+u(x) = 0, \qquad\forany x\in\bound
+\end{equation}
+\end{subequations}
+\begin{tmatsks}
+\item For $f \equiv 1$ give a solution to Problem \eqref{pb:poisson_unit}.
+\item Find the weak formulation (WF) of Problem \eqref{pb:poisson_unit} and specify the function spaces.
+\item Is this problem well-posed?
+\item Justify that it is possible to reformulate this problem into a minimization problem?
+\item Derive the minimisation functional $J(u)$.
+\item Let $w_1 = a_1 \sin(\pi x)$. Find the value of the amplitude $a_1$ minimizes $J(w_1)$. How does $a_1$ compare with the maximum of the exact solution $u$?
+\item Show that $J(w_1) > J(u)$ and interpret.
+\item Let $\phi_i = \sin\bigl((2 i - 1) \pi x\bigr)$, $i\in\xN$. Verify that these function are infinitely differentiable and satisfy $\phi_i(0)= \phi_i(1)=0$. Compute coefficients
+\begin{equation*}
+a_{ij} = \int_0^1 \phi_i'(x) \phi_j'(x) \md x\;, \qquad b_i = \int_0^1 \phi_i(x) \md x
+\end{equation*}
+\item Given a finite dimensional space $\xV_n = span \lbrace \phi_i \rbrace_{1\leq i \leq n}$, express the linear system obtained by the Galerkin method and give the solution.
+\end{tmatsks}
+\end{xrcs}
+

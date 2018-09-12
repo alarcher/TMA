@@ -1,0 +1,48 @@
+
+\section*{Introduction}
+
+This document is a collection of short lecture notes written for the course ``The Finite Element Method'' (SF2561), at KTH, Royal Institute of Technology during Fall 2013, then updated for the course ``Numerical Solution of Partial Differential Equations Using Element Methods'' (TMA4220) at NTNU, during Fall 2018. It is in not intended as a comprehensive and rigorous introduction to Finite Element Methods but rather an attempt for providing a self-consistent overview in direction to students in Engineering without any prior knowlegde of Numerical Analysis.
+
+\subsection*{Content}
+The course goes through the basic theory of the Finite Element Method during the first six lectures while the last three lectures are devoted to some applications.
+
+\medskip
+\begin{enumerate}
+\item Introduction to PDEs, weak solution, variational formulation.
+\item Ritz method for the approximation of solutions to elliptic PDEs
+\item Galerkin method and well-posedness.
+\item Construction of Finite Element approximation spaces.
+\item Polynomial approximation and error analysis.
+\item Time dependent problems.
+\item Mesh generation and adaptive control.
+\item Stabilized finite element methods.
+\item Mixed problems.
+\end{enumerate}
+
+The intent is to introduce the practicals aspects of the methods without hiding the mathematical issues but without necessarily exposing the details of the proof.
+There are indeed two side of the Finite Element Method: the Engineering approach and the Mathematical theory.
+Although any reasonable implementation of a Finite Element Method is likely to compute an approximate solution, usually the real challenge is to understand the properties of the obtained solution, which can be summarized in four main questions:
+\begin{enumerate}
+\item \textit{Well-posedness}: Is the solution to the approximate problem unique?
+\item \textit{Consistency}: Is the solution to the approximate problem close to the continuous solution (or at least ``sufficiently'' in a sense to determine)?
+\item \textit{Stability}: Is the solution to the approximate problem stable with respect to data and ``well-behaved''?
+\item \textit{Maximum principle, Physical properties}: Does the discrete solution reproduce features of the physical solution, like satisfying physical bounds or energy/entropy inequalities?
+\end{enumerate}
+Ultimately the goal of designing numerical scheme is to combine these properties to ensure the convergence of the method to the unique solution of the continuous problem (if hopefully it exists) defined by the mathematical model.
+In a way the main message of the course is that studying the mathematical properties of the continuous problem is a direction towards deriving discrete counterparts (usually in terms of inequalities) and ensuring that numerical algorithms possess good properties.
+
+Answering these questions requires some knowledge of elements of numerical analysis of PDEs which will be introduced throughout the document in a didactic manner.
+Nonetheless addressing some technical details is left to more serious and comprehensive works referenced in the bibliography.
+
+\subsection*{Literature}
+
+At KTH the historical textbook used mainly for the exercises is \textit{Computational Differential Equations} \cite{CDE} which covers many examples from Engineering but is mainly limited to Galerkin method and in particular continuous Lagrange elements.
+
+The two essential books in the list are \textit{Theory and {P}ractice of {F}inite {E}lements} \cite{EG} and \textit{The {M}athematical {T}heory of {F}inite {E}lement {M}ethods} \cite{BS}.
+The first work provides an extensive coverage of Finite Elements from a theoretical standpoint (including non-conforming Galerkin, Petrov-Galerkin, Discontinuous Galerkin) by expliciting the theoretical foundations and abstract framework in the first Part, then studying applications in the second Part and finally addressing more concrete questions about the implementation of the methods in a third Part. The Appendices are also quite valuable as they provide a toolset of results to be used for the numerical analysis of PDEs.
+The second work is written in a more theoretical fashion, providing  to the Finite Element method in the first six Chapters which is suitable for a student with a good background in Mathematics.
+Section \ref{sec:rg} about Ritz's method is based on the lecture notes \cite{RH} and Section \ref{ssec:stokes} on the description of the Stokes problem in \cite{JCL}.
+
+Two books listed in the bibliography are not concerned with Numerical Analysis but with the continuous setting.
+On the one hand, book \textit{Functional {A}nalysis, {S}obolev {S}paces and {P}artial {D}ifferential {E}quations} \cite{Brezis} is an excellent introduction to Functional Analysis, but has a steep learning curve without a solid background in Analyis.
+On the other hand, \textit{Mathematical {T}ools for the {S}tudy of the {I}ncompressible {N}avier--Stokes {E}quations and {R}elated {M}odels} \cite{BF}, while retaining all the difficulties of analysis, offers a really didactic approach of PDEs for fluid problems in a clear and rigorous manner.

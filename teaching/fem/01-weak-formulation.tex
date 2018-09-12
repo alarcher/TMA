@@ -1,0 +1,344 @@
+
+\chapter[Weak formulation of elliptic PDEs]{Weak formulation of elliptic Partial Differential Equations}\label{sec:wf}
+
+\section{Historical perspective}
+
+Finite Element Methods denotes a family of approaches developed to compute an approximate solution to a Partial Differential Equation (PDE).
+The physics of phenomena encoutered in engineering applications is often modelled under the form of a boundary value problem.
+Equations describing the evolution in time are called initial value problems and consist of the coupling of an Ordinary Differential Equation (ODE) in time with a bounday value problem in space.
+
+The study of equations involving derivatives of the unknown has led to rethinking the concept of derivation: from the idea of variation, then the study of the Cauchy problem, finally to the generalization of the notion of derivative with the Theory of Distributions.
+
+\section{Weak solution to the Dirichlet problem}
+
+Let us consider the Poisson problem posed in a domain $\dom$, an open bounded subset of $\xR^d$, $d \geq 1$ supplemented with homogeneous Dirichlet boundary conditions:
+\begin{subequations}\label{pb:poisson}
+\begin{equation}\label{pb:poisson_eq}
+- \Lap u(\xx) = f(\xx), \qquad\forany \xx\in\dom
+\end{equation}
+\begin{equation}\label{pb:poisson_bc}
+u(\xx) = 0, \qquad\forany \xx\in\bound
+\end{equation}
+\end{subequations}
+with $f\in \xC^0(\domc)$ and the Laplace operator,
+\begin{equation}
+\Lap = \sum_{i=1}^{d} \frac{\partial^2}{\partial x^2_i}
+\end{equation}
+thus involving second order partial derivatives of the unknown $u$ with respect to the space coordinates.
+
+\begin{dfntn}[Classical solution] A classical solution (or strong solution) of Problem \eqref{pb:poisson} is a function $u \in \xCtwo(\dom)$ satisfying relations \eqref{pb:poisson_eq} and \eqref{pb:poisson_bc}.
+\end{dfntn}
+
+Problem \eqref{pb:poisson} can be reformulated so as to look for a solution in the distributional sense by testing the equation against smooth functions.
+Reformulating the problem amounts to relaxing the pointwise regularity (\ie continuity) required to ensure the existence of the classical derivative to the (weaker) existence of the distributional derivative which regularity is to be interpreted in term in terms of Lebesgue spaces: the obtained problem is a \textit{weak formulation} and a solution to this problem (\ie in the distributional sense) is called \textit{weak solution}.
+Three properties of the weak formulation should be studied: firstly that a classical solution is a weak solution, secondly that such a weak solution is indeed a classical solution provided that it is regular enough, and thirdly that the well-posedness of this reformulated problem, \ie existence and uniqueness of the solution, is ensured.
+
+
+\subsection{Formal passage from classical solution to weak solution}
+
+Let $u \in \xCtwo(\domc)$ be a classical solution to \eqref{pb:poisson} and let us test Equation \eqref{pb:poisson_eq} against any smooth function $\varphi\in\xCinfc(\dom)$:
+\begin{equation*}
+- \int_\dom \Lap u(\xx) \varphi(\xx) \dx = \int_\dom f(\xx) \varphi(\xx)  \dx
+\end{equation*}
+Since $u \in \xCtwo(\domc)$, $\Delta u$ is well defined. Integrating by parts, the left-hand side reads:
+\begin{equation*}
+- \int_\dom \Lap u(\xx) \varphi(\xx) \dx = - \int_\bound \Grad u(\xx) \xDot \n \varphi(\xx) \ds + \int_\dom \Grad u(\xx)\xDot \Grad \varphi(\xx) \dx
+\end{equation*}
+For simplicity, we recall the one-dimensional case:
+\begin{equation*}
+- \int_0^1 \frac{\partial^2 u}{\partial x^2}(x)  \varphi(x) {\mathrm d}x = - \left[ \frac{\partial u}{\partial x}(x) \varphi(x) \right]_0^1 + \int_0^1 \frac{\partial u}{\partial x}(x) \frac{\partial \varphi}{\partial x}(x) {\mathrm d}x
+\end{equation*}
+Since $\varphi$ has compact support in $\dom$, it vanishes on the boundary $\partial\dom$, consequently the boundary integral is zero, thus the distributional formulation reads
+\begin{equation*}
+\int_\dom \Grad u(\xx)\xDot \Grad \varphi(\xx) \dx = \int_\dom f(\xx) \varphi(\xx)  \dx\quad,\;\forany\varphi\in\xCinfc(\dom)
+\end{equation*}
+and we are led to look for a solution $u$ belonging to a function space such that the previous relation makes sense.
+
+\medskip
+A weak formulation of Problem \eqref{pb:poisson} consists in solving:
+\begin{equation}\label{pb:weak_poisson}
+\left\lvert
+\begin{array}{ll}
+\mbox{Find $u \in \xHil$, given $f \in \xV'$, such that:}\\[2ex]
+\displaystyle\int_\dom \Grad u\xDot \Grad v\dx = \int_\dom f v  \dx\quad,\;\forany  v\in \xV
+\end{array}
+\right .
+\end{equation}
+in which $\xHil$ and $\xV$ are a function spaces yet to be defined, both satisfying regularity contraints and for $\xHil$ boundary condition constraints.
+The choice of the \textit{solution space} $\xHil$ and the \textit{test space} $\xV$ is described Section \ref{sec:weak_forms}.
+
+\subsection{Formal passage from weak solution to classical solution}
+
+Provided that the weak solution to Problem \eqref{pb:weak_poisson} belongs to $\xCtwo(\domc)$ then the second derivatives exist in the classical sense.
+Consequently the integration by parts can be performed the other way around and the weak solution is indeed a classical solution.
+
+\subsection{About the boundary conditions}\label{sssec:bcs}
+
+\begin{center}
+\begin{tabular}[width=0.5\textwidth]{|c|c|c|}
+\hline
+Boundary condition & Expression on $\partial\dom$ & Property \\
+\hline
+\hline
+Dirichlet     & $u = u_D$             & ``essential'' boundary condition \\
+Neumann       & $\Grad u\cdot\n = 0$ &  ``natural'' boundary condition  \\
+%Robin/Fourier &  expression           & description \\
+%Stefan        &  expression           & description \\
+\hline
+\end{tabular}
+\end{center}
+
+Essential boundary conditions are embedded in the function space, while natural boundary conditions appear in the weak formulation as linear forms.
+
+\section{Weak and variational formulations}\label{sec:weak_forms}
+
+\subsection{Functional setting}
+
+Hilbert--Sobolev spaces $\xH^s$ (Section \ref{sec:Hspace}) are a natural choice to ``measure'' functions involved in the weak formulations of PDEs as the existence of the integrals relies on the fact that integrals of powers $|\xDot|^p$ of $u$ and weak derivatives $\D^\alpha u$ for some $1 \leq p < +\infty$ exist:
+\begin{equation*}
+\xH^s(\dom) = \Set{ u \in \xLtwo(\dom)\,:\: \D^\alpha u \in \xLtwo(\dom)\,, 1 \leq \alpha \leq s }
+\end{equation*}
+with the Lebesgue space of square integrable functions on $\dom$:
+\begin{equation*}
+\xLtwo(\dom) = \Set{ u\,:\; \int_\dom |u(\xx)|^2 \dx < +\infty  }
+\end{equation*}
+endowed with its natural scalar product
+\begin{equation*}
+\InnerLtwo{u}{v} = \int_\dom u\: v\dx
+\end{equation*}
+Since Problem \eqref{pb:weak_poisson} involves first order derivatives according to relation,
+\begin{equation*}
+\int_\dom \Grad u\xDot \Grad v\dx = \int_\dom f v  \dx
+\end{equation*}
+then we should consider a solution in $\xHone(\dom)$.
+\begin{equation*}
+\xHone(\dom) = \Set{ u \in \xLtwo(\dom)\,:\: \D u \in \xLtwo(\dom) }
+\end{equation*}
+with the weak derivative $\D u$ \ie a function of $\xLtwo(\dom)$ which identifies with the classical derivative (if it exists) ``almost everywhere'', and endowed with the norm,
+\begin{equation*}
+\nHoneD{\xDot} = \InnerHone{\xDot}{\xDot}^{1/2}
+\end{equation*}
+defined from the scalar product,
+\begin{equation*}
+\InnerHone{u}{v} = \int_\dom u\: v\dx + \int_\dom \Grad u\xDot \Grad v\dx
+\end{equation*}
+
+\medskip
+Moreover, the solution should satisfy the boundary condition of the strong form of the PDE problem. According to Section \ref{sssec:bcs} the homogeneous Dirichlet condition is embedded in the function space of the solution: $u$ vanishing on the boundary $\partial \dom$ yields that we should seek $u$ in $\xHonec(\dom)$.
+
+\subsection{Determination of the spaces}
+
+We will now establish that any weak solution ``lives'' in $\xHonec(\dom)$ and that the natural space for test functions is the same space.
+
+\subsubsection{Choice of test space}
+
+In order to give sense to the solution in a Hilbert--Sobolev space we need to choose the test function $\varphi$ itself in the same kind of space.
+Indeed $\xCinfc(\dom)$ is not equipped with a topology which allows us to work properly. If we chose $\varphi \in \xHonec(\dom)$ then by definition, we can construct a sequence $\seqn{\varphi}$ of functions in $\xCinfc(\dom)$ converging in $\xHonec(\dom)$ to $\varphi$, \ie
+\begin{equation*}
+\nHoneD{\varphi^n - \varphi} \tendsto 0,\;\mbox{as}\ n \tendsto +\infty
+\end{equation*}
+
+For the sake of completeness, we show that we can pass to the limit in the formulation, term by term for any partial derivative:
+\begin{subequations}
+\begin{equation*}
+\int_\dom \partial_i u\;\partial_i \varphi^n \tendsto \int_\dom \partial_i u\; \partial_i \varphi
+\end{equation*}
+as $\partial_i \varphi^n \tendstoweak \D_i \varphi$ in $\xLtwo(\dom)$, which denotes the weak convergence \ie tested on functions of the dual space (which, in case of $\xLtwo(\dom)$, is $\xLtwo(\dom)$ itself).
+\begin{equation*}
+\int_\dom f\;\varphi^n \tendsto \int_\dom f\;\varphi
+\end{equation*}
+as $\varphi^n \tendsto \varphi$ in $\xLtwo(\dom)$.
+\end{subequations}
+Consequently the weak formulation is satisfied if $\varphi \in \xHonec(\dom)$.
+
+\subsubsection{Choice of solution space}
+
+The determination of the function space is guided,
+\begin{itemize}
+\item firstly, by the regularity of the solution: if $u$ is a classical solution then it belongs to $\xCtwo(\domc)$ which involves that $u \in \xLtwo(\dom)$ and $\partial_i u \in \xLtwo(\dom)$, thus $u \in \xHone(\dom)$,
+\item secondly by the boundary conditions: the space should satisfy the Dirichlet boundary condition on $\partial \dom$. This constraint is satisfied thanks to the following trace theorem for the solution to the Dirichlet problem: since $Ker(\gamma) = \xHonec(\dom)$, we conclude $u\in \xHonec(\dom)$.
+\end{itemize}
+
+\begin{lmm}[Trace Theorem]
+Let $\dom$ be a bounded open subset of $\xR^d$ with piecewise $\xCone$ boundary, then there exists a linear application $\gamma : \xHone(\dom) \fromto \xLtwo(\partial\dom)$ continous on $\xHone(\dom)$ such that $\gamma(u) = 0 \Rightarrow u \in \Ker(\gamma)$.
+\end{lmm}
+
+The regularity of the solution itself depends on the nature of the differential operators involved in the problem (\eg up to which order should be derivatives controlled?), but also on the data of the problem: regularity of the domain and right-hand side.
+
+\medskip
+The weak formulation of Problem \eqref{pb:poisson} reads then:
+\begin{equation}\label{pb:weak_poissonHone}
+\left\lvert
+\begin{array}{ll}
+\mbox{Find $u \in \xHonec(\dom)$, such that:}\\[2ex]
+\displaystyle\int_\dom \Grad u\xDot \Grad v\dx = \int_\dom f v  \dx\quad,\;\forany  v\in \xHonec(\dom)
+\end{array}
+\right .
+\end{equation}
+
+\section{Abstract problem}
+
+The study of mathematical properties of PDE problems is usually performed on a general formulation called \textit{abstract problem} which reads in our case:
+\begin{equation}\label{pb:abstract}
+\left\lvert
+\begin{array}{ll}
+\mbox{Find $u \in \xV$, such that:}\\[2ex]
+\displaystyle a( u, v ) = L(v)\quad,\;\forany  v\in \xV
+\end{array}
+\right .
+\end{equation}
+with $a(\xDot,\xDot)$ a continuous bilinear form on $\xV\times\xV$ and $L(\xDot)$ a continuous linear form on $\xV$.
+
+\begin{prpstn}[Continuity]
+A bilinear form $a(\xDot,\xDot)$ is \textit{continuous} on $\xV\times\xW$ if there exists a positive constant real number $M$ such that
+\begin{equation*}
+a( v, w ) \leq M \norm{v}_\xV \norm{w}_\xW\quad,\forany (v,w)\in \xV\times\xW
+\end{equation*}
+\end{prpstn}
+
+\medskip
+For example, in the previous section for Problem \eqref{pb:weak_poissonHone}, the bilinear form reads
+\begin{equation*}
+\begin{array}{llll}
+a:\quad& \xV\times \xV &\rightarrow& \xR \\
+\hfill & (u,v)     &\mapsto    & \displaystyle\int_\dom \Grad u \xDot \Grad v \dx
+\end{array}
+\end{equation*}
+and the linear form,
+\begin{equation*}
+\begin{array}{llll}
+L:\quad& \xV &\rightarrow& \xR \\
+\hfill &   v &\mapsto    & \displaystyle\int_\dom f\,v \dx
+\end{array}
+\end{equation*}
+
+The continuity of these two forms comes directly from that they are respectively the inner-product in $\xHonec(\dom)$, and the $\xLtwo$ inner-product with $f \in \xLtwo(\dom)$: the Cauchy--Schwarz inequality gives directly a continuous control of the image of the forms by the norms of its arguments.
+
+\medskip
+\begin{dfntn}[Topological dual space]
+The topological dual space $\xV'$ of a normed vector space $\xV$ is the vector space of continuous linear forms on $\xV$ equipped with the norm:
+\begin{equation*}
+\norm{f}_{\xV'} = \sup_{x \in \xV, x \neq 0} \dfrac{|f(x)|}{\norm{x}_\xV}
+\end{equation*}
+\end{dfntn}
+
+\medskip
+
+In the following chapters, we consider the case of elliptic PDEs, like the Poisson problem, for which the bilinear form $a(\xDot,\xDot)$ is coercive.
+\begin{prpstn}[Coercivity]
+A bilinear form is said \textit{coercive} in $\xV$ if there exists a positive constant real number $\alpha$ such that for any $v \in \xV$
+\begin{equation*}
+a( v, v ) \geq \alpha \norm{v}^2_\xV
+\end{equation*}
+\end{prpstn}
+This property is also know as $\xV$--ellipticity.
+
+\section{Well-posedness}
+
+In the usual sense, a problem is well-posed if it admits a unique solution which is bounded in the $\xV$-norm by the data: forcing term, boundary conditions, which are independent on the solution and appear at the right-hand side of the equation.
+In this particular case of the Poisson problem the bilinear form $a(\xDot,\xDot)$ is the natural scalar product in $\xHonec(\dom)$, thus it defines a norm in $\xHonec(\dom)$ (but only a seminorm in $\xHone(\dom)$ due to the lack of definiteness, not a norm !).
+
+\begin{thrm}[Riesz--Fréchet]\label{th:riesz}
+Let $\xHil$ be a Hilbert space and $\xHil'$ its topological dual, $\forany  \Phi \in \xHil'$, there exists a unique representant $u \in \xHil$ such that for any $v\in\xHil$,
+\begin{equation*}
+\Phi(v) = \InnerP{u}{v}{\xHil}
+\end{equation*}
+and furthermore $\norm{u}_\xHil = \norm{\Phi}_{\xHil'}$
+\end{thrm}
+
+This result ensures directly the existence and uniqueness of a weak solution as soon as $a(\xDot,\xDot)$ is a scalar product and $L$ is continuous for $\norm{\xDot}_a$.
+If the bilinear form $a(\xDot,\xDot)$ is not symmetric then Theorem \ref{th:riesz} (Riesz--Fréchet) does not apply.
+
+\begin{thrm}[Lax--Milgram]
+Let $\xHil$ be a Hilbert space.
+Provided that $a(\xDot,\xDot)$ is a coercive continuous bilinear form on $\xHil\times\xHil$ and $L(\xDot)$ is a continuous linear form on $\xHil$, Problem \eqref{pb:abstract} admits a unique solution $u \in \xHil$.
+\end{thrm}
+%\begin{proof}
+%\end{proof}
+
+Now that we have derived a variational problem for which there exists a unique solution with $\xV$ infinite dimensional (\ie for any point $x\in\dom$), we need to construct an approximate problem which is also well-posed.
+
+\newpage
+
+\section{Exercises}
+
+Exercises for this section cover some preliminary notions introduced for the weak formulation of PDEs.
+
+\begin{tmaxrcs}{Based on Exercise 4 from \cite{MIT}}{1.1}
+Answer the following questions.
+
+\begin{tmatsks}
+\item Discuss whether the set $S = \Set{ v \in \xCinfc((0,1)) : v(\frac{1}{2}) = 1 }$ is a vector space.
+\item For $\xV = \xHonec((0,1))$, show that $L(v) =\int_0^1 xv \md x$ defines a linear functional. Recall the definition of the topological dual $\xV'$ and show that $L$ is continuous for $x \in \xV$.
+\item For $\xV \equiv \xR$ discuss whether $\InnerP{u}{v}{\xV} = |u| |v|$ is an inner-product in $\xV$.
+\item Does $\snorm{u}_{\xHone(\dom)} = \norm{\nabla u}_{\xLtwo(\dom)}$, $\dom\in\xR^2$ define a norm in $\xHone(\dom)$? Explain why.
+\item Assess whether the function $f(x) = x^{3/4}$ an element of the following spaces: $\xLtwo((0,1))$, $\xHone((0,1))$, $\xHtwo((0,1))$.
+\item For $v = e^{10x}$ and $\dom = (0,1)$, is the relation $\snorm{u}_{\xHone(\dom)} = \snorm{u}_{\xHtwo(\dom)}$ satisfied?
+\end{tmatsks}
+\end{tmaxrcs}
+
+\begin{tmaxrcs}{}{1.2}
+Let us consider the following problem posed on the domain $\dom = (0, 1)$, with $\kappa$ a real coefficient, and $f\in\xLtwo(\dom)$:
+\begin{equation}\label{pb:adr}
+\left\lvert
+\begin{array}{ll}
+\mbox{Find $u \in \xHonec(\dom)$ such that:}\\[2ex]
+\displaystyle \int_\dom \kappa \pddx{u} v \md x + \int_\dom \pddx{u} \pddx{v} \md x + \int_\dom u v \md x = \int_\dom f v \md x, \qquad v \in \xHonec(\dom)
+\end{array}
+\right .
+\end{equation}
+\begin{tmatsks}
+\item Formulate the strong problem corresponding to weak formulation \eqref{pb:adr}.
+\item Discuss the existence and uniqueness of the solution to Problem \eqref{pb:adr}.
+\end{tmatsks}
+\end{tmaxrcs}
+
+\begin{tmaxrcs}{}{1.3}
+Let us consider the biharmonic equation posed on the domain $\dom = (0,1)$:
+\begin{subequations}\label{pb:biharmonic}
+\begin{equation}\label{pb:biharmonic_eq}
+\Lap^2 u(x) = f(x), \qquad\forany x\in\dom
+\end{equation}
+with $f\in \xLtwo(\dom)$, and satisfying the boundary condition on $\bound$
+\begin{equation}\label{pb:biharmonic_bc}
+u(x) = u'(x) = 0, \qquad\forany x\in\bound
+\end{equation}
+\end{subequations}
+\begin{tmatsks}
+\item For $f \equiv 1$ give a solution to Problem \eqref{pb:biharmonic}.
+\item Derive a weak formulation (WF) of Problem \eqref{pb:biharmonic}.
+\item Specify the solution space and the test space.
+\item Show that there exists a unique solution $u$ to (WF) belonging to the chosen solution space.
+\end{tmatsks}
+\end{tmaxrcs}
+
+
+\begin{tmaxrcs}{}{1.4}
+Let us consider the Helmoltz equation posed on the domain $\dom = (0, 1)$, given $\kappa$ a real coefficient:
+\begin{subequations}\label{pb:helmoltz}
+\begin{equation}\label{pb:helmoltz_eq}
+- u''(x) + \kappa u(x)  = f(x), \qquad\forany x \in \dom
+\end{equation}
+with $f\in \xLtwo(\dom)$,
+\begin{equation}\label{pb:helmoltz_bc}
+u(x) = 0, \qquad\forany x \in \bound
+\end{equation}
+\end{subequations}
+\begin{tmatsks}
+\item Derive a weak formulation (WF) of Problem \eqref{pb:helmoltz}.
+\item Specify the solution and test spaces.
+\item What is the nature of the bilinear form for $\kappa = 1$?
+\item Prove that the problem is well-posed for $\kappa = 0$ and $\kappa > 0$.
+\item Comment on the difficulty posed by the case $\kappa < 0$.
+\item The boundary condition is now given by:
+\begin{equation}\label{pb:helmoltz_mixed}
+ u(0) - u'(0) = 0,\quad u'(1) = -1
+\end{equation}
+Derive a weak formulation for the Problem \eqref{pb:helmoltz_eq}--\eqref{pb:helmoltz_mixed} and show that it admits a unique solution.
+To prove the coercivity the following relation can be used:
+\[
+v(1) = v(x) + \int_0^1 v'(t) \md t
+\]
+\end{tmatsks}
+\end{tmaxrcs}
+

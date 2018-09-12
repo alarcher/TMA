@@ -1,0 +1,284 @@
+
+
+\chapter{Mixed problems}
+
+This section is an opportunity to describe step by step the methodology described throughout the course by studying the Stokes problem and to give an overview of the difficulties arising in mixed problems.
+
+\medskip
+\Question In the case of a problem involving a pair of unknown $(\uu,p)$, is there a criterion to chose the approximation spaces ?
+
+\section{The Stokes equations}\label{ssec:stokes}
+
+\subsection{Position of the problem}
+
+\begin{subequations}\label{pb:stokes}
+Let us consider the equations governing the velocity $\bar\uu$ and pressure $p$ of an incompressible creeping flow, subject to the gravity, in a domain $\dom$, open bounded subset of $\xR^d$.
+As the flow is supposed to be sufficiently slow to neglect the advection compared to the diffusion, the momentum balance equation reduces to
+\begin{equation}\label{pb:stokes_momentum}
+- \Div\Stress(\x) = \dens(\x) \grav(\x)
+\end{equation}
+with the stress tensor
+\begin{equation}
+\Stress = \Tvisc - p\,\matII
+\end{equation}
+consisting of a viscous stress tensor $\Tvisc$ and a pressure term with $\matII$ the identity matrix of $\xMat_{d}(\xR)$. The incompressibilty constraint
+\begin{equation}\label{pb:stokes_continuity}
+\Div\bar\uu(\x) = 0
+\end{equation}
+represents the mass conservation for an incompressible continuum.
+Moreover, the relations are supplemented with boundary conditions on $\bound = \bound_D \cup \bound_N$.
+Dirichlet boundary conditions are enforced on $\bound_D$
+\begin{equation}
+\bar\uu = \uu_D
+\end{equation}
+with $u_D$ while Neumann boundary conditions on $\bound_N$
+\begin{equation}
+\Stress\xDot\n = \Stress_N
+\end{equation}
+with $\Stress_N$ a surface force acting on $\bound_N$.
+\end{subequations}
+
+\medskip
+According to the method developed during the course, we would like first of all to derive a weak formulation by testing Equations \eqref{pb:stokes_momentum} and \eqref{pb:stokes_continuity} against smooth functions, such that we consider
+\begin{equation*}
+- \int_\dom \Div\Tvisc\xDot\vv\dx + \int_\dom \Grad p \xDot \vv\dx = \int_\dom \dens\grav\xDot\vv\dx\quad,\forany\vv\in\xVd
+\end{equation*}
+and
+\begin{equation*}
+\int_\dom \Div\bar\uu\,q\dx = 0\quad,\forany q\in\xM
+\end{equation*}
+Integrating by parts to report the derivatives on the tests functions:
+\begin{equation*}
+- \int_\dom \Div\Tvisc\xDot\vv\dx = - \int_\dom \Div(\Tvisc^t\xDot\vv)\dx + \int_\dom \Tvisc:\Grad\vv\dx
+\end{equation*}
+which uses the tensor identity, given under repeated indices form:
+\begin{equation*}
+\pd{j}(\Tvisc_ij)\vv_i = \pd{j}(\Tvisc_{ji}\vv_i) - \Tvisc_{ij}\pd{j}\vv_i
+\end{equation*}
+Owing to relation
+\begin{equation*}
+- \int_\dom \Div\Tvisc\xDot\vv\dx = - \int_\bound \Tvisc\xDot\n\xDot\vv\ds + \int_\dom \Tvisc:\Grad\vv\dx
+\end{equation*}
+and
+\begin{equation*}
+- \int_\dom \Grad p\xDot\vv\dx = - \int_\bound p \n\xDot\vv\ds + \int_\dom p\,\Div\vv\dx
+\end{equation*}
+the weak formulation of Problem \eqref{pb:stokes} reads:
+\begin{equation*}\label{pb:stokes_weak}
+\left\vert
+\begin{array}{rlll}
+\mbox{Find $(\bar\uu,p)\in \xWd\times\xM$ such that:}\\[2ex]
+\displaystyle \int_\dom \Tvisc:\Grad\vv\dx - \int_\dom p\,\Div\vv\dx &=& \displaystyle\int_\dom \dens\grav\xDot\vv\dx + \int_{\bound_N}\Stress_N\xDot\n\ds & ,\forany\vv\in\xVd\\[2ex]
+\displaystyle \int_\dom \Div\bar\uu\,q\dx &=& 0 & ,\forany q\in\xM
+\end{array}
+\right.
+\end{equation*}
+In the case of a Newtonian fluid the stress tensor reads
+\begin{equation*}
+\Stress(\bar\uu,p) = 2\kvisc\Strain(\bar\uu) - p \matII
+\end{equation*}
+with the strain rate tensor
+\begin{equation*}
+\Strain(\bar\uu) = \dfrac{1}{2}(\Grad\bar\uu + \Grad^t\bar\uu)
+\end{equation*}
+which is symmetric.
+
+\subsection{Abstract weak formulation}
+
+As a first step we can reformulate the previous problem as:
+\begin{equation*}
+\left\vert
+\begin{array}{rlll}
+\mbox{Find $(\bar\uu,p)\in \xWd\times\xM$ such that:}\\[2ex]
+\displaystyle a(\bar\uu,\vv) + b(\vv, p) &=& L(\vv)& ,\forany\vv\in\xVd\\[2ex]
+\displaystyle b(\bar\uu,q) &=& 0 & ,\forany q\in\xM
+\end{array}
+\right.
+\end{equation*}
+defining $a(\xDot,\xDot)$ as the continuous bilinear form:
+\begin{equation*}
+\begin{array}{rlll}
+a :& \xWd\times\xVd & \fromto & \xR \\[2ex]
+   & (\bar\uu,\vv)      & \mapsto & \displaystyle \int_\dom \Tvisc:\Grad\vv\dx
+\end{array}
+\end{equation*}
+$b(\xDot,\xDot)$ as the continuous bilinear form:
+\begin{equation*}
+\begin{array}{rlll}
+b :& \xVd\times\xM  & \fromto & \xR \\[2ex]
+   & (\vv , p)      & \mapsto & \displaystyle - \int_\dom p\,\Div\vv\dx
+\end{array}
+\end{equation*}
+and $L(\xDot)$ as the continuous linear form:
+\begin{equation*}
+\begin{array}{rlll}
+L :& \xVd   & \fromto & \xR \\[2ex]
+   & \vv    & \mapsto & \displaystyle \displaystyle\int_\dom \dens\grav\xDot\vv\dx + \int_{\bound_N}\Stress_N\xDot\n\ds
+\end{array}
+\end{equation*}
+
+\medskip
+\textit{Choice of the functional spaces}:
+--- Regularity: as in Section \ref{sec:wf} we chose the test and solution space so that the integrals make sense.
+Owing to these requirements, $\xWd$ and $\xVd$ should be subspaces of $\xHone(\dom)^d$ and $\xM$ should be a subspace of $\xLtwo(\dom)$,
+--- Boundary conditions: the boundary condition on $\bound_N$ appears in the weak formulation as a linear form so that the solution will satisfy the constraint $\Stress\xDot\n = \Stress_N$, while the boundary condition is included in the definition of the functional space $\xWd$:
+\begin{equation*}
+\xWd = \Set{ \vv \in \xHone(\dom)^d : \bar\uu = \uu_D\;, \mbox{on $\bound_D$} }
+\end{equation*}
+By homogenizing the Dirichlet boundary condition, we can lift the solution $\bar\uu$ so that the problem is rewritten to seek a velocity $\uu$ in $\xVd$.
+
+\medskip
+The generalized Stokes problem reads then:
+\begin{equation}\label{pb:genstokes_weak}
+\left\vert
+\begin{array}{rlll}
+\mbox{Find $(\uu,p)\in \xVd\times\xM$ such that:}\\[2ex]
+\displaystyle a(\uu,\vv) + b(\vv, p) &=& L(\vv)& ,\forany\vv\in\xVd\\[2ex]
+\displaystyle b(\uu,q) &=& \DualP{\Psi}{p}_{\xM',\xM} & ,\forany q\in\xM
+\end{array}
+\right.
+\end{equation}
+with $(\xVd,\xM)$ a pair of Hilbert spaces to be determined, $a(\xDot,\xDot)$ bilinear form continuous on $\xVd\times\xVd$, $L(\xDot)$ linear form continuous on $\xVd$ and $\Psi$ a given continuity constraint in $\xM'$.
+
+\subsection{Well-posedness in the continuous setting}
+
+Let us change the space in which test functions are chosen to the space of divergence-free functions of $\xVd$ to satisfy the continuity constraint:
+\begin{equation*}
+\xVd_{0} = \Set{ \vv\in\xVd : b(\vv,q) = 0\;,\forany q\in\xM }
+\end{equation*}
+The bilinear form $b$ is continuous on $\xVd_{0}\times\xM$, \ie $b(\vv,q) \leq \norm{\vv}_{\xVd_{0}} \norm{q}_{\xM}$, thus $\Ima(b)$ is closed and $\xVd = \xVd_{0} \oplus \xVd_{0}\ortho$.
+The first relation of the Stokes problem becomes then:
+\begin{equation*}
+a(\uu,\vv) + \underbrace{b(\vv, p)}_{0} = L(\vv)\quad,\forany\vv\in\xVd_{0}
+\end{equation*}
+Therefore, the new abstract problem with solenoidal test functions reads:
+\begin{equation*}\label{pb:stokes_solenoidal}
+\left\vert
+\begin{array}{rlll}
+\mbox{Find $(\uu,p)\in \xVd\times\xM$ such that:}\\[2ex]
+\displaystyle a(\uu,\vv) &=& L(\vv)& ,\forany\vv\in\xVd_{0}\\[2ex]
+\displaystyle b(\uu,q)   &=& \DualP{\Psi}{p}_{\xM',\xM} & ,\forany q\in\xM
+\end{array}
+\right.
+\end{equation*}
+
+\begin{thrm}[Well-posedness of constrained problem]
+Let us define the space
+\begin{equation*}
+\xVd_\Psi = \Set{ \vv\in\xVd : b(\vv,q) = \DualP{\Psi}{p}_{\xM',\xM}\;,\forany q\in\xM }
+\end{equation*}
+supposed non-empty and consider $a(\xDot,\xDot)$ a bilinear form coercive on $\xV$.
+The problem
+\begin{equation*}
+\left\vert
+\begin{array}{rlll}
+\mbox{Find $(\uu,p)\in \xVd_\Psi\times\xM$ such that:}\\[2ex]
+\displaystyle a(\uu,\vv) &=& L(\vv)& ,\forany\vv\in\xVd_{0}
+\end{array}
+\right.
+\end{equation*}
+admits a unique solution.
+\end{thrm}
+\begin{proof}
+The given problem satisfies the assumptions of the Lax--Milgram Theorem.
+\end{proof}
+
+We denote by $\xLin(\xV\times\xW; \xR)$, the space of bilinear form continuous on $\xV\times\xW$ which is a Banach space for the operator norm
+\begin{equation*}
+\norm{a}_{\xV,\xW} = \sup_{\substack{v\in\xV\\w\in\xW}} \dfrac{a(v,w)}{\norm{v}_\xV \norm{w}_\xW}
+\end{equation*}
+
+\begin{prpstn}[Babuska--Necas--Brezzi condition]\label{prp:bnb}
+The bilinear form $a \in \xLin(\xV\times\xW; \xR)$ satisfies the (BNB) condition if there exists $\beta > 0$ such that
+\begin{equation*}
+\inf_{w\in\xW} \sup_{v\in\xV} \dfrac{a(v,w)}{\norm{v}_\xV \norm{w}_\xW} \geq \beta
+\end{equation*}
+\end{prpstn}
+
+\begin{thrm}[Existence]
+If $\xVd_\Psi$ is non-empty, $a(\xDot,\xDot)$ is a bilinear form coercive on $\xVd$ with coercivity constant $\alpha$, and the bilinear form $b(\xDot,\xDot)$ satisfies Proposition \eqref{prp:bnb}, \ie
+\begin{equation*}
+\exists\beta>0 : \inf_{q\in\xMz}\sup_{\vv\in\xVd} \dfrac{b(\vv,q)}{\norm{\vv}_{\xVd}\norm{q}_{\xM}} \geq \beta
+\end{equation*}
+then Problem \eqref{pb:stokes_solenoidal} admits solution pairs $(\uu,p)\in\xV\times\xM$ such that $\uu$ is unique, satisfying
+\begin{equation*}
+\norm{\uu}_{\xVd} \leq \dfrac{1}{\alpha} \norm{L}_{\xVd'} + \dfrac{1}{\alpha}\left(1 + \norm{a}_{\xVd,\xVd} \right) \norm{\Psi}_{\xM'}
+\end{equation*}
+and any $p \in \xM$ can be written as $p = \tilde p + \xMker$, $\tilde p\in\xMker\ortho$
+\begin{equation*}
+\norm{\tilde p}_{\xM} \leq \left(1 + \dfrac{\norm{a}_{\xVd,\xVd}}{\alpha} \right)
+\left(\dfrac{1}{\beta} \norm{L}_{\xVd'} + \dfrac{1}{\beta^2}\norm{a}_{\xVd,\xVd}\norm{\Psi}_{\xM'}\right)
+\end{equation*}
+\end{thrm}
+
+\medskip
+Indeed, $p$ playing the role of a potential, it is defined up to a constant.
+Then we can interpret the space $\xMker$ as the space of functions on which gradients are vanishing which is the space of constants on $\dom$, so that we seek $\tilde p\in\xMz$, with $\tilde\xM = \xMker\ortho$ defined as the equivalent class: $\forany p, q \in \xM$, $p \equiv q \Leftrightarrow p = q + C : C\in\xR$.
+
+\medskip
+Consequently,
+
+\medskip
+\begin{thrm}[De Rham -- \cite{EG} page 492] The continuous bilinear forms on $\xW^{1,p}(\dom)$ which are zero on $\ker(\Div)$ are gradients of functions in $\xL^{p'}_{\int = 0}(\dom)$.
+\end{thrm}
+
+\section{The discrete Inf-Sup condition}
+
+\subsection{Results}
+
+Let us consider an approximation of Problem \ref{pb:genstokes_weak} by a Galerkin method:
+\begin{equation*}\label{pb:stokes_disc}
+\left\vert
+\begin{array}{rlll}
+\mbox{Find $(\uuh,p_h)\in \xVhd\times\xMzh$ such that:}\\[2ex]
+\displaystyle a(\uuh,\vvh) + b(\vvh, p_h) &=& L(\vv_h)& ,\forany\vv_h\in\xVhd\\[2ex]
+\displaystyle b(\uuh,q_h) &=& \DualP{\Psi}{p_h}_{\xM',\xM} & ,\forany q_h\in\xMh
+\end{array}
+\right.
+\end{equation*}
+with $(\xVhd,\xMzh)$ a pair of approximation spaces to be chosen and the discrete divergence operator $\tB_h$,
+\begin{equation*}
+b(\uuh,q_h) = \Inner{\tB_h\uu}{q_h}
+\end{equation*}
+
+\begin{thrm}[Well-posedness]
+If $\Psi_h \in \Ima(\tB_h)$ then Problem \eqref{pb:stokes_disc} admits solutions $(\uuh,p_h)\in\xVhd\times\xMzh$ such that $\uuh$ is unique and the pressure can be written as $p_h = \tilde p_h + \ker(\tB^t_h)$ with $\tilde p_h \in \ker(\tB^t_h)\ortho$ unique.
+\end{thrm}
+
+\begin{thrm}[Convergence -- \cite{JCL} page 21]
+Let $(\uu,p)\in\xVd\times\xMz$ be the solution of Problem \eqref{pb:stokes} and $(\uuh,p_h)\in\xVhd\times\xMzh$  the solution of discrete Problem \eqref{pb:stokes_disc} and we denote by $\alpha_h$ the coercivity constant of $a(\xDot,\xDot)$ on $\xVd_{0,h}$ and by $\beta_h$ the constant of the discrete Inf-Sup condition.
+If $\Psi_h \in \Ima(\tB_h)$ then the following two consistency estimates hold:
+\begin{equation*}
+\norm{\uu - \uuh}_{\xVhd} \leq C_1 \inf_{\vvh\in\xVhd}\norm{\uu - \vvh}_{\xVd} + C_2 \inf_{q_h\in\xMh}\norm{p - q_h}_{\xM}
+\end{equation*}
+\begin{equation*}
+\norm{p_h - p_h}_{\xMzh} \leq C_3 \inf_{\vvh\in\xVhd}\norm{\uu - \vvh}_{\xVd} + C_4 \inf_{\vvh\in\xMh}\norm{p - q_h}_{\xM}
+\end{equation*}
+with constants
+\begin{eqnarray*}
+C_1 &=& \Grp{ 1 + \dfrac{\norm{a}_{\xVd,\xVd}}{\alpha_h}}\Grp{ 1 + \dfrac{\norm{b}_{\xVd,\xM}}{\beta_h} } \\[2ex]
+C_2 &=& \dfrac{\norm{b}_{\xVd,\xM}}{\alpha_h}\\[2ex]
+C_3 &=& \dfrac{\norm{a}_{\xVd,\xM}}{\beta_h} C_1 \\[2ex]
+C_4 &=& 1 + \dfrac{\norm{b}_{\xVd,\xM}}{\beta_h} + \dfrac{\norm{a}_{\xVd,\xM}}{\beta_h} C_2 \\[2ex]
+\end{eqnarray*}
+\end{thrm}
+
+\medskip
+The previous result shows then that satisfying the discrete Inf-Sup condition is crucial to ensure optimal convergence of the numerical scheme, \ie the discretization error decreases with the mesh size $\sizeT$.
+Indeed, if the parameter $\beta_h$ is not bounded from below then it is clear that values tending to zero will degrade the consistency estimates.
+
+\subsection{Commonly used pairs of approximation spaces}
+
+\begin{center}
+\begin{tabular}{cccc}
+Velocity space $\xVhd$ & Pressure space $\xMh$ & Inf-Sup stable & Comment\\
+\hline
+\hline
+$\xPone$                & $\xPone$               & No             &\\[2ex]
+$\xPone$                & $\xPzero$               & No             & ``Locking effect''\\[2ex]
+$\xPn{k+1}$            & $\xPn{k}$               & Yes            & $k \geq 1$, ``Taylor--Hood''\\[2ex]
+\hline
+\end{tabular}
+\end{center}
+
+\section{Exercises}
