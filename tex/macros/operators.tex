@@ -1,0 +1,85 @@
+%-------------------------------------------------------------------------------
+% Operators:
+%-------------------------------------------------------------------------------
+\newcommand{\Lgr}[2]{\mathcal L^{#1}_{#2}}
+\newcommand{\Abs}[1]{\left\lvert #1 \right\rvert}
+\newcommand{\card}{\mathrm{card}}
+\newcommand{\fromto}{\rightarrow}
+\newcommand{\tendsto}{\rightarrow}
+\newcommand{\tendstoweak}{\rightharpoonup}
+\newcommand{\forany}{{\forall\;}}
+\newcommand{\m}{{(m)}}
+\newcommand{\seq}[1]{\bigl({#1}^\m\bigr)_{m\in\xN}}
+\newcommand{\seqn}[1]{\left({#1}^n\right)_{n\in\xN}}
+\newcommand{\Proj}[1]{\,\mathrm{P}_{#1}\,}
+\newcommand{\Projh}[1]{\,\mathrm{\pi}_{#1}\,}
+\newcommand{\opA}{\mathcal{A}}
+
+%-------------------------------------------------------------------------------
+% Miscellaneous
+\newcommand{\Grp}[1]{\displaystyle\left({#1}\right)}
+\newcommand{\indic}[1]{\displaystyle{1\!\!1_{#1}}}
+\newcommand{\mean}[1]{\brace\lbrace#1\rbrace\rbrace}
+\newcommand{\jump}[1]{[#1]}
+% @macro diam		diameter
+\newcommand{\diam}{{\mathrm diam}}
+
+%-------------------------------------------------------------------------------
+% Derivatives
+\newcommand{\ds}{\hspace{.5ex}{\mathrm d}s}
+\newcommand{\md}{\hspace{.5ex}{\mathrm d}}
+%
+\newcommand{\dt}{\delta \hspace{-0.05ex} t}
+\newcommand{\pdt}{\partial_t}
+\newcommand{\ddt}{\hspace{.5ex}{\mathrm d}t}
+%
+\newcommand{\pd}[1]{\partial_{#1}\,}
+\newcommand{\pdx}{\partial_x}
+\newcommand{\dxd}{\hspace{.5ex}{\mathrm d}\bfx}
+\newcommand{\dx}{\hspace{.5ex}{\mathrm d}\bfx}
+\newcommand{\dy}{\hspace{.5ex}{\mathrm d}\bfy}
+\newcommand{\dz}{\hspace{.5ex}{\mathrm d}\bfz}
+%\newcommand{\ddx}{\frac{{\mathrm d}}{{\mathrm d}x}}
+%\newcommand{\ddy}{\frac{{\mathrm d}}{{\mathrm d}y}}
+%\newcommand{\ddz}{\frac{{\mathrm d}}{{\mathrm d}z}}
+\newcommand{\ddx}{\frac{{\partial}}{{\partial}x}}
+\newcommand{\ddy}{\frac{{\partial}}{{\partial}y}}
+\newcommand{\ddz}{\frac{{\partial}}{{\partial}z}}
+
+\newcommand{\pddx}[1]{\frac{{\partial #1}}{{\partial}x}}
+\newcommand{\pddy}[1]{\frac{{\partial #1}}{{\partial}y}}
+\newcommand{\pddz}[1]{\frac{{\partial #1}}{{\partial}z}}
+\newcommand{\dd}[2]{\frac{{\partial #1}}{{\partial#2}}}
+\newcommand{\ddd}[1]{\frac{{\mathrm d}}{{\mathrm d #1}}}
+
+%-------------------------------------------------------------------------------
+\newcommand{\xDot}{\,{\mathbf\cdot}\,}
+\newcommand{\Cross}{\mathbf X}
+\newcommand{\DualP}[2]{\mathbf{\langle}\;#1\:,\: #2 \;\mathbf{\rangle}}
+\newcommand{\Inner}[2]{{{\scriptstyle\mathbf{(}}\;#1\:,\: #2 \;{\scriptstyle\mathbf{)}}}}
+\newcommand{\InnerP}[3]{{{\scriptstyle\mathbf{(}}\;#1\:,\: #2 \;{\scriptstyle\mathbf{)}}}_{\,#3}}
+\newcommand{\Span}{\mathop{\mathrm{span}}}
+\newcommand{\T}{{^{\mathrm T}}}
+\newcommand{\Trace}[2]{{\mathbf{Tr}}^{(#1)}(#2)}
+\newcommand{\trans}{{^{\mathsmaller{T}}}}
+\newcommand{\Tens}{{\otimes}}
+\newcommand{\Vect}{\wedge}
+
+%-------------------------------------------------------------------------------
+% Differential Operators
+% continuous
+\newcommand{\D}{{\boldsymbol{\mathrm D}}} % gradient
+\newcommand{\Grad}{{\boldsymbol\nabla}} % gradient
+\newcommand{\Gradt}{{\boldsymbol\nabla^t}}
+\newcommand{\Gradx}{\Grad_x}
+\newcommand{\GradxR}{\Grad_{\xR}}
+\newcommand{\Div}{{\boldsymbol\nabla\cdot\,}} % divergence
+\newcommand{\Divr}{{\mathrm div}}
+\newcommand{\Lap}{{\boldsymbol\Delta}} % laplacian
+\newcommand{\Lapl}{{\boldsymbol\nabla^2}} % laplacian
+\newcommand{\Curl}{{\Grad\boldsymbol\wedge}}
+%
+\newcommand{\udiv}{(\vec{\bfv}\cdot\nabla)} % advection
+\newcommand{\uhdiv}{(\vec{\bfv_h}^n\cdot\nabla)}
+
+\newcommand{\DualProd}[2]{{\langle #1,\: #2 \rangle}}
