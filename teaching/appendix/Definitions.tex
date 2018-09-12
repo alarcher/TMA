@@ -1,0 +1,116 @@
+
+\chapter{Definitions}
+
+\section{Mapping}
+
+\begin{dfntn}[Mapping]\label{d:mapping}
+Let $E$ and $F$ be two sets, a mapping
+\begin{equation*}
+\begin{array}{llll}
+f:     & E & \rightarrow & F \\
+\hfill & x & \mapsto     & f(x)
+\end{array}
+\end{equation*}
+is a relation which, to any element $x \in E$, associates an element $y = f(x) \in F$.
+\end{dfntn}
+
+\medskip
+\begin{dfntn}[Linear mapping]\label{d:linear_mapping}
+Let $E$ and $F$ be two $\xK$-vector spaces, the mapping $f: E \fromto F$ is linear if:
+\begin{enumerate}
+\item $\forany x,y \in E$, $f(x + y) = f(x) + f(y)$
+\item $\forany \lambda \in \xK, y \in E$, $f(\lambda x) = \lambda f(x)$
+\end{enumerate}
+\end{dfntn}
+
+\section{Spaces}
+
+\begin{dfntn}[Vector space (on the left)]\label{d:vector_space}
+Let $(\xK, +, \times)$ be a field \ie defined such that $(\xK, +)$ is an Abelian additive group and $(\xK \setminus \lbrace 0_{\xK} \rbrace , \times)$ is an Abelian multiplicative group, $\xK = \xR$ or $\xK = \xComplex$.
+
+\medskip
+\begin{tabular}{|c|c|}
+\hline
+$(\xK, +)$ & $(\xK \setminus \lbrace 0_{\xK} \rbrace , \times)$ \\
+\hline
+\hline
+``$+$'' commutative and associative &  ``$\times$'' commutative and associative \\
+$0_{\xK}$ neutral for `$+$'' & $\One_{\xK}$ neutral for `$\times$''\\
+``$+$'' admits an opposite &  ``$\times$'' admits an inverse \\
+\hline
+``$\times$'' is distributive & with respect to ``$+$'' \\
+\hline
+\end{tabular}
+
+\medskip
+$(E, +,\xDot)$ is a vector space on $(\xK, \times)$ if:
+\begin{enumerate}
+\item $(E, +)$ is an additive Abelian group (same properties as $(\xK, +)$).
+\item The operation $\xDot\;:\:\xK \times E \rightarrow E$ satisfies:
+
+\medskip
+\begin{tabular}{|c|c|}
+\hline
+distributive \wrt ``$+_E$'' on the left & $\lambda\xDot(u + v) = \lambda\xDot u + \lambda\xDot v$ \\
+distributive \wrt ``$+_\xK$'' on the right & $(\lambda + \mu)\xDot u = \lambda\xDot u + \mu \xDot u$ \\
+associative \wrt ``$\times$'' & $(\lambda\times\mu)\xDot u = \lambda\xDot(\mu\xDot u)$ \\
+$\One_\xK$ neutral element on the left & $\One_\xK \xDot u = u$ \\
+\hline
+\end{tabular}
+\end{enumerate}
+\end{dfntn}
+
+In short the vector space structure allows writing any $\bfu\in E$ as linear combinations of elements $\Fam{\bfv_i}$ of $E$ called \textit{vectors} with elements $\Fam{\lambda_i}$ of $\xK$ called \textit{scalars} as coefficients,
+\begin{equation*}
+\bfu = \sum_{i} \lambda_i \bfv_i
+\end{equation*}
+and both the multiplications for vectors and scalars are distributive with respect to the additions.
+In this document we only consider real vector spaces, $\xK = \xR$.
+
+\medskip
+\begin{dfntn}[Norm]\label{d:norm}
+Let $E$ be a $\xK$-vector space, the application
+\[
+\norm{\xDot}\;:\:E\rightarrow \xR^+
+\]
+ is a norm if the following properties are satisfied:
+\begin{enumerate}
+\item Separation: $\forany  x \in E$, $(\;\norm{x}_E = 0\;)\Rightarrow (\;x = 0_E\;)$
+\item Homogeneity: $\forany  \lambda \in \xK$, $\forany  x \in E$, $\norm{\lambda x}_E = |\lambda|\;\norm{x}_E$
+\item Subadditivity: $\forany  x,y \in E$, $\norm{x + y}_E \leq \norm{x}_E + \norm{y}_E$
+\end{enumerate}
+\end{dfntn}
+
+\begin{nt}
+The third property is usually called \textit{triangle inequality}.
+\end{nt}
+
+\begin{dfntn}[Equivalent norms]\label{d:equivalent_norms}
+Let $E$ be a $\xK$-vector space, norm $\norm{\xDot}_{EE}$ is said equivalent to $\norm{\xDot}_{E}$ if there exist $C_1, C_2 > 0$ such that:
+\begin{equation*}
+C_1 \norm{u}_{E} \leq \norm{u}_{EE} \leq C_2\;\norm{u}_{E}\quad,\;\forany u \in E
+\end{equation*}
+\end{dfntn}
+
+\medskip
+\begin{dfntn}[Seminorm]\label{d:seminorm}
+Let $E$ be a $\xK$-vector space, the application
+\[
+\norm{\xDot}\;:\:E\rightarrow \xR^+
+\]
+ is a seminorm if it satisfies properties \eqref{d:norm}.2 and \eqref{d:norm}.3.
+\end{dfntn}
+
+\medskip
+\begin{dfntn}[Scalar product]
+Let $E$ be a $\xR$-vector space, the bilinear mapping
+\begin{equation*}
+\Inner{\xDot}{\xDot}\;:\:E\times E \rightarrow \xR
+\end{equation*}
+is a scalar (or inner) product of $E$ if it satisfies the following three properties:
+\begin{enumerate}
+\item Symmetry: $\forany  x,y \in E$, $\Inner{x}{y} = \Inner{y}{x}$
+\item Positivity: $\forany  x \in E$, $\Inner{x}{x} \geq 0$
+\item Definiteness: $(\;\Inner{x}{x} = 0\;) \Leftrightarrow (\;x = 0\;)$
+\end{enumerate}
+\end{dfntn}

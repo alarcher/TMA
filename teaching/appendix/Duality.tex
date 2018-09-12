@@ -1,0 +1,28 @@
+
+\chapter{Duality}
+
+\section{In finite dimension}
+
+\begin{dfntn}[Dual space]
+Let $E$ be a finite dimensional real vector space, its dual $E^\star$ is the space of linear forms on $E$, denoted by $\xLin(E;\xR)$.
+\end{dfntn}
+
+\begin{dfntn}[Dual basis]
+Let $E$ be a finite dimensional real vector space, $\dim(E) = N$ and $\Basis = (e_1,\cdots,e_N)$ a basis of $E$.
+Let us denote, for any $i,j \in \intdisc{1,N}$, by:
+\begin{equation*}
+\begin{array}{lllll}
+e^\star_i\;:\: & E   & \fromto & \xR \\
+  \hfill       & e_j & \mapsto & \delta_{ij}
+\end{array}
+\end{equation*}
+the $i$-th coordinate.
+The dual family of $\Basis$, $\Basis^\star = (e^\star_1,\cdots,e^\star_N)$ is a basis of $E^\star$.
+\end{dfntn}
+
+Thus we can write any element $u \in E$ as:
+\begin{equation*}
+u = \sum_{i=1}^N  e_i^\star(u) e_i
+\end{equation*}
+Proving that $\Basis^\star$ is a basis of $E^\star$ requires that $\Fam{e_i}$ generates $E^\star$ and that its elements are linearly independent.
+The corollary of the first condition is that $\dim(\Basis^\star) = N$.

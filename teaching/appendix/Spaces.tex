@@ -1,0 +1,98 @@
+
+\chapter{Function spaces}
+
+\section{Banach and Hilbert spaces}
+
+\begin{dfntn}[Cauchy criterion] Let $(E, \norm{\xDot}_E)$ be a normed vector space and $\seqn{v}$ be a sequence of element of $E$ which satisfies:
+\begin{equation*}
+\mbox{$\forany \epsilon > 0$, $\exists N$ such that $\forany p, q \geq N$, $\norm{v^p - v^q}_E \leq \epsilon$}
+\end{equation*}
+then $\seqn{v}$ is a Cauchy sequence in $E$.
+\end{dfntn}
+
+\medskip
+\begin{dfntn}[Banach space]
+A Banach space $(E,\norm{\xDot}_E)$ is a normed vector space with is complete with respect to the norm $\norm{\xDot}_E$, \ie Cauchy sequences converge in $E$.
+\end{dfntn}
+
+\medskip
+\begin{dfntn}[Hilbert space]
+Let $E$ be a $\xK$-vector space and $\Inner{\xDot}{\xDot}$ be a sesquilinear  form  on the left (or bilinear form if $\xK = \xR$),
+\begin{eqnarray*}
+\Inner{x_1 + x_2}{y} &=& \Inner{x_1}{y} + \Inner{x_2}{y}\\
+\Inner{x}{y_1 + y_2} &=& \Inner{x}{y_1} + \Inner{x}{y_2}\\
+\Inner{\lambda x}{y} &=& \lambda\Inner{x}{y}\\
+\Inner{x}{\lambda y} &=& \bar\lambda\Inner{x}{y}
+\end{eqnarray*}
+which is also positive definite on $E$,
+\begin{equation*}
+\forany x \not = 0_E,\;\Inner{\xDot}{\xDot} > 0
+\end{equation*}
+then $(E,\Inner{\xDot}{\xDot})$ is a pre-Hilbertian space.
+Moreover, if $E$ is complete with respect to the norm defined by $\Inner{\xDot}{\xDot}$, it is a Hilbert space.
+\end{dfntn}
+
+\medskip
+\begin{dfntn}[Hilbertian norm]
+\begin{equation*}
+\dfrac{1}{2}\bigl(\norm{x}^2_E + \norm{y}^2_E\bigr) = \norm{\dfrac{x + y}{2}}^2_E + \norm{\dfrac{x - y}{2}}^2_E
+\end{equation*}
+\end{dfntn}
+
+\begin{rmrk}
+This is basically the parallelogram identity stating that the sum of the square of the length diagonals is equal to the sum of the square of the length of all the sides. This equality is useful to check that a norm is generated from a scalar product. For Banach spaces like $\xL^p$, this becomes the Clarkson inequality.
+\end{rmrk}
+
+\medskip
+\begin{thrm}[Projection on a convex subset]\label{th:proj_convex}
+Let $\xH$ be a Hilbert space and $K \subset \xH$ be a convex closed non-empty subset, $\forany  x \in \xH$ there exists a unique $x_0 \in K$ such that
+\begin{equation*}
+\norm{x-x_0}_\xH = \inf_{y\in K} \norm{x - y}_\xH
+\end{equation*}
+with $x_0$ the projection of  $x$ onto $K$ and we denote it by $x_0 = \Proj{K} x$
+\end{thrm}
+
+
+\section{Spaces of continuous functions}
+
+\begin{equation*}
+\xC^k(\dom) = \Set{u \in \xCzero(\dom) : u' \in \xC^{k-1}(\dom)}
+\end{equation*}
+
+\begin{equation*}
+\xCinfc(\dom) = \Set{u \in \xCinfty(\dom)\;\mbox{with compact support in $\dom$}}
+\end{equation*}
+
+\section{Lebesgue spaces}
+
+\begin{equation*}
+\xL^p(\dom) = \Set{u : \int_\dom |u(\x)|^p \dx < \infty}
+\end{equation*}
+
+\begin{rmrk}
+Lebesgue spaces $\xL^p$, $1\geq p \geq \infty$ are Banach spaces for the norm
+\begin{equation*}
+\norm{\xDot}_{\xL^p(\dom)} = \left(\int_\dom |u(\x)|^p\right)^{1/p}
+\end{equation*}
+and $\xL^2$ is a Hilbert space endowed with the scalar product
+\begin{equation}
+\InnerLtwo{u}{v} = \int_\dom u\:v\dx
+\end{equation}
+\end{rmrk}
+
+\section{Hilbert--Sobolev spaces}\label{sec:Hspace}
+
+\begin{equation*}
+\xH^s(\dom) = \Set{ u \in \xLtwo(\dom)\,:\: \D^\alpha u \in \xLtwo(\dom)\,, 1 \leq \alpha \leq s }
+\end{equation*}
+
+\section{Sobolev spaces}
+
+\begin{equation*}
+\xW^{m,p}(\dom) = \Set{ u \in \xL^p(\dom)\,:\: \D^\alpha u \in \xL^p(\dom)\,, 1 \leq \alpha \leq m }
+\end{equation*}
+
+\begin{rmrk}
+$\xH^s$ spaces are $\xW^{s,2}$ spaces.
+\end{rmrk}
+

@@ -1,0 +1,89 @@
+
+\chapter{Inequalities}
+
+\section{Useful inequalities in normed vector spaces}
+
+\begin{lmm}[Cauchy--Schwarz]\label{lm:cauchy_schwarz}
+Let $E$ be a $\xK$-vector space, any positive sesquilinear form $\Inner{\xDot}{\xDot}$ on $E$ satisfies the inequality:
+\begin{equation*}
+\lvert\InnerP{u}{v}{E}\rvert \leq \norm{u}_E \norm{v}_E
+\end{equation*}
+\end{lmm}
+
+\begin{rmrk}
+In particular any scalar product satisfies the Cauchy--Schwarz inequality.
+For example:
+\begin{equation*}
+\InnerLtwo{u}{v} = \int_\dom u\: v\dx \leq \nLtwo{u} \nLtwo{v}
+\end{equation*}
+\end{rmrk}
+
+\medskip
+\begin{lmm}[Young]\label{lm:young}
+Let $a,b > 0$ be two real numbers:
+\begin{equation*}
+   ab \leq \frac{1}{p} \Bigl(\frac{a}{\gamma}\Bigr)^p + \frac{1}{q} {\Bigl({b\gamma}\Bigr)}^q
+\end{equation*}
+with $\displaystyle \frac 1 q + \frac 1 p = 1$ and $\gamma > 0$.
+\end{lmm}
+
+\begin{rmrk}
+In particular, the following inequality is commonly used for energy estimates:
+\begin{equation*}
+a b \leq \frac{1}{2}\Bigl(\frac{a}{\gamma}\Bigr)^2 + \frac{1}{2}(b \gamma)^2
+\end{equation*}
+\end{rmrk}
+
+\begin{lmm}[Generalized Hölder]\label{lm:hoelder}
+ Let $u\in\xL^{p}(\dom)$, $v\in\xL^{q}(\dom)$, with $1 \leq p < \infty$, then:
+\begin{equation*}
+\norm{u\,v}_{\xL^{r}(\dom)} \leq \norm{u}_{\xL^{q}(\dom)} \norm{v}_{\xL^{q}(\dom)}
+\end{equation*}
+with
+\begin{equation*}
+\dfrac{1}{r} = \dfrac{1}{p} + \dfrac{1}{q}
+\end{equation*}
+\end{lmm}
+
+\medskip
+\begin{lmm}[Minkowski]\label{lm:minkowski}
+\begin{equation*}
+\nLp{p}{u + v} \leq \nLp{p}{u} + \nLp{p}{v}
+\end{equation*}
+\end{lmm}
+
+\begin{rmrk}
+The previous result is basically the triangle inequality for the $\xLp{p}$--
+norm.
+\end{rmrk}
+
+\medskip
+\begin{lmm}[Poincaré]\label{lm:poincare}
+Let $\dom$ be an open bounded subset, for any $1 \leq p < \infty$ there exists a constant real number $c_P > 0$ such that $\forany u \in \xW^{1,p}_0(\dom)$:
+\begin{equation*}
+c_P \nLp{p}{u} \leq \nLp{p}{\Grad u}
+\end{equation*}
+\end{lmm}
+
+\begin{rmrk}
+As a Corollary usefull for the Poisson problem that we address, we get that $\nLtwo{\Grad u}$ defines an equivalent norm to $\nHone{u}$ on $\xHonec(\dom)$.
+\end{rmrk}
+
+\medskip
+\begin{lmm}[Clarkson]\label{lm:clarkson}
+Let $1 < p < \infty$, and $u$, $v$ be two functions of $\xL^p(\dom)$, then:
+\begin{enumerate}
+\item for $p \geq 2$
+\begin{equation*}
+\nLp{p}{\dfrac{u + v}{2}}^2 + \nLp{p}{\dfrac{u - v}{2}}^2 \leq \dfrac{1}{2}\bigl(\nLp{p}{u}^2 + \nLp{p}{v}^2\bigr)
+\end{equation*}
+\item for $p < 2$
+\begin{equation*}
+\nLp{p'}{\dfrac{u + v}{2}}^2 +\nLp{p'}{\dfrac{u - v}{2}}^2 \leq \left(\;\dfrac{1}{2}\nLp{p}{u}^2 + \dfrac{1}{2}\nLp{p}{v}^2\right)^{1/(p-1)}
+\end{equation*}
+\end{enumerate}
+\end{lmm}
+
+\begin{rmrk}
+These inequalities are basically parallelogram inequalities generalized to $\xL^p$ spaces.
+\end{rmrk}
