@@ -1,0 +1,51 @@
+
+\section{Chapter 1}
+
+\begin{tmasltn}{1.1}
+
+\begin{tmatsks}
+\item False. Justify by verifying that linear combination of functions of $S$ do not satisfy $v(\frac{1}{2}) = 1$.
+\item For $\xV = \xHonec((0,1))$, show that $L(v) =\int_0^1 xv \md x$ defines a linear functional. Recall the definition of the topological dual $\xV'$ and show that $L$ is continuous for $x \in \xV$.
+\item For $\xV \equiv \xR$ discuss whether $\InnerP{u}{v}{\xV} = |u| |v|$ is an inner-product in $\xV$.
+\item Does $\snorm{u}_{\xHone(\dom)} = \norm{\nabla u}_{\xLtwo(\dom)}$, $\dom\in\xR^2$ define a norm in $\xHone(\dom)$? Explain why.
+\item Assess whether the function $f(x) = x^{3/4}$ an element of the following spaces: $\xLtwo((0,1))$, $\xHone((0,1))$, $\xHtwo((0,1))$.
+\item For $v = e^{10x}$ and $\dom = (0,1)$, is the relation $\snorm{u}_{\xHone(\dom)} = \snorm{u}_{\xHtwo(\dom)}$ satisfied?
+\end{tmatsks}
+\end{tmasltn}
+
+\begin{tmasltn}{1.2}
+\begin{tmatsks}
+\item Formulate the strong problem corresponding to weak formulation \eqref{pb:adr}.
+\item Discuss the existence and uniqueness of the solution to Problem \eqref{pb:adr}.
+\end{tmatsks}
+\end{tmasltn}
+
+\begin{tmasltn}{1.3}
+\begin{tmatsks}
+\item For $f \equiv 1$ give a solution to Problem \eqref{pb:biharmonic}.
+\item Derive a weak formulation (WF) of Problem \eqref{pb:biharmonic}.
+\item Specify the solution space and the test space.
+\item Show that there exists a unique solution $u$ to (WF) belonging to the chosen solution space.
+\end{tmatsks}
+\end{tmasltn}
+
+
+\begin{tmasltn}{1.4}
+\begin{tmatsks}
+\item Derive a weak formulation (WF) of Problem \eqref{pb:helmoltz}.
+\item Specify the solution and test spaces.
+\item What is the nature of the bilinear form for $\kappa = 1$?
+\item Prove that the problem is well-posed for $\kappa = 0$ and $\kappa > 0$.
+\item Comment on the difficulty posed by the case $\kappa < 0$.
+\item The boundary condition is now given by:
+\begin{equation}
+ u(0) - u'(0) = 0, u'(1) = -1
+\end{equation}
+Derive a weak formulation for the Problem \eqref{pb:helmoltz_eq}--\eqref{pb:helmoltz_mixed} and show that it admits a unique solution.
+To prove the coercivity the following relation can be used:
+\[
+v(1) = v(x) + \int_0^1 v'(t) \md t
+\]
+\end{tmatsks}
+\end{tmasltn}
+
