@@ -5,18 +5,30 @@
 
 \begin{tmatsks}
 \item False. Justify by verifying that linear combination of functions of $S$ do not satisfy $v(\frac{1}{2}) = 1$.
-\item For $\xV = \xHonec((0,1))$, show that $L(v) =\int_0^1 xv \md x$ defines a linear functional. Recall the definition of the topological dual $\xV'$ and show that $L$ is continuous for $x \in \xV$.
-\item For $\xV \equiv \xR$ discuss whether $\InnerP{u}{v}{\xV} = |u| |v|$ is an inner-product in $\xV$.
-\item Does $\snorm{u}_{\xHone(\dom)} = \norm{\nabla u}_{\xLtwo(\dom)}$, $\dom\in\xR^2$ define a norm in $\xHone(\dom)$? Explain why.
-\item Assess whether the function $f(x) = x^{3/4}$ an element of the following spaces: $\xLtwo((0,1))$, $\xHone((0,1))$, $\xHtwo((0,1))$.
-\item For $v = e^{10x}$ and $\dom = (0,1)$, is the relation $\snorm{u}_{\xHone(\dom)} = \snorm{u}_{\xHtwo(\dom)}$ satisfied?
+\item True. Verify that the functional is linear, $L(\lambda u + \mu v) = \lambda L(u) + \mu L(v)$,
+\item False. Show that $\InnerP{\cdot}{\cdot}{\xV}$ is not bilinear.
+\item False. Verify that $\snorm{u}_{\xHone(\dom)} = 0$ for $u = c$ so it is not positive definite, only positive: $\snorm{\cdot}_{\xHone(\dom)}$ is a semi-norm for $\xHone(\dom)$ but a norm for $\xHonec(\dom)$ since the only constant satisfying the trace is $u = 0$.
+\item Verify that the function and derivatives are square integrable:
+\begin{equation*}
+ \norm{v}^2_{\xLtwo((0,1))} = \int_{0}^{1} x^3 \md x = \frac{2}{3}
+\end{equation*}
+\begin{equation*}
+ \snorm{v}^2_{\xHone((0,1))} = \int_{0}^{1} \frac{9}{16} x^{-1/2} \md x = \frac{9}{8}
+\end{equation*}
+\begin{equation*}
+ \snorm{v}^2_{\xHtwo((0,1))} = \int_{0}^{1} \frac{-9}{32} x^{-3/2} \md x\quad \mbox{not bounded}
+\end{equation*}
+\item False. Express both semi-norm and compare that they are different since the derivation of the exponential gives a factor $-10$.
 \end{tmatsks}
 \end{tmasltn}
 
 \begin{tmasltn}{1.2}
 \begin{tmatsks}
-\item Formulate the strong problem corresponding to weak formulation \eqref{pb:adr}.
-\item Discuss the existence and uniqueness of the solution to Problem \eqref{pb:adr}.
+\item To get the strong problem of \eqref{pb:adr} integate the second by part to get all the derivatives on the solution. Since there is no linear form associated with Neumann boundary conditions and the solution space is $\xHonec(\dom)$ the boundary condition of the problem is an homogeneous Dirichlet condition on $\bound$.
+\begin{equation*}
+ \kappa u'(x) - u''(x) + u(x) = f(x), x\in\dom,\quad u(0) = u(1) = 0
+\end{equation*}
+\item Verify that the Problem \eqref{pb:adr} statisfies the hypothesis of the Lax--Milgram theorem.
 \end{tmatsks}
 \end{tmasltn}
 
