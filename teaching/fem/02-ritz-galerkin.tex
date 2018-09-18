@@ -30,10 +30,10 @@ But for the moment, let us focus on the symmetric case: we want now to construct
 
 \subsection{Variational formulation and minimization problem}
 
-Ritz's idea is to replace the solution space $\xV$ (which is infinite dimensional) by a finite dimensional subspace $\xV_n \subset \xV$, $\dim(\xV_n) = n$.
+The idea behing the Ritz method is to replace the solution space $\xV$ (which is infinite dimensional) by a finite dimensional subspace $\xV_n \subset \xV$, $\dim(\xV_n) = n$.
 
 \medskip
-Problem \eqref{pb:ritz_weak} is the approximate weak problem by Ritz's method:
+Problem \eqref{pb:ritz_weak} is the approximate weak problem by the Ritz method:
 \begin{equation}\label{pb:ritz_weak}
 \left\lvert
 \begin{array}{ll}
@@ -285,7 +285,7 @@ so that
 
 \subsection{Method}
 
-\begin{lgrthm}[Ritz's method]\label{alg:ritz} The following procedure applies:
+\begin{lgrthm}[Ritz method]\label{alg:ritz} The following procedure applies:
 \begin{enumerate}
 \item Chose an approximation space $\xV_n$
 \item Construct a basis $\Basis= (\varphi_1,\dots,\varphi_n)$
@@ -299,11 +299,11 @@ so that
 
 \subsection{Formulation}
 
-We use a similar approach as for Ritz's method, except that the abstract problem does not require the symmetry of the bilinear form.
+We use a similar approach as for the Ritz method, except that the abstract problem does not require the symmetry of the bilinear form.
 Therefore we cannot endow $\xV$ with a norm defined from the scalar product based on $a(\xDot,\xDot)$.
 
 \medskip
-Problem \eqref{pb:galerkin_weak} is the approximate weak problem by Galerkin's method:
+Problem \eqref{pb:galerkin_weak} is the approximate weak problem by the Galerkin method:
 \begin{equation}\label{pb:galerkin_weak}
 \left\lvert
 \begin{array}{ll}
@@ -352,7 +352,7 @@ The only difference with the symmetric case is that the constant is squared due 
 
 \subsection{Method}
 
-\begin{lgrthm}[Galerkin's method]\label{alg:galerkin} The following procedure applies:
+\begin{lgrthm}[Galerkin method]\label{alg:galerkin} The following procedure applies:
 \begin{enumerate}
 \item Chose an approximation space $\xV_n$
 \item Construct a basis $\Basis= (\varphi_1,\dots,\varphi_n)$
