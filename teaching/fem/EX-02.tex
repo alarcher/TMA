@@ -3,8 +3,22 @@
 
 \begin{tmasltn}{2.1}
 \begin{tmatsks}
-\item Show the equivalence of the formulation when $a$ is bilinear s.p.d and $L$ linear.
-\item Show that if $\xV = \xR^n$ the minimization problem can be recast into a stricly convex quadratic form $J(u) = \frac{1}{2} u^T A u - u^T b$ and the unique solution satisfies $A u = b$.
+\item The minimization principle is $J(u) \leq J(u+v)$, $\forany v \in \xV$,
+\begin{equation*}
+J(u+v) = \frac{1}{2} a(u + v,u + v) - L(u + v)
+\end{equation*}
+\begin{equation*}
+J(u+v) = \frac{1}{2} a(u,u) - L(u) + \frac{1}{2} \bigr(a(u, v)+a(v, u)\bigr) - L(v) + \frac{1}{2} a(v,v)
+\end{equation*}
+\begin{equation*}
+J(u+v) = J(u) + \underbrace{a(u,v) - L(v)}{0} + \frac{1}{2} a(v,v)
+\end{equation*}
+and the last term is positive for $v\neq 0$ so
+\begin{equation*}
+J(u+v) > J(u)
+\end{equation*}
+for $v\neq0$.
+\item This is proved in Chapter 2 for the well-posedness of the Ritz problem, the Euler condition is satisfied for $vecv^\trans (\matA\vecu - \vecb) = 0$, and conversely if $\matA\vecu = \vecb$ then $\vecu$ is a minimizer of the quadratic form in $\xR^N$.
 \end{tmatsks}
 \end{tmasltn}
 
