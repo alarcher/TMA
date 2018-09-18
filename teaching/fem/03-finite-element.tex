@@ -550,5 +550,49 @@ Solving a problem by a Finite Element Method is defined by the following procedu
 \section{Exercises}
 
 \begin{tmaxrcs}{}{3.1}
+Let us consider the Poisson problem posed on the domain $\dom = (0,1)$:
+\begin{subequations}\label{pb:poisson_unit_fem}
+\begin{equation}\label{pb:poisson_unit_eq_fem}
+- u''(x) = f(x), \qquad\forany x\in\dom
+\end{equation}
+with $f\in \xLtwo(\dom)$, and satisfying the boundary condition on $\bound$
+\begin{equation}\label{pb:poisson_unit_bc_fem}
+u(x) = 0, \qquad\forany x\in\bound
+\end{equation}
+\end{subequations}
+The domain $\bar\dom$ is discretized into a family of subintervals $[x_i, x_{i+1}]$, $i = 0,\cdots, N$, and Problem \ref{pb:poisson_unit_fem} is approximated by a linear Lagrange finite element method.
+The approximation space is the space of continuous piecewise linear functions $V_h = \lbrace\varphi_i\rbrace_{0\leq i \leq N}$ with
+\begin{equation}
+\varphi_i(x) =
+\left\lbrace 
+\begin{array}{l}
+\displaystyle\frac{x - x_{i-1}}{x_i - x_{i-1}}\:,\quad x_{i-1}\leq x \leq x_{i},\:i \neq 0\\[2ex]
+\displaystyle\frac{x_{i+1} - x}{x_{i+1} - x_{i}}\:,\quad x_{i}\leq x \leq x_{i+1},\:i \neq N\\[2ex]
+0\quad otherwise
+\end{array}
+\right.
+\end{equation}
+
+
+\begin{tmatsks}
+\item Find the weak formulation of Problem \ref{pb:poisson_unit_fem}.
+\item Prove that $a(u - u_h, \varphi_i) = 0$, for $i = 1,\cdots,N-1$.
+\item Prove that for any $v\in\xHone([0,1])\cap \xC^0([0,1])$, $i = 1,\cdots,N-1$:
+\begin{equation}
+a(v, \varphi_i) = \displaystyle\frac{1}{h}\bigl(- v(x_{i-1} + 2v(x_i) - v(x_{i+1})\bigr)
+\end{equation}
+\end{tmatsks}
+
+\medskip
+Let us consider $f(x) = x^4$:
+\begin{tmatsks}
+\item Find the expression of the solution to Problem \ref{pb:poisson_unit_fem}.
+\item Give the expression of the linear system obtained by the suggested method on a uniform grid, \ie $x_i = i h$, $i = 0,\cdots, N$.
+\item Implement a program computing the discrete solution $u_h$ using the suggested method.
+\item Plot the discrete solution $u_h$, the exact solution $u$, and the error $\snorm{u - u_h}$ with $N=8,16,32$.
+\item Implement a function computing the $\xLtwo$ error-norm $\norm{u -u _h}_{\xLtwo(\dom)}$ and plot the value for different values of $N$.
+\item Modify the program to handle non-uniform grids, given a list of node coordinates $\Fam{x_i}_{0\leq i\leq N}$.
+\item Based on the error $\snorm{u -u _h}$ suggest a distribution of the nodes $\Fam{x_i}_{0\leq i\leq N}$, repeat the same study, then compare the error values.
+\end{tmatsks}
 \end{tmaxrcs}
 
