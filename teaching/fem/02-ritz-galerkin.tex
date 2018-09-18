@@ -25,6 +25,7 @@ Since in the case of the Poisson problem the bilinear form is continuous, coerci
 
 But for the moment, let us focus on the symmetric case: we want now to construct an approximate solution $u_n$ to the Problem \eqref{pb:rg_abstract} then prove that the solution to the obtained approximate problem exists and is unique.
 
+%-------------------------------------------------------------------------------
 \section{Ritz method for symmetric bilinear forms}
 
 \subsection{Variational formulation and minimization problem}
@@ -268,6 +269,18 @@ Any solution $u_n \in \xV_n$ to Problem \eqref{pb:ritz_weak} satisfies:
 \end{lmm}
 \begin{proof}
 Direct using the coercivity and the dual norm.
+First, the inequality
+\begin{equation*}
+\alpha\norm{u_n}^2_\xV  \leq a(u, u) = L(u)
+\end{equation*}
+holds for some $\alpha > 0$, and secondly by definition of the dual norm,
+\begin{equation*}
+\norm{L}_{\xV'} = \sup_{v\in\xV, v\neq 0} \frac{L(u)}{\norm{v}_\xV}
+\end{equation*}
+so that
+\begin{equation*}
+\alpha\norm{u_n}_\xV  \leq \norm{L}_{\xV'}
+\end{equation*}
 \end{proof}
 
 \subsection{Method}
@@ -281,6 +294,7 @@ Direct using the coercivity and the dual norm.
 \end{enumerate}
 \end{lgrthm}
 
+%-------------------------------------------------------------------------------
 \section{Galerkin method}
 
 \subsection{Formulation}
@@ -349,7 +363,7 @@ The only difference with the symmetric case is that the constant is squared due 
 
 %\section{A note on the Petrov--Galerkin method}
 
-
+%-------------------------------------------------------------------------------
 \newpage
 
 \section{Exercises}
