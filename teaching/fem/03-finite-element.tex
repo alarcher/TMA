@@ -46,11 +46,13 @@ Provided that all the requirements are identified, a framework for all the finit
 Finally, the generation of the finite element space from a reference finite element will be described.
 Some examples of finite element spaces are listed at the end of the chapter.
 
+%-------------------------------------------------------------------------------
 \section{A preliminary example in one dimension of space}
 
 For the sake of completeness, steps performed to derive a Galerkin method for the Poisson Problem \ref{pb:poisson} on $\dom = (0, 1)$ are sketched below to recapitulate the methodology.
 
-\medskip
+\subsection{Weak formulation}
+
 A solution is sought in the distributional sense by testing the equation against smooth functions,
 \begin{equation*}
 - \int_\dom u''(x) v(x) \md x = \int_\dom f(x) v(x) \md x\:,\qquad\forany v \in \xCinfc(\dom)
@@ -66,7 +68,8 @@ the weak formulation consists of finding $u\in\xV$ such that
 given $f \in \xLtwo(\dom)$.
 The choice of solution space and test space is guided by the equation and the data: in this case $\xV = \xHonec(\dom)$ since $v$ and $v'$ should be controlled in $\xLtwo(\dom)$, and homogeneous Dirichlet boundary conditions are imposed.
 
-\medskip
+\subsection{Galerkin method}
+
 The approximate problem by a Galerkin method consists of seeking a discrete solution $\uh$ in a finite dimensional space $\xVh \in \xV$, such that
 \begin{equation*}
 \int_\dom \uh'(x) v'(x) \md x = \int_\dom f(x) v(x) \md x\:,\qquad\forany v \in \xVh
@@ -116,12 +119,14 @@ The choice of indices $i$ and $j$ in the previous expressions follows the usual 
 In the case of Galerkin approximations where $\xH = \xV$ -- and even more when the bilinear form is symmetric -- it is tempting to choose the indices arbitrarily, but for the sake of consistency following the convention is recommended.
 \end{rmrk}
 
-\medskip
+\subsection{Construction of the discrete space}
+
 A discretization of the computational domain $\bar\dom = [0,1]$ is constructed by partitioning the interval into disjoints subintervals $K_i = [x_{i}, x_{i+1}]$, $1\leq i \leq N_K$.
 \begin{equation*}
 \bar\dom = \displaystyle\Union_{i = 1}^{N_K} K_i\;,\qquad \Interior{K_i}\cap \Interior{K_j} = \Empty
 \end{equation*}
 The family of cells $\Fam{K_i}$ defines a \textit{mesh} noted $\meshT$.
+A partition of $[0,1]$ into $N_K$ subintervals $[x_i, x_{i+1}]$ corresponds to a familiy of $N_K+1$ points $\Fam{x_i}$ which are the \textit{vertices} of the mesh $\meshT$.
 
 \medskip
 In this example the approximation space is constructed with piecewise linear Lagrange polynomials.
@@ -129,7 +134,16 @@ The chosen discrete space is
 \begin{equation}\label{sp:lagrangeP1}
 \xVh = \lbrace v \in \xC^0(\bar\dom)\cap\xHonec(\dom) : \forany K \in \meshT, v\rvert_{K} \in \xPone(K) \rbrace
 \end{equation}
-which consists of functions continuous over $\dom$ that are linear on each cell $K$, and $\xVh \subset \xV$ so that the approximation is $\xHonec$--conformal.
+which consists of functions continuous over $\bar\dom$ that are linear on each cell $K$, and $\xVh \subset \xV$ so that the approximation is $\xHonec$--conformal.
+A continuous piecewise linear function $v_h \in \xVh$ is the linear interpolate of $v\in\xV$ on $\meshT$ if $v_h = \Iop{\xVh}$ with the interpolation operator
+\begin{equation}\label{fem:lagrange_interpolator}
+\begin{array}{lclcl}
+\Iop{\xVh} &:& \xV &\rightarrow& \xVh\\[2ex]
+           & & v   &\mapsto    & \displaystyle\sum_{i=1}^{\NxVh} v(\xi_i) \varphi_i
+\end{array}
+\end{equation}
+such that $\NxVh = \dim{\xVh}$ and $\Fam{\xi_i}$ is a family of $\NxVh$ distinct nodes.
+In this particular case of a linear interpolation $\NxVh = N_K + 1$ and the family $\Fam{\xi_i}$ is identified with the vertices $\Fam{x_i}$.
 
 \begin{figure}[h!]
 \centering
@@ -138,7 +152,7 @@ which consists of functions continuous over $\dom$ that are linear on each cell 
     xmin=0.,
     xmax=1.,
     ymin=0.,
-    ymax=1.,
+    ymax=1.1,
     axis x line*=bottom,
     axis y line*=center,
     /pgfplots/xtick={0., 0.2, ..., 1},
@@ -146,17 +160,17 @@ which consists of functions continuous over $\dom$ that are linear on each cell 
     width=\textwidth,
     height=\axisdefaultheight
     ]
-    \addplot[darkblue, thick, domain=0:1, samples=100]{0.80*(sin(x*180.) - 0.4*sin(2.*x*180.))};
-    \addplot[black, domain=0:1, samples=6]{0.80*(sin(x*180.) - 0.4*sin(2.*x*180.))};
+    \addplot[darkblue, thick, domain=0:1, samples=100]{0.80*(sin(x*180.) - 0.4*sin(2.*x*180.))} node[right] at (75, 90) {$v\in\xV$};
+    \addplot[black, domain=0:1, samples=6]{0.80*(sin(x*180.) - 0.4*sin(2.*x*180.))} node[left] at (35, 50) {$\Iop{\xVh} v\in\xVh$};
     \addplot[ybar, bar width=0pt, black, dotted, thin, domain=0:1, samples=6]{0.80*(sin(x*180.) - 0.4*sin(2.*x*180.))};
   \end{axis}
 \end{tikzpicture}
-\caption{The function $v(x) = 0.8 \sin(2\pi x) - 0.32 \sin(4\pi x)$ and its linear interpolate $\Iop{\xVh} v$.}
+\caption{The function $v(x) = 0.8 \sin(2\pi x) - 0.32 \sin(4\pi x)$ and its linear interpolate $\Iop{\xVh} v$ with $6$ equidistributed nodes.}
 \end{figure}
 
 \medskip
 The construction of the basis $\lbrace\varphi_j\rbrace$ of $\xVh$ should produce a linear system that can be solved easily so the matrix should be as sparse as possible.
-Given the expression of the contributions $\matA_{ij}$ the requirement is that functions $\varphi_j$ overlap as little as possible with each other: the support of $\varphi_j$ should be reduced so that contributions are non-zero only for neighbouring $\varphi_j$ and $\varphi_i$ functions, and this is consistent with the locality of differential operators.
+Given the expression of the contributions $\matA_{ij}$ the requirement is that functions $\varphi_j$ overlap as little as possible with each other: the support of $\varphi_j$ should be reduced so that contributions are non-zero only for neighbouring $\varphi_i$ functions; this choice is consistent with the locality of differential operators.
 
 \begin{figure}[h!]
 \centering
@@ -180,20 +194,150 @@ Given the expression of the contributions $\matA_{ij}$ the requirement is that f
     \addplot[black, domain=0.5:0.6]{10*(0.6-x)};
     \addplot[black, dashed, domain=0.5:0.6]{10*(x-0.5)} node[above] {$\varphi_{i+1}$};
     \addplot[black, dashed, domain=0.6:0.7]{10*(0.7-x)};
-    \addplot[black, dotted, thin, domain=0:1, samples=6]{1};
+    \addplot[black, dotted, thin, domain=0:1, samples=2]{1};
   \end{axis}
 \end{tikzpicture}
-\caption{Shape functions for Lagrange $\xPone$ on the unit interval.}
+\caption{Shape functions for Lagrange $\xPone$ on a unit interval discretized into subintervals $K_i = [x_{i}, x_{i+1}]$.}
 \end{figure}
 
 \medskip
-The support of constructed functions $\varphi_i$ overlaps only with $\varphi_{i-1}$ and $\varphi_{i+1}$, and the expression of all the functions can be obtained from one another by an affine transformation.
+For any $x_i$ the shape function is defined as
+\begin{equation*}
+\varphi_{i}(x) =
+\left\lbrace
+\begin{array}{lcl}
+\displaystyle\frac{x_{i+1} - x}{x_{i+1} - x_{i}} = 1 - \frac{x - x_{i}}{x_{i+1} - x_{i}}&,& x_{i-1} \leq x \leq x_{i}\\[2ex]
+\displaystyle\frac{x - x_{i}}{x_{i+1} - x_{i}}&,& x_{i} \leq x \leq x_{i+1}\\[2ex]
+0 &&\mbox{otherwise}
+\end{array}
+\right.
+\end{equation*}
+so that the support of constructed functions $\varphi_i$ overlaps only with $\varphi_{i-1}$ and $\varphi_{i+1}$, and the expression of all the functions can be obtained from one another by an affine transformation; in the case of a uniform grid, $|x_{i+1} - x_{i}| = h$, shape functions are obtained simply by translation.
+Therefore it would be convenient to define shape functions on a reference interval, then apply an affine transformation to generate any $\varphi_i$.
+Shape functions are considered on a \textit{reference cell} $\hat{K}$ which is the unit interval, then transported to any subinterval $K_i$ using the geometric transformation from $\hat{K}$ to $K$.
 
+\begin{figure}[h!]\label{fig:lagrange_P1_1D}
+\centering
+\begin{tikzpicture}
+  \begin{axis}[
+    xmin=0.,
+    xmax=1.,
+    ymin=0.,
+    ymax=1.1,
+    axis x line*=bottom,
+    axis y line*=center,
+    xtick={0.0,1.0},
+    xticklabels={$0$, $1$},
+    /pgfplots/ytick={0., 1.},
+    width=\axisdefaultwidth,
+    height=\axisdefaultheight
+    ]
+    \addplot[black, domain=0:1]{1.-x} node[above] at (10,100) {$\hat{\varphi}_{0}$};
+    \addplot[black, domain=0:1]{x} node[above] at (90,100) {$\hat{\varphi}_{1}$};
+    \addplot[black, dotted, thin, domain=0:1, samples=2]{1};
+    \addplot[black, dotted, thin] coordinates { (1,0) (1,1)};
+  \end{axis}
+\end{tikzpicture}
+\caption{Shape functions for Lagrange $\xPone$ on the interval $\hat{K} = [0,1]$.}
+\end{figure}
+
+\medskip
+In the \textit{reference cell} $\hat{K} = [0,1]$ shape functions depicted in Figure \ref{fig:lagrange_P1_1D} have expressions
+\begin{equation*}
+\left\lbrace
+\begin{array}{lcl}
+\hat\varphi_0(\hat x) &=& 1 - \hat x\\
+\hat\varphi_1(\hat x) &=& \hat x
+\end{array}
+\right.
+\end{equation*}
+and the affine mapping $T_K$ mapping $\hat K$ to $K$ in one dimension is given by $T_K : \hat x \mapsto b + a \hat x$, for some $a, b\in\xR$.
+The affine mapping to any subinterval $K_i$ is given by the change of coordinates
+\begin{equation*}
+T_K: \hat x \in \hat K \mapsto x = x_i + (x_{i+1} - x_{i}) \hat x \in K_i
+\end{equation*}
+which is consistent with the definition of the global shape functions and reference shape functions, since
+\begin{equation*}
+\left\lbrace
+\begin{array}{lcl}
+\hat\varphi_0(\hat x) &=& 1 - \hat x\\
+\varphi_{i}(x)        &=& \displaystyle\frac{x_{i+1} - x}{x_{i+1} - x_{i}} = 1 - \frac{x - x_{i}}{x_{i+1} - x_{i}}
+\end{array}
+\right.
+\qquad
+\left\lbrace
+\begin{array}{lcl}
+\hat\varphi_1(\hat x) &=& \hat x\\
+\varphi_{i+1}(x)      &=& \displaystyle\frac{x - x_{i}}{x_{i+1} - x_{i}}
+\end{array}
+\right.
+\end{equation*}
+so that $\hat x = (x - x_{i})(x_{i+1} - x_{i})^{-1}$ as expected.
+
+\begin{rmrk}[Link to higher dimensions of space] The affine mapping in $\xR^d$ is given a relation of the type $T_K : \hat \xx \mapsto \vecb_K + \matB_K \hat \xx$, with $\vecb_K\in\xR^d$ and $\matB_K\in\xR^{d\times d}$.
+The matrix $\matB_K$ is the Jacobian of $T_K$, noted $\matJ_{T_K}$. In one dimension of space $\matJ_{T_K}$ contains only one entry $\partial T_K / \partial \hat{x} = (x_{i+1} - x_{i}) = |K|$, and its inverse $\matJ^{-1}_{T_K}$ is obviously $(x_{i+1} - x_{i})^{-1} = |K|^{-1}$.
+\end{rmrk}
+
+\subsection{Transport of finite element contributions}
+
+In the case of linear Lagrange elements the transport of finite element contributions corresponds to the change of coordinates $T_K$. The change of variable $x = T_K(\hat{x})$ is sketched for the mass matrix and the stiffness matrix, given a cell $K = [x_{i+1}-x_{i}]$.
+
+\medskip
+Firstly, let us consider contributions to the mass matrix $\matM$,
+\begin{eqnarray*}
+\matM_{ij} = \int_{K} \varphi_j(x) \varphi_i(x) \md x
+\end{eqnarray*}
+which can be rewritten, given that $x = T_K(\hat{x}$ and $\md x = (x_{i+1}-x_{i})) \md \hat{x}$,
+\begin{eqnarray*}
+\matM_{ij} = \int_{\hat{K}} \varphi_j(T_K(\hat{x})) \varphi_i(T_K(\hat{x})) (x_{i+1}-x_{i}) \md \hat{x}
+\end{eqnarray*}
+Since $\varphi_i\circ T_K = \hat\varphi_i$ and $(x_{i+1}-x_{i}) = |K|$, then
+\begin{eqnarray*}
+\matM_{ij} = |K|\int_{\hat{K}} \hat\varphi_j(\hat{x}) \hat\varphi_i(\hat{x}) \md \hat{x}
+\end{eqnarray*}
+so that contributions for $K\in\meshT$ to the mass matrix can obtained by a scaling of the contribution on $\hat{K}$.
+
+\medskip
+Secondly, let us consider contributions to the stiffness matrix $\matK$,
+\begin{eqnarray*}
+\matK_{ij} = \int_{K} \partial_{x}\varphi_j(x)\;\partial_{x}\varphi_i(x) \md x
+\end{eqnarray*}
+which can be rewritten using the chain rule for the derivation of $\varphi_i = \hat\varphi_i \circ T_K^{-1}$, formally $\partial_x \varphi_i = \partial_{\hat{x}} \hat\varphi_i\;\partial_x T_K^{-1}$ with $\partial_x T_K^{-1} = |K|^{-1}$
+\begin{eqnarray*}
+\matK_{ij} = \int_{\hat{K}} \frac{1}{|K|}\partial_{\hat{x}} \hat\varphi_j(\hat{x})\;\frac{1}{|K|}\partial_{\hat{x}} \hat\varphi_i(\hat{x}) |K| \md \hat{x}
+\end{eqnarray*}
+therefore,
+\begin{eqnarray*}
+\matK_{ij} = \frac{1}{|K|}\int_{\hat{K}} \hat\varphi_j(\hat{x}) \hat\varphi_i(\hat{x}) \md \hat{x}
+\end{eqnarray*}
+so that contributions for $K\in\meshT$ to the stiffness matrix can also obtained by a scaling of the contribution on $\hat{K}$.
+
+\subsection{Generalization of the methodology}
+
+The example of linear Lagrange in one dimension provides a good overview of the methodology for constructing discrete spaces using Finite Elements.
+The steps can be summarized as:
+\begin{enumerate}
+\item Choose a function space suggested by the weak formulation.
+\item Discretize the computational domain into a mesh.
+\item Choose a polynomial approximation space.
+\item Define an interpolation operator.
+\item Provide a definition of a reference element.
+\item Construct a mapping to generate the discrete space.
+\end{enumerate}
+The generalization of this approach can take different directions:
+\begin{itemize}
+\item Extending to multiple dimensions in space.
+\item Increasing the polynomial order.
+\item Using a different approximation space.
+\item Controlling the solution in other means than pointwise values.
+\end{itemize}
+
+%-------------------------------------------------------------------------------
 \section{Admissible mesh}
 
 \begin{dfntn}[Mesh]
-Let $\dom$ be polygonal ($d=2$) or polyhedral ($d=3$) subset of $\xR^d$, we define $\meshT$ (a triangulation in the simplicial case) as a finite family $\Fam{K_i}$ of disjoints non-empty subsets of $\dom$ named cells.
-Moreover $\mathcal N_h = \Fam{\mathcal N_i}$ denotes the set a vertices of $\meshT$ and $\varepsilon_h = \Fam{\sigma_{KL} = K\cap L}$ denotes the set of edges.
+Let $\dom$ be polygonal ($d=2$) or polyhedral ($d=3$) subset of $\xR^d$, we define $\disc$ (a triangulation $\meshT$ in the simplicial case) as a finite family $\Fam{K_i}$ of disjoint convex non-empty subsets of $\dom$ named cells.
+Moreover $\mathcal \vertices(\meshT) = \Fam{\mathcal \vertex_i}$ denotes the set a vertices of $\disc$, $\edges(\disc) = \Fam{\edge_{KL} = K\cap L}$ denotes the set of facets, which are edges ($d =2$) or faces ($d=3$).
 \end{dfntn}
 
 \begin{dfntn}[Mesh size]
@@ -211,7 +355,10 @@ A mesh is said geometrically conforming if two neighbouring cells share either e
 The meaning of the previous condition is that there should not be any ``hanging node'' on a facet.
 Moreover some theoretical results require that the mesh satisfies some regularity condition: for example, bounded ratio of equivalent ball diameter, Delaunay condition on the angles of a triangle, \dots
 
-\section{Construction of a Finite Element}
+%-------------------------------------------------------------------------------
+\section{Definition of a Finite Element}
+
+In the frame of the Galerkin method, given a function space $\xV$, a discrete space $\xV = \Span\Fam{\phi_j} \subset\xV$ was introduced, this section describes how to build such space by constructing an abstraction called \textit{Finite Element}.
 
 \begin{dfntn}[Finite Element -- \cite{EG} page 19, \cite{BS} page 69]
 A Finite Element consists of a triple $\FE$, such that
@@ -249,7 +396,7 @@ The unisolvence property of a Finite Element is equivalent to construct $\Sigma$
 p = \sum_{j=1}^{N} \sigma_j(p)\; \varphi_j
 \end{equation*}
 the unique decomposition on $\Fam{\varphi_j}$, with $p_j = \sigma_j(p)$ the $j$-th degree of freedom.
-In other words, the choice of $\Sigma = \Fam{\sigma_j}$ ensures that the vector of degree of freedoms $(p_1,\cdots, p_N)$ uniquely defines a function of $\SpaceP$.
+In other words, the choice of $\Sigma = \Fam{\sigma_j}$ ensures that the vector of degree of freedoms $(p_1,\cdots, p_N)$ uniquely represents a function of $\SpaceP$.
 Defining $\Sigma$ as dual basis of $\SpaceP$ is equivalent to:
 \begin{subequations}
 \begin{equation}\label{unisolvence:generates}
@@ -260,21 +407,27 @@ Defining $\Sigma$ as dual basis of $\SpaceP$ is equivalent to:
 \end{equation}
 \end{subequations}
 in which Property \eqref{unisolvence:generates} ensures that $\Sigma$ generates $\xLin(\SpaceP,\xR)$ and Property \eqref{unisolvence:free} that $\Fam{\sigma_i}$ are linearly independent.
-
-\medskip
 Usually the unisolvence is part of the definition of a Finite Element since chosing the shape functions such that $\sigma_i(\varphi_j) = \delta_{ij}$ is equivalent.
 
-\begin{dfntn}[Local interpolation operator -- \cite{EG} page 20]
+\medskip
+As a first step, the Galerkin decomposition of functions $u_h \in \xVh$ was introduced given a basis of $\xVh$ and degrees of freedom $u_j$, but without giving a proper definition of the latter; we just assumed that they are real coefficients.
+In a second step, the Lagrange interpolation operator of Definition \ref{fem:lagrange_interpolator} was introduced to interpolate functions in $\xV$ as continuous piecewise linear functions in $\xVh$.
+Degrees of freedom $u_j$ where then defined as $u(\xi_j)$ the value of the function $u$ at the Lagrange node $\xi_j$.
+Now that a definition a Finite Element was stated, in a similar fashion a global interpolation operator can be defined for general Finite Elements.
+
+\begin{dfntn}[Global interpolation operator]\label{fem:global_interpolator}
 \begin{equation*}
 \begin{array}{llll}
-\IopK{\xV}: & \xV(K) & \fromto & \SpaceP\\[2ex]
-\hfill    & v    & \mapsto & \displaystyle\sum_{j=1}^{N} \sigma_j(v)\; \varphi_j
+\Iop{\xV}: & \xV & \fromto & \xVh\\[2ex]
+\hfill    & v    & \mapsto & \displaystyle\sum_{j=1}^{\NxVh} \sigma_j(v)\; \varphi_j
 \end{array}
 \end{equation*}
 \end{dfntn}
 
+
+
 \begin{rmrk}
-The notation using the dual basis can be confusing but with the relation $\sigma_i(p) = p(a_i)$ in the nodal Finite Element case it is easier to understand that the set $\Sigma$ of linear forms defines how the interpolated function $\IopK{\xV}u$ ``represents'' its infinite dimensional counterpart $u$ through the definition of the degrees of freedom.
+The notation using the dual basis can be confusing but with the relation $\sigma_i(p) = p(a_i)$ in the nodal Finite Element case it is easier to understand that the set $\Sigma$ of linear forms defines how the interpolated function $\IopK{\xV}u$ represents its infinite dimensional counterpart $u$ through the definition of the degrees of freedom.
 In the introduction, we defined simply $u_i = \sigma_i(u)$ without expliciting it. A natural choice is the pointwise representation $u_i = u(a_i)$ at geometrical nodes $\Fam{a_i}$, which is the case of Lagrange elements, but it is not the only possible choice!
 For example, $\sigma_i$ can be:
 \begin{itemize}
@@ -295,14 +448,26 @@ A specific choice of linear form allows a control on a certain quantity: diverge
 The approximations will then not only be $\xH^s$-conformal but also include the divergence or the curl in the space.
 \end{rmrk}
 
+\begin{rmrk}
+The Finite Element approximation is said $\xH$-conformal if $\xVh\subset \xH$ and is said non-conformal is $\xVh\not\subset \xH$. In this latter case the approximate problem can be constructed by building an approximate bilinear form
+\begin{equation*}
+a_h(\xDot,\xDot) = a(\xDot,\xDot) + s(\xDot,\xDot)
+\end{equation*}
+as described, for instance, in the case of stabilized methods for advection-dominated problems in Section \ref{ssec:stab_galerkin}.
+\end{rmrk}
+
+%-------------------------------------------------------------------------------
 \section{Transport of the Finite Element}
 
 In practice to avoid the construction of shape functions for any Finite Element $\FE$, $K \in \meshT$, the local shape functions are evaluated for a \textit{reference Finite Element} $\RefFE$ defined on a \textit{reference cell} $\RefK$ and then transported onto any cell $K$ of the mesh.
-For example, in the case of simplicial meshes the reference cell in one dimension is the unit interval $[0,1]$, in two dimension the unit triangle with vertices $\Set{(0,0),(0,1),(1,0)}$.
-In so doing, we can generate any Finite Element $\FE$ on the mesh from $\RefFE$ provided that we can construct a mapping such that $\FE$ and $\RefFE$ are equivalents.
+For example, in the case of simplicial meshes the reference cell in one dimension is the unit interval $[0,1]$, in two dimensions the unit triangle with vertices $\Set{(0,0),(1,0),(0,1)}$.
 
-\begin{dfntn}[Equivalent Finite Elements]
-Two Finite Elements $\FE$ and $\RefFE$ are said \textit{equivalent} if there exists a bijection $T_K$ from $\RefK$ onto $\CellK$  such that:
+\medskip
+Using this approach any Finite Element $\FE$ on the mesh can be generated from $\RefFE$ provided that a mapping can be constructed such that $\FE$ and $\RefFE$ possess equivalent properties.
+In particular, an important property is the unisolvence: if a Finite Element is equivalent to another Finite Element which is unisolvent, then it is also unisolvent.
+
+\begin{dfntn}[Affine-equivalent Finite Elements]
+Two Finite Elements $\FE$ and $\RefFE$ are said \textit{affine-equivalent} if there exists a bijection $T_K$ from $\RefK$ onto $\CellK$  such that:
 \begin{equation*}
 \forany p \in \SpaceP,\; p\mathop\circ T_K \in \RefP
 \end{equation*}
@@ -316,15 +481,41 @@ and
 By collecting the local shape functions and local degrees of freedom from all the generated $\FE$ on the mesh, we then construct \textit{global shape functions} and \textit{global degrees of freedom} and thus the approximation space $\xVh$.
 
 \medskip
-For Lagrange elements the transformation used to transport the Finite Element on the mesh is an \textit{affine mapping}, but this is not suitable in general!
+\begin{dfntn}[Affine-equivalent Finite Elements]
+Two Finite Elements $\FE$ and $\RefFE$ are said \textit{affine-equivalent} if there exists a bicontinuous bijection $T_K$ from $\RefK$ onto $\CellK$ such that:
+\begin{equation*}
+\forany p \in \SpaceP,\; p\mathop\circ T_K \in \RefP
+\end{equation*}
+and
+\begin{equation*}
+\Sigma = T_K(\RefSigma)
+\end{equation*}
+\end{dfntn}
 
-%\section{High-order finite elements}
+\medskip
+
+For Lagrange elements the transformation used to transport the Finite Element on the mesh is the \textit{affine mapping} $T_K$ but this is not suitable in general.
+An auxiliary mapping is needed to transfer the approximation space on $\hat K$ to the approximation space on $K$.
+The following definition extends the affine-equivalence to a general equivalent property between Finite Elements.
+
+\begin{dfntn}[Equivalent Finite Elements]
+Two Finite Elements $\FE$ and $\RefFE$ are said \textit{equivalent} if there exists a bicontinuous bijection $\Phi_K$ from $\xV(\CellK)$ onto $\xV(\RefK)$ such that $\FE$ is generated from $\RefFE$:
+\begin{equation*}
+\begin{array}{lcl}
+K       &=& T_K(\hat K)\\
+\SpaceP &=& \lbrace \Phi_K^{-1}(\hat p), \forany \hat p \in \RefP \rbrace\\
+\Sigma  &=& \lbrace \sigma_{K,j} : \sigma_{K,j}(\hat p) = \hat\sigma_{K,j}(\Phi_K^{-1}(\hat p)), \forany \hat p \in \RefP \rbrace
+\end{array}
+\end{equation*}
+\end{dfntn}
+
+\begin{rmrk}
+Note that in the literature the mapping between spaces is defined from $\xV(\CellK)$ to $\xV(\RefK)$, while the geometric mapping between cell is defined from $\RefK$ to $\CellK$. The affine-equivalence consists of the case $\Phi_K = T^{-1}_K$.
+\end{rmrk}
+
+Given that any Finite Element $\FE$ can be generated from a reference Finite Element $\RefFE$, then global interpolation properties for the entire space $\xVh$ (spanned by collecting all the shape functions) can be inferred from local interpolation properties on $\hat K$.
 
 %\section{Non-conforming finite elements}
-
-\section{Numerical integration}
-
-The contributions are integrated numerically, usually using quadrature rules.
 
 \section{Method}
 
@@ -340,14 +531,8 @@ Solving a problem by a Finite Element Method is defined by the following procedu
 \end{enumerate}
 \end{lgrthm}
 
-\begin{rmrk}
-The Finite Element approximation is said $\xH$-conformal if $\xVh\subset \xH$ and is said non-conformal is $\xVh\not\subset \xH$. In this latter case the approximate problem can be constructed by building an approximate bilinear form
-\begin{equation*}
-a_h(\xDot,\xDot) = a(\xDot,\xDot) + s(\xDot,\xDot)
-\end{equation*}
-as described, for instance, in the case of stabilized methods for advection-dominated problems in Section \ref{ssec:stab_galerkin}.
-\end{rmrk}
-
+%-------------------------------------------------------------------------------
+\newpage
 
 \section{Exercises}
 

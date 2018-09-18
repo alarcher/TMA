@@ -1,14 +1,14 @@
 
-\chapter{Simplicial Lagrange Finite Element}\label{sec:lagrange}
+\chapter{Simplicial Lagrange Finite Elements}\label{sec:lagrange}
 
+%-------------------------------------------------------------------------------
 \section{Polynomial interpolation in one dimension}
 
-Let $\xP^k([a,b])$ be the space of polynomials $p = \sum_{i=0}^k \alpha_i x^i$ of degre lower or equal to $k$ on the interval $[a,b]$, with $c_i x^i$ the monomial of order $i$, $c_i$ a real number.
+Let $\xP_k([a,b])$ be the space of polynomials $p = \sum_{i=0}^k \alpha_i x^i$ of degre lower or equal to $k$ on the interval $[a,b]$, with $c_i x^i$ the monomial of order $i$, $c_i$ a real number.
 
 \medskip
-A natural basis of $\xP^k([a,b])$ consists of the set of monomials $\Set{1,x,x^2,\cdots,x^k}$.
-We can verify that its elements are linearly independent.
-But in the frame of Finite Elements we can chose another basis which is the Lagrange basis $\Set{\Lgr{k}{i}}_{0 \leq i \leq k}$ of degree $k$ defined on a set of $k+1$ points $\Fam{\xi_i}_{0 \leq i \leq k}$ which are called \textit{Lagrange nodes}.
+A natural basis of $\xP_k([a,b])$ consists of the set of monomials $\Set{1,x,x^2,\cdots,x^k}$.
+Its elements are linearly independent but in the frame of Finite Elements we can chose another basis which is the Lagrange basis $\Set{\Lgr{k}{i}}_{0 \leq i \leq k}$ of degree $k$ defined on a set of $k+1$ points $\Fam{\xi_i}_{0 \leq i \leq k}$ which are called \textit{Lagrange nodes}.
 
 \begin{dfntn}[Lagrange polynomials -- \cite{EG} page 21, \cite{CDE} page 76]
 \label{def:lagrange_poly}
@@ -28,12 +28,13 @@ The Lagrange polynomial of degree $k$ associated with node $\xi_m$ reads:
 The following result gives a pointwise control of the interpolation error:
 \begin{thrm}[Pointwise interpolation inequality -- \cite{CDE} page 79]
 \label{th:polyinterpol}
-Let $u\in\xC^{k+1}([a,b])$ and $\Projh{k} u \in \xP^k([a,b])$ its Lagrange interpolate of order $k$, with Lagrange nodes $\Fam{\xi_i}_{0\leq i \leq k}$, then $\forany x \in [a,b]$:
+Let $u\in\xC^{k+1}([a,b])$ and $\Projh{k} u \in \xP_k([a,b])$ its Lagrange interpolate of order $k$, with Lagrange nodes $\Fam{\xi_i}_{0\leq i \leq k}$, then $\forany x \in [a,b]$:
 \begin{equation*}
 \Abs{u(x) - \Projh{k} u(x)} \leq \Abs{\dfrac{\prod_{i=0}^k (x - \xi_i)}{(k+1)!}}\max_{[a,b]}\Abs{\partial^{k+1} u}
 \end{equation*}
 \end{thrm}
 
+%-------------------------------------------------------------------------------
 \section{A nodal element}
 
 Let us take $\Fam{\xi_1, \cdots, \xi_N}$ a family of points of $K$ such that $\sigma_i(p)= p(\xi_i)$, $1\leq i \leq N$:
@@ -52,14 +53,7 @@ p(\xi_j) = \sigma_i(p)
 
 \medskip
 \begin{rmrk}[Support of shape functions]
-The polynomial basis being defined such that
-\begin{equation*}
-\begin{cases}
-\varphi_i(\xi_i) = 1 \\
-\varphi_i(\xi_j) = 0\;,\;i\not=j
-\end{cases}
-\end{equation*}
-then any shape function $\varphi_i$ is compactly supported on the union of cells containing the node $\xi_i$.
+The polynomial basis being defined such that $\varphi_j(\xi_i) = \delta_{ij}$ then any shape function $\varphi_i$ is compactly supported on the union of cells containing the node $\xi_i$.
 \end{rmrk}
 
 The Lagrange polynomials \eqref{def:lagrange_poly} are used to build directly the one-dimensional shape functions, while in higher dimensions the expression of the shape functions is reformulated in term of barycentric coordinates:
@@ -69,7 +63,96 @@ The Lagrange polynomials \eqref{def:lagrange_poly} are used to build directly th
 \end{eqnarray*}
 with $\n_i$ the unit outward normal to the facet opposite to $\xi_i$, and $\xi_f$ a node belonging to this facet.
 
-\medskip
+%-------------------------------------------------------------------------------
+\section{Reference Finite Element}
+
+%-------------------------------------------------------------------------------
+\section{Lagrange $\xP_k$ elements}
+
+\begin{figure}[h!]\label{fig:lagrange_P1_1D}
+\centering
+\begin{tikzpicture}
+  \begin{axis}[
+    xmin=0.,
+    xmax=1.,
+    ymin=-0.4,
+    ymax=1.2,
+    axis x line*=middle,
+    axis y line*=middle,
+    xtick={0.0,1.0},
+    xticklabels={$0$, $1$},
+    /pgfplots/ytick={0., 1.},
+    width=\axisdefaultwidth,
+    height=\axisdefaultheight
+    ]
+    \addplot[black, domain=0:1]{1.-x} node[above] at (10,140) {$\hat{\varphi}_{0}$};
+    \addplot[black, domain=0:1]{x} node[above] at (90,140) {$\hat{\varphi}_{1}$};
+    \addplot[black, dotted, thin, domain=0:1, samples=2]{1};
+    \addplot[black, dotted, thin] coordinates { (1,0) (1,1)};
+  \end{axis}
+\end{tikzpicture}
+\caption{Shape functions for Lagrange $\xPone$ on the interval $\hat{K} = [0,1]$.}
+\end{figure}
+
+\begin{figure}[h!]\label{fig:lagrange_P2_1D}
+\centering
+\begin{tikzpicture}
+  \begin{axis}[
+    xmin=0.,
+    xmax=1.,
+    ymin=-0.4,
+    ymax=1.2,
+    axis x line*=middle,
+    axis y line*=middle,
+    xtick={0.0,1.0},
+    xticklabels={$0$, $1$},
+    /pgfplots/ytick={0., 1.},
+    width=\axisdefaultwidth,
+    height=\axisdefaultheight
+    ]
+    \addplot[black, domain=0:1]{2*(x-1)*(x-0.5)} node[above] at (10,140) {$\hat{\varphi}_{0}$};
+    \addplot[black, domain=0:1]{4*x*(1-x)} node[above] at (50,140) {$\hat{\varphi}_{1}$};
+    \addplot[black, domain=0:1]{2*x*(x-0.5} node[above] at (90,140) {$\hat{\varphi}_{2}$};
+    \addplot[black, dotted, thin, domain=0:1, samples=2]{1};
+    \addplot[black, dotted, thin] coordinates { (1,0) (1,1)};
+    \addplot[darkblue, dotted, thin] coordinates { (0.5,0) (0.5,1)};
+  \end{axis}
+\end{tikzpicture}
+\caption{Shape functions for Lagrange $\xPtwo$ on the interval $\hat{K} = [0,1]$.}
+\end{figure}
+
+\begin{figure}[h!]\label{fig:lagrange_P3_1D}
+\centering
+\begin{tikzpicture}
+  \begin{axis}[
+    xmin=0.,
+    xmax=1.,
+    ymin=-0.4,
+    ymax=1.2,
+    axis x line*=middle,
+    axis y line*=middle,
+    xtick={0.0,1.0},
+    xticklabels={$0$, $1$},
+    /pgfplots/ytick={0., 1.},
+    width=\axisdefaultwidth,
+    height=\axisdefaultheight
+    ]
+    \addplot[black, domain=0:1, samples=100]{-4.5*(x-1)*(x-2/3)*(x-1/3))} node[above] at (10,140) {$\hat{\varphi}_{0}$};
+    \addplot[black, domain=0:1, samples=100]{+13.5*(x-1)*(x-2/3)*x} node[above] at (40,140) {$\hat{\varphi}_{1}$};
+    \addplot[black, domain=0:1, samples=100]{-13.5*(x-1)*(x-1/3)*x} node[above] at (60,140) {$\hat{\varphi}_{2}$};
+    \addplot[black, domain=0:1, samples=100]{+4.5*(x-2/3)*(x-1/3)*x} node[above] at (90,140) {$\hat{\varphi}_{3}$};
+    \addplot[black, dotted, thin, domain=0:1, samples=2]{1};
+    \addplot[black, dotted, thin] coordinates { (1,0) (1,1)};
+    \addplot[darkblue, dotted, thin] coordinates { (1/3,0) (1/3,1)};
+    \addplot[darkblue, dotted, thin] coordinates { (2/3,0) (2/3,1)};
+  \end{axis}
+\end{tikzpicture}
+\caption{Shape functions for Lagrange $\xP_3$ on the interval $\hat{K} = [0,1]$.}
+\end{figure}
+
+%-------------------------------------------------------------------------------
+\section{Extension to multiple dimensions}
+
 \begin{xmpl}[Lagrange elements of polynomial degree $k=1,2$ on triangle]
 The shape functions are given by:
 \begin{equation*}
@@ -81,13 +164,10 @@ k = 2, & \varphi_i &=& \lambda_i (2 \lambda_i - 1) & ,\;0 \leq i \leq d\\
 \end{equation*}
 \end{xmpl}
 
-\section{Reference Finite Element}
+%-------------------------------------------------------------------------------
+\section{Examples in one dimension}
 
-
-
-\section{Example in one dimension}
-
-The approximate problem of Problem \eqref{pb:weak_poissonHone} by Lagrange $\xP^1$ elements reads:
+The approximate problem of Problem \eqref{pb:weak_poissonHone} by Lagrange $\xP_1$ elements reads:
 \begin{subequations}\label{pb:poisson_p1}
 \begin{equation}
 \left\lvert
@@ -99,8 +179,9 @@ The approximate problem of Problem \eqref{pb:weak_poissonHone} by Lagrange $\xP^
 \end{equation}
 with the approximation space $\xVh$ chosen as:
 \begin{equation}
-\xVh = \Set{ v \in \xCzero(\dom)\cap\xHonec(\dom) : v|_K \in\xP^1(K),\forany K \in\meshT }
+\xVh = \Set{ v \in \xCzero(\bar\dom)\cap\xHonec(\dom) : v|_K \in\xP_1(K),\forany K \in\meshT }
 \end{equation}
 \end{subequations}
+
 
 \section{Exercises}
