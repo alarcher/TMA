@@ -53,6 +53,8 @@
 }
 
 \RequirePackage{enumitem}
+\RequirePackage{hyperref}
+
 \newenvironment{tmatsks}
 {
 	\begin{enumerate}[label=(\alph*), noitemsep]
@@ -73,7 +75,7 @@
 
 \newenvironment{tmasltn}[1]
 {
-	\begin{sltn}[Exercise \ref{tmaxrcs:#1} page \pageref{tmaxrcs:#1}]
+	\begin{sltn}[Exercise \ref*{tmaxrcs:#1} page \pageref{tmaxrcs:#1}]
   \hfill\break
 }
 {
@@ -83,6 +85,7 @@
 % Nomenclature
 \RequirePackage[refpage]{nomencl}
 \RequirePackage{makeidx}
+
 
 \input{symbols}
 \input{mathenv}
