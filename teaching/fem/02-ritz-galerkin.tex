@@ -74,7 +74,7 @@ defines $J'(\cdot; \cdot): \xV\times\xV \rightarrow\xR$ derivative of the functi
 
 \begin{dfntn}[Fréchet derivative]
 Let $\xV$ be a Hilbert space, $J$ is Fréchet-derivable at $u$ if:
-\begin{equation}\label{eq:directional_derivative}
+\begin{equation}\label{eq:frechet_derivative}
 J(u + v) =  J(u) + L_u(v) + \varepsilon(v) \norm{v}_\xV
 \end{equation}
 with $L_u$ a continuous linear form on $\xV$ and $\varepsilon(v)\tendsto 0$ as $v \tendsto 0$.
@@ -271,11 +271,11 @@ Any solution $u_n \in \xV_n$ to Problem \eqref{pb:ritz_weak} satisfies:
 Direct using the coercivity and the dual norm.
 First, the inequality
 \begin{equation*}
-\alpha\norm{u_n}^2_\xV  \leq a(u, u) = L(u)
+\alpha\norm{u_n}^2_\xV  \leq a(u_n, u_n) = L(u_n)
 \end{equation*}
 holds for some $\alpha > 0$, and secondly by definition of the dual norm,
 \begin{equation*}
-\norm{L}_{\xV'} = \sup_{v\in\xV, v\neq 0} \frac{L(u)}{\norm{v}_\xV}
+\norm{L}_{\xV'} = \sup_{v\in\xV, v\neq 0} \frac{L(v)}{\norm{v}_\xV}
 \end{equation*}
 so that
 \begin{equation*}
@@ -326,7 +326,20 @@ a(\;u - u_n, v_n\;) = 0\quad,\;\forany v_n \in \xV_n
 \end{equation*}
 \end{prpstn}
 \begin{proof}
-Direct consequence of the consistency of the method.
+Direct consequence of the consistency of the method. The approximate problem
+\begin{equation}\label{eq:galerkin_ortho_ap}
+a(\;u_n, v_n\;) = L(v_n)\quad,\;\forany v_n \in \xV_n
+\end{equation}
+is obtained by replacing $\xV$ by a finite dimensional space $\xV_n$ but the relation
+\begin{equation}\label{eq:galerkin_ortho_wp}
+a(\;u, v\;) = L(v)\quad,\;\forany v \in \xV
+\end{equation}
+from the weak formulation is otherwise the same: $a(\cdot,\cdot)$ and $L(\cdot)$ are unchanged.
+Since $\xV_n \subset \Xv$, it is possible to choose $v \in \xV_n$ in Equation \eqref{eq:galerkin_ortho_wp}, then
+\begin{equation}\label{eq:galerkin_ortho_ap}
+a(\;u_n, v_n\;) = a(\;u, v_n\;)\quad,\;\forany v_n \in \xV_n
+\end{equation}
+which gives directly the orthogonality property.
 \end{proof}
 
 \begin{lmm}[Consistency]
