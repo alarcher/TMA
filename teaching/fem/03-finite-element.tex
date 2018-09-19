@@ -522,7 +522,7 @@ Given that any Finite Element $\FE$ can be generated from a reference Finite Ele
 which means that the interpolation operators and the transport of the elements commute: $\Iop{\RefK,\xV}\mathop{\circ}\Phi_K = \Phi_K\mathop{\circ} \Iop{K,\xV}$.
 
 \begin{rmrk}
-Note that in the literature the mapping between spaces is defined from $\xV(\CellK)$ to $\xV(\RefK)$, while the geometric mapping between cell is defined from $\RefK$ to $\CellK$. The affine-equivalence consists in a case $\Phi_K$ coincides with $T_K^{-1}$, with $\Phi_K: \xCzero(K) \rightarrow \xCzero(\hat K)$ given by $v \mapsto v\mathop{\circ}T_K$. In that case $\SpaceP = \Span\Fam{ \hat\varphi\circ T_K^{-1} }$ and $\Sigma = \Fam{\sigma_i : \sigma_i(v) = \hat\sigma_i(\Phi_K(v)) = \Phi_K(v)(\hat\xi_i) = v\mathop{\circ} T_K(\hat\xi_i)}$.
+Note that in the literature the mapping between spaces is defined from $\xV(\CellK)$ to $\xV(\RefK)$, while the geometric mapping between cell is defined from $\RefK$ to $\CellK$. The affine-equivalence consists in the case $\Phi_K$ coincides with $T_K^{-1}$, with $\Phi_K: \xCzero(K) \rightarrow \xCzero(\hat K)$ given by $v \mapsto v\mathop{\circ}T_K$. In that case $\SpaceP = \Span\Fam{ \hat\varphi\circ T_K^{-1} }$ and $\Sigma = \Fam{\sigma_i : \sigma_i(v) = \hat\sigma_i(\Phi_K(v)) = \Phi_K(v)(\hat\xi_i) = v\mathop{\circ} T_K(\hat\xi_i)}$.
 If $\xi_i = T_K(\hat\xi_i)$ then the definition is consistent.
 \end{rmrk}
 
@@ -564,7 +564,7 @@ The domain $\bar\dom$ is discretized into a family of subintervals $[x_i, x_{i+1
 The approximation space is the space of continuous piecewise linear functions $V_h = \lbrace\varphi_i\rbrace_{0\leq i \leq N}$ with
 \begin{equation}
 \varphi_i(x) =
-\left\lbrace 
+\left\lbrace
 \begin{array}{l}
 \displaystyle\frac{x - x_{i-1}}{x_i - x_{i-1}}\:,\quad x_{i-1}\leq x \leq x_{i},\:i \neq 0\\[2ex]
 \displaystyle\frac{x_{i+1} - x}{x_{i+1} - x_{i}}\:,\quad x_{i}\leq x \leq x_{i+1},\:i \neq N\\[2ex]
