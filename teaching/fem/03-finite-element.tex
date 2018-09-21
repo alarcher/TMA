@@ -47,7 +47,7 @@ Finally, the generation of the Finite Element space from a reference Finite Elem
 Some examples of Finite Element spaces are listed at the end of the chapter.
 
 %-------------------------------------------------------------------------------
-\section{A preliminary example in one dimension of space}
+\section{A preliminary example in one dimension of space}\label{sec:poisson_lagrange_p1}
 
 For the sake of completeness, steps performed to derive a Galerkin method for the Poisson Problem \ref{pb:poisson} on $\dom = (0, 1)$ are sketched below to recapitulate the methodology.
 
@@ -242,7 +242,7 @@ Shape functions are considered on a \textit{reference cell} $\hat{K}$ which is t
 \end{figure}
 
 \medskip
-In the \textit{reference cell} $\hat{K} = [0,1]$ shape functions depicted in Figure \ref{fig:lagrange_P1_1D} have expressions
+In the \textit{reference cell} $\hat{K} = [0,1]$ shape functions depicted in Figure \ref{fig:lagrange_shape_functions} have expressions
 \begin{equation*}
 \left\lbrace
 \begin{array}{lcl}
@@ -253,7 +253,7 @@ In the \textit{reference cell} $\hat{K} = [0,1]$ shape functions depicted in Fig
 \end{equation*}
 and the affine mapping $T_K$ mapping $\hat K$ to $K$ in one dimension is given by $T_K : \hat x \mapsto b + a \hat x$, for some $a, b\in\xR$.
 The affine mapping to any subinterval $K_i$ is given by the change of coordinates
-\begin{equation*}
+\begin{equation*}\label{eq:affine_mapping_1d}
 T_K: \hat x \in \hat K \mapsto x = x_i + (x_{i+1} - x_{i}) \hat x \in K_i
 \end{equation*}
 which is consistent with the definition of the global shape functions and reference shape functions, since
@@ -360,7 +360,7 @@ Moreover some theoretical results require that the mesh satisfies some regularit
 
 In the frame of the Galerkin method, given a function space $\xV$, a discrete space $\xVh = \Span\Fam{\phi_j} \subset\xV$ was introduced, this section describes how to build such space by constructing an abstraction called \textit{Finite Element}.
 
-\begin{dfntn}[Finite Element -- \cite{EG} page 19, \cite{BS} page 69]
+\begin{dfntn}[Finite Element -- \cite{EG} page 19, \cite{BS} page 69]\label{def:finite_element}
 A Finite Element consists of a triple $\FE$, such that
 \begin{itemize}
 \item $\CellK$ is a compact, connected subset of $\xR^d$ with non-empty interior and with regular boundary (typically Lipshitz continuous),
@@ -579,7 +579,7 @@ The approximation space is the space of continuous piecewise linear functions $V
 \item Prove that $a(u - u_h, \varphi_i) = 0$, for $i = 1,\cdots,N-1$.
 \item Prove that for any $v\in\xHone([0,1])\cap \xC^0([0,1])$, $i = 1,\cdots,N-1$:
 \begin{equation}
-a(v, \varphi_i) = \displaystyle\frac{1}{h}\bigl(- v(x_{i-1} + 2v(x_i) - v(x_{i+1})\bigr)
+a(v, \varphi_i) = \displaystyle\frac{1}{h}\bigl[- v(x_{i-1}) + 2v(x_i) - v(x_{i+1})\bigr]
 \end{equation}
 \end{tmatsks}
 
