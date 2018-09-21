@@ -278,25 +278,32 @@ $\xP_3$
 
 \subsection{Barycentric coordinates}
 
-Lagrange polynomials \eqref{def:lagrange_poly} are used to build directly the one-dimensional shape functions, while in higher dimensions they can be reformulated in term of barycentric coordinates.
+Lagrange polynomials \eqref{def:lagrange_poly} construct directly one-dimensional shape functions, while in higher dimensions they can be reformulated in terms of barycentric coordinates.
+High-order Lagrange basis can also be expressed as polyomials of barycentric coordinates.
 
 \begin{dfntn}[Barycentric coordinates]
+Let us consider $K$ a $d$-simplex with vertices $\Fam{\vertex_i}_{0\leq i \leq d}$, any point $\xx \in K$ satisfies
+\begin{equation*}
+\xx = \sum_{i} \lambda_i(\xx) \vertex_i
+\end{equation*}
+where barycentric coordinates are obtained by relation
 \begin{eqnarray*}
 \lambda_i:& \xR^d &\fromto \xR\\
-          & \bfx  &\mapsto \lambda_i(\bfx) = 1 - \dfrac{(\bfx - \Pnode_i)\cdot\n_i}{(\Pnode_{f} - \Pnode_i)\cdot\n_i}
+          & \bfx  &\mapsto \lambda_i(\bfx) = 1 - \dfrac{(\bfx - \vertex_i)\cdot\n_i}{(\vertex_{f} - \vertex_i)\cdot\n_i}
 \end{eqnarray*}
-with $\n_i$ the unit outward normal to the facet opposite to $\Pnode_i$, and $\Pnode_f$ a node belonging to this facet.
+with $\n_i$ the unit outward normal to the facet opposite to $\vertex_i$, and $\vertex_f$ a vertex belonging to this facet.
 \end{dfntn}
 
 The geometric interpretation of barycentric coordinates is given by
 \[
-\displaystyle\lambda_i = \frac{|K_i|}{|K|}
+\displaystyle\lambda_i = \frac{\mathrm{meas}(K_i)}{|K|}
 \]
-with $K_i(\xx)$ the $d$-simplex constructed with point $\xx$ and the facet opposite to $\Pnode_i$, and in particular the point satisfying equal weight $\lambda_i = (d+1)^{-1}$ is the isobarycentre.
-In practice this property can be used to check if a point is inside a simplex: if $\sum_i |K_i(\xx)| > |K|$ then the point is outside of the simplex.
+with $\mathrm{meas}(K_i)$ the signed measure of $K_i(\xx)$ the $d$-simplex constructed with point $\xx$ and the facet opposite to $\vertex_i$.
+In particular, points located within $K_i$ have non-negative $\lambda_i$, and the point satisfying equal weight $\lambda_i = (d+1)^{-1}$ is the isobarycentre.
+In practice this property can be used to check if a point is inside a simplex: if the signed measure of one $\lambda_i$ is negative or if $\sum_i |K_i(\xx)| > |K|$ then the point is outside of the simplex.
 
 \begin{xmpl}[Lagrange $\xPone$ 1D]
-In one dimension of space, barycentric coordinates on $K = [x_0, x_1]$ are:
+In one dimension of space, barycentric coordinates on $K = [x_0, x_1]$ are
 \begin{equation*}
 \left\lbrace
 \begin{array}{lcl}
@@ -309,22 +316,51 @@ which is exactly the same expression as linear shape functions $\varphi_0$ and $
 \end{xmpl}
 
 \begin{xmpl}[Lagrange $\xPone$ 2D]
+In two dimensions of space, barycentric coordinates on the unit triangle $\hat K$ depicted Figure \ref{fig:barycentric_coords_2d} are
+\begin{equation*}
+\left\lbrace
+\begin{array}{lclcl}
+\lambda_0(\xx) &=& 1 - \displaystyle\frac{(\hat x,\hat y)\cdot(1,1)}{(1,0)\cdot(1,1)} &=& 1 - \hat x -\hat y\\[2ex]
+\lambda_1(\xx) &=& 1 - \displaystyle\frac{(\hat x-1,\hat y)\cdot(-1,0)}{(-1,0)\cdot(-1,0)} &=& \hat x\\[2ex]
+\lambda_2(\xx) &=& 1 - \displaystyle\frac{(\hat x,\hat y-1)\cdot(0,-1)}{(0,-1)\cdot(0,-1)} &=& \hat y\\
+\end{array}
+\right.
+\end{equation*}
+which is the linear Lagrange basis on $\hat K$ (since the normal is at the numerator and the denominator, there was no need to normalize the vector).
+
 \begin{figure}[h!]\label{fig:barycentric_coords_2d}
 \centering
 \begin{tikzpicture}[scale=2.0]
 \coordinate (hv0) at (0,0);
-\coordinate (hv1) at (2,0);
-\coordinate (hv2) at (0,2);
+\coordinate (hv1) at (1,0);
+\coordinate (hv2) at (0,1);
 \fill[black] (hv0) circle [radius=1pt];
 \fill[black] (hv1) circle [radius=1pt];
 \fill[black] (hv2) circle [radius=1pt];
 \draw (hv0) node [below] {$\hat\vertex_0 = (0,0)$}
       (hv1) node [below] {$\hat\vertex_1 = (1,0)$}
       (hv2) node [above] {$\hat\vertex_2 = (0,1)$}
-      node at (0.66,0.66) {$\hat K$};
+      node at (0.33,0.33) {$\hat K$};
 \draw [-,thin] (hv0)  --  (hv1)   --  (hv2) --  (hv0);
+\draw [-latex, darkblue] (0.5,0.5)  --  (1.207,1.207) node [right] {$\n_0$};
+\draw [-latex, darkblue] (0.0,0.5)  --  (-1.,0.5) node [left] {$\n_1$};
+\draw [-latex, darkblue] (0.5,0.0)  --  (0.5,-1.) node [below] {$\n_2$};
 \end{tikzpicture}
+\caption{Unit triangle with outward facet normals}
 \end{figure}
+
+We can verify easily that shape functions
+\begin{equation*}
+\left\lbrace
+\begin{array}{lclcl}
+\hat\varphi_0(\xx) &=& 1 - \hat x -\hat y\\[2ex]
+\hat\varphi_1(\xx) &=& \hat x\\[2ex]
+\hat\varphi_2(\xx) &=& \hat y\\
+\end{array}
+\right.
+\end{equation*}
+form a nodal basis and that $\hat\varphi_0(\xx) + \hat\varphi_1(\xx) + \hat\varphi_2(\xx) = 1$ for any $\hat\xx$.
+
 \end{xmpl}
 
 Lagrange elements of polynomial degree $k=1,2,3$ can be expressed using barycentric coordinates in higher dimensions, the shape functions are given by:
@@ -409,7 +445,7 @@ The matrix $\matB_K$ is then the matrix of the corresponding change of basis com
 The generalization of the affine mapping in $\xR^d$ from the reference simplex $\hat K = \Fam{\hat\vertex_i}_{0\leq i\leq d}$ to $K = \Fam{\vertex_i}_{0\leq i\leq d}$ is given by $\xx = \vertex_0 + \matJ_{T_K} \hat\xx$,
 with
 \begin{equation*}
-\matJ_{T_K} = \left[\frac{\partial T_{K,i}}{\partial x_j}  \right]_{ij}
+\matJ_{T_K} = \left[\frac{\partial T^i_{K}}{\partial x_j}  \right]_{ij}
 \end{equation*}
 given by colum vectors $(\vertex_j - \vertex_0)$.
 \end{dfntn}
@@ -423,7 +459,7 @@ which can be also written formally component by component
 \begin{equation*}
 \frac{\partial\varphi}{\partial x_i}
 = \sum_{j} \displaystyle\frac{\partial\varphi}{\partial \hat x_j} \frac{\partial \hat x_j}{\partial x_i}
-= \sum_{j} \frac{\partial\varphi}{\partial \hat x_j} \frac{\partial T_{K,j}^{-1}}{\partial x_i}
+= \sum_{j} \frac{\partial\varphi}{\partial \hat x_j} \matJ_{T_K^{-1}}
 \end{equation*}
 and can be interpreted as the decomposition of variation $\md \xx$ along each axis in terms of $\md \hat\xx$.
 Moreover the Jacobian matrix of the inverse mapping is the inverse of the Jacobian matrix
