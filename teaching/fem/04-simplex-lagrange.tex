@@ -34,15 +34,15 @@ Simplicial Lagrange Finite Elements are considered, for which the approximation 
 Simplices are a generalization of triangles to $d$ dimensions, which consists of intervals ($d=1$), triangles ($d=2$), or tetrahedra ($d=3$).
 
 \begin{dfntn}[Simplex]
-Let $\Fam{\vertex_i}$ be a family of $d + 1$ points of $\xR^d$ that do not belong to the same hyperplane, the associated $d$-simplex $K$ is the convex hull of these points.
+Let $\Fam{\vertex_i}_{0\leq i\leq d}$ be a family of $d + 1$ points of $\xR^d$ that do not belong to the same hyperplane, the associated $d$-simplex $K$ is the convex hull of these points.
 Points $\Fam{\vertex_i}$ are called \textit{vertices} of the simplex, and pairs $\epsilon_{ij} = (\vertex_i, \vertex_j)$, $i\neq j$, consist of the eddges.
 The diameter of the simplex is the maximum Euclidean distance between two vertices,
 \[
-\diam(K) = \displaystyle\max_{1\leq i,j\leq d+1}\norm{\vertex_i - \vertex_j}
+\diam(K) = \displaystyle\max_{0\leq i,j\leq d}\norm{\vertex_i - \vertex_j}
 \]
 \end{dfntn}
 
-The convex hull is the minimum subset of $\xR^d$ enclosing the points.
+The convex hull is the minimum convex subset of $\xR^d$ enclosing the points.
 The condition that all points are not in the same hyperplane means that the convex hull does not degenerate into a lower-dimensional entity; for instance in two dimensions, a triangle degenerates to a segment when points are aligned, and in three dimensions, a tetrahedron degenerates if all points are in the same plane.
 Therefore a degenerate simplex has a zero $d$-dimensional Lebesgue measure.
 
@@ -73,7 +73,7 @@ z_0 & z_1 & z_2 & z_3 \\
 
 The determinant of $M_d$ gives the signed $d$-dimensional measure (volume) of the corresponding simplex $K$.
 \begin{equation*}
-\det(M_d) = \pm 2 |K|
+\det(M_d) = \pm d! |K|
 \end{equation*}
 In particular, if all the points are contained in the same hyperplane then any vertex is the linear combinations of others so that the determinant is zero.
 Given that the sign of the determinant depends on permutations of the matrix $M_d$, in practice the meaning of the sign is the \textit{orientation} of the simplex which depends on how vertices are numbered.
