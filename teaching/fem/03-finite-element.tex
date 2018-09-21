@@ -470,7 +470,7 @@ as described, for instance, in the case of stabilized methods for advection-domi
 \section{Transport of the Finite Element}
 
 In practice to avoid the construction of shape functions for any Finite Element $\FE$, $K \in \meshT$, the local shape functions are evaluated for a \textit{reference Finite Element} $\RefFE$ defined on a \textit{reference cell} $\RefK$ and then transported onto any cell $K$ of the mesh.
-For example, in the case of simplicial meshes the reference cell in one dimension is the unit interval $[0,1]$, in two dimensions the unit triangle with vertices $\Set{(0,0),(1,0),(0,1)}$.
+For example, in the case of simplicial meshes the reference cell in one dimension is the unit interval $[0,1]$, in two dimensions the unit triangle with vertices $\Set{(0,0),(1,0),(0,1)}$, and in three dimensions the unit tetrahedron with vertices $\Set{(0,0,0),(1,0,0),(0,1,0),(0,0,1)}$.
 
 \medskip
 Using this approach any Finite Element $\FE$ on the mesh can be generated from $\RefFE$ provided that a mapping can be constructed such that $\FE$ and $\RefFE$ possess equivalent properties.
@@ -493,7 +493,7 @@ By collecting the local shape functions and local degrees of freedom from all th
 \medskip
 For Lagrange elements the transformation used to transport the Finite Element on the mesh is the \textit{affine mapping} $T_K$ but this is not suitable in general.
 An auxiliary mapping is needed to transfer the approximation space on $\hat K$ to the approximation space on $K$.
-The following definition extends the affine-equivalence to a general equivalent property between Finite Elements.
+The following definition extends the affine-equivalence to a general equivalence property between Finite Elements.
 
 \begin{dfntn}[Equivalent Finite Elements]
 Two Finite Elements $\FE$ and $\RefFE$ are said \textit{equivalent} if there exists a bicontinuous bijection $\Phi_K$ from $\xV(\CellK)$ onto $\xV(\RefK)$ such that $\FE$ is generated from $\RefFE$:
@@ -522,7 +522,8 @@ Given that any Finite Element $\FE$ can be generated from a reference Finite Ele
 which means that the interpolation operators and the transport of the elements commute: $\Iop{\RefK,\xV}\mathop{\circ}\Phi_K = \Phi_K\mathop{\circ} \Iop{K,\xV}$.
 
 \begin{rmrk}
-Note that in the literature the mapping between spaces is defined from $\xV(\CellK)$ to $\xV(\RefK)$, while the geometric mapping between cell is defined from $\RefK$ to $\CellK$. The affine-equivalence consists in the case $\Phi_K$ coincides with $T_K^{-1}$, with $\Phi_K: \xCzero(K) \rightarrow \xCzero(\hat K)$ given by $v \mapsto v\mathop{\circ}T_K$. In that case $\SpaceP = \Span\Fam{ \hat\varphi\circ T_K^{-1} }$ and $\Sigma = \Fam{\sigma_i : \sigma_i(v) = \hat\sigma_i(\Phi_K(v)) = \Phi_K(v)(\hat\xi_i) = v\mathop{\circ} T_K(\hat\xi_i)}$.
+Note that in the literature the mapping between spaces is defined from $\xV(\CellK)$ to $\xV(\RefK)$, while the geometric mapping between cells is defined from $\RefK$ to $\CellK$. The affine-equivalence consists in the case $\Phi_K$ coinciding with $T_K^{-1}$. For Lagrange we defined $\Phi_K: \xCzero(K) \rightarrow \xCzero(\hat K)$ given by $v \mapsto v\mathop{\circ}T_K$.
+In that case $\SpaceP = \Span\Fam{ \hat\varphi\circ T_K^{-1} }$ and the degrees of freedom are defined by $\Sigma = \Fam{\sigma_i : \sigma_i(v) = \hat\sigma_i(\Phi_K(v)) = \Phi_K(v)(\hat\xi_i) = v\mathop{\circ} T_K(\hat\xi_i)}$.
 If $\xi_i = T_K(\hat\xi_i)$ then the definition is consistent.
 \end{rmrk}
 
