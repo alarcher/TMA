@@ -2,6 +2,84 @@
 \chapter{Simplicial Lagrange Finite Elements}\label{sec:lagrange}
 
 %-------------------------------------------------------------------------------
+\section{Definitions}
+
+Vector spaces of polynomials are used as approximation spaces to construct Finite Elements.
+
+\begin{dfntn}[Space of polynomials with real coefficients]
+Let $K\subset \xR^d$, $k \in \xN$, $\xP_k(K)$ is the vector space of polynomials with real coefficients of degree $k$ on $K$, and the canonical basis is given by the family $\Fam{ x_1^{\alpha_1}\cdots x_i^{\alpha_i}\cdots x_d^{\alpha_d} : |\alpha| = k }$, with $x_i$ the $i$-th coordinate of $\xx\in\xR^d$.
+\end{dfntn}
+
+The dimension of the space is given by
+\begin{equation*}
+\dim(\xP_k(\xR^d)) = \frac{1}{d!} \prod_{i=1}^d (k + i)
+\end{equation*}
+so that in particular $\dim(\xP_k(\xR^1)) = k + 1$, which means that such polynomials will be uniquely defined by its values at $k+1$ nodes.
+
+\begin{xmpl}
+Linear and quadratic polynomials in different dimensions of space are listed below.
+\begin{equation*}
+\begin{array}{lcl}
+\xPone(\xR^1) &=& \Span\Fam{ 1, x } \\
+\xPone(\xR^2) &=& \Span\Fam{ 1, x, y } \\
+\xPone(\xR^3) &=& \Span\Fam{ 1, x, y, z } \\
+\xPtwo(\xR^1) &=& \Span\Fam{ 1, x, x^2 } \\
+\xPtwo(\xR^2) &=& \Span\Fam{ 1, x, y, xy, x^2, y^2 } \\
+\xPtwo(\xR^3) &=& \Span\Fam{ 1, x, y, z, xy, yz, xz, x^2, y^2, z^2 }
+\end{array}
+\end{equation*}
+\end{xmpl}
+
+Simplicial Lagrange Finite Elements are considered, for which the approximation space $\SpaceP$ will be polynomials on $K$, a $d$-simplex.
+Simplices are a generalization of triangles to $d$ dimensions, which consists of intervals ($d=1$), triangles ($d=2$), or tetrahedra ($d=3$).
+
+\begin{dfntn}[Simplex]
+Let $\Fam{\vertex_i}$ be a family of $d + 1$ points of $\xR^d$ that do not belong to the same hyperplane, the associated $d$-simplex $K$ is the convex hull of these points.
+Points $\Fam{\vertex_i}$ are called \textit{vertices} of the simplex, and pairs $\epsilon_{ij} = (\vertex_i, \vertex_j)$, $i\neq j$, consist of the eddges.
+The diameter of the simplex is the maximum Euclidean distance between two vertices,
+\[
+\diam(K) = \displaystyle\max_{1\leq i,j\leq d+1}\norm{\vertex_i - \vertex_j}
+\]
+\end{dfntn}
+
+The convex hull is the minimum subset of $\xR^d$ enclosing the points.
+The condition that all points are not in the same hyperplane means that the convex hull does not degenerate into a lower-dimensional entity; for instance in two dimensions, a triangle degenerates to a segment when points are aligned, and in three dimensions, a tetrahedron degenerates if all points are in the same plane.
+Therefore a degenerate simplex has a zero $d$-dimensional Lebesgue measure.
+
+\medskip
+Consider the matrix $M_d$ of $\xR^{(d+1)\times(d+1)}$ consisting of column vectors with coordinates of vertices $\Fam{\vertex_i}$ of $K$, and completed by a unit row.
+\begin{equation*}
+M_1 =
+\begin{bmatrix}
+x_0 & x_1 \\
+1   & 1   \\
+\end{bmatrix}
+\qquad
+M_2 =
+\begin{bmatrix}
+x_0 & x_1 & x_2 \\
+y_0 & y_1 & y_2 \\
+1   & 1   & 1   \\
+\end{bmatrix}
+\qquad
+M_3 =
+\begin{bmatrix}
+x_0 & x_1 & x_2 & x_3 \\
+y_0 & y_1 & y_2 & y_3 \\
+z_0 & z_1 & z_2 & z_3 \\
+1   & 1   & 1   & 1   \\
+\end{bmatrix}
+\end{equation*}
+
+The determinant of $M_d$ gives the signed $d$-dimensional measure (volume) of the corresponding simplex $K$.
+\begin{equation*}
+\det(M_d) = \pm 2 |K|
+\end{equation*}
+In particular, if all the points are contained in the same hyperplane then any vertex is the linear combinations of others so that the determinant is zero.
+Given that the sign of the determinant depends on permutations of the matrix $M_d$, in practice the meaning of the sign is the \textit{orientation} of the simplex which depends on how vertices are numbered.
+
+
+%-------------------------------------------------------------------------------
 \section{Polynomial interpolation in one dimension}
 
 Let $\xP_k([a,b])$ be the space of polynomials $p = \sum_{i=0}^k \alpha_i x^i$ of degre lower or equal to $k$ on the interval $[a,b]$, with $c_i x^i$ the monomial of order $i$, $c_i$ a real number.
@@ -12,65 +90,112 @@ Its elements are linearly independent but in the frame of Finite Elements we can
 
 \begin{dfntn}[Lagrange polynomials -- \cite{EG} page 21, \cite{CDE} page 76]
 \label{def:lagrange_poly}
-The Lagrange polynomial of degree $k$ associated with node $\xi_m$ reads:
+The Lagrange polynomial of degree $k$ associated with node $\xi_m$ reads
 \begin{equation*}
-\Lgr{k}{m}(x) = \dfrac{\prod_{\substack{i=0\\i\not=m}}^k (x - \xi_i)}{\prod_{\substack{i=0\\i\not=m}}^k (\xi_m - \xi_i)}
+\Lgr{k}{m}(x) = \frac{\displaystyle\prod_{\substack{i=0\\i\not=m}}^k (x - \xi_i)}{\displaystyle\prod_{\substack{i=0\\i\not=m}}^k (\xi_m - \xi_i)}
+\end{equation*}
+and
+\begin{equation*}
+\sum_{i=0}^{k}\Lgr{k}{i}(x) = 1
 \end{equation*}
 \end{dfntn}
 
-\begin{prpstn}[Nodal basis -- \cite{EG}]
+\begin{prpstn}[Nodal basis]
 \begin{equation*}
 \Lgr{k}{i}(\xi_j) = \delta_{ij}\quad,\;0 \leq i,j \leq k
 \end{equation*}
 \end{prpstn}
 
+
 \bigskip
-The following result gives a pointwise control of the interpolation error:
+The following result gives a pointwise control of the interpolation error.
 \begin{thrm}[Pointwise interpolation inequality -- \cite{CDE} page 79]
 \label{th:polyinterpol}
 Let $u\in\xC^{k+1}([a,b])$ and $\Projh{k} u \in \xP_k([a,b])$ its Lagrange interpolate of order $k$, with Lagrange nodes $\Fam{\xi_i}_{0\leq i \leq k}$, then $\forany x \in [a,b]$:
 \begin{equation*}
-\Abs{u(x) - \Projh{k} u(x)} \leq \Abs{\dfrac{\prod_{i=0}^k (x - \xi_i)}{(k+1)!}}\max_{[a,b]}\Abs{\partial^{k+1} u}
+\Abs{u(x) - \Projh{k} u(x)} \leq \frac{\Abs{\displaystyle\prod_{i=0}^k (x - \xi_i)}}{(k+1)!}\max_{s\in[a,b]}\Abs{\partial^{k+1} u(s)}
 \end{equation*}
 \end{thrm}
 
 %-------------------------------------------------------------------------------
-\section{A nodal element}
+\section{Construction of the Finite Element space}
 
-Let us take $\Fam{\xi_1, \cdots, \xi_N}$ a family of points of $K$ such that $\sigma_i(p)= p(\xi_i)$, $1\leq i \leq N$:
+%-------------------------------------------------------------------------------
+\subsection{A nodal element}
+
+Let us take $\Fam{\Pnode_1, \cdots, \Pnode_N}$ a family of points of $K$ such that $\sigma_i(p)= p(\Pnode_i)$, $1\leq i \leq N$:
 \begin{itemize}
-\item $\Fam{\xi}_{1\leq i \leq N}$ is the set of \textit{geometrical nodes},
-\item $\Fam{\varphi_i}_{1\leq i \leq N}$ is a \textit{nodal basis} of $\SpaceP$, \ie $\varphi_i(\xi_j) = \delta_{ij}$.
+\item $\Fam{\Pnode_i}_{1\leq i \leq N}$ is the set of \textit{geometric nodes},
+\item $\Fam{\varphi_i}_{1\leq i \leq N}$ is a \textit{nodal basis} of $\SpaceP$, \ie $\varphi_i(\Pnode_j) = \delta_{ij}$.
 \end{itemize}
 We can verify, for any $p \in\SpaceP$ that:
 \begin{equation*}
-p(\xi_j) = \sum_{i=1}^{N} \sigma_i(p)\; \underbrace{\varphi_i(\xi_i)}_{\delta_{ij}}\quad,\; 1 \leq i,j \leq N
+p(\Pnode_j) = \sum_{i=1}^{N} \sigma_i(p)\; \underbrace{\varphi_i(\Pnode_i)}_{\delta_{ij}}\quad,\; 1 \leq i,j \leq N
 \end{equation*}
 which reduces to:
 \begin{equation*}
-p(\xi_j) = \sigma_i(p)
+p(\Pnode_j) = \sigma_i(p)
 \end{equation*}
 
 \medskip
 \begin{rmrk}[Support of shape functions]
-The polynomial basis being defined such that $\varphi_j(\xi_i) = \delta_{ij}$ then any shape function $\varphi_i$ is compactly supported on the union of cells containing the node $\xi_i$.
+The polynomial basis being defined such that $\varphi_j(\Pnode_i) = \delta_{ij}$ then any shape function $\varphi_i$ has support on the union of cells containing the node $\Pnode_i$.
 \end{rmrk}
 
-The Lagrange polynomials \eqref{def:lagrange_poly} are used to build directly the one-dimensional shape functions, while in higher dimensions the expression of the shape functions is reformulated in term of barycentric coordinates:
-\begin{eqnarray*}
-\lambda_i:& \xR^d &\fromto \xR\\
-          & \bfx  &\mapsto \lambda_i(\bfx) = 1 - \dfrac{(\bfx - \mathbf\xi_i)\cdot\n_i}{(\mathbf\xi_{f} - \mathbf\xi_i)\cdot\n_i}
-\end{eqnarray*}
-with $\n_i$ the unit outward normal to the facet opposite to $\xi_i$, and $\xi_f$ a node belonging to this facet.
+\subsection{Reference Finite Element}
 
-%-------------------------------------------------------------------------------
-\section{Reference Finite Element}
+To make the connection between the abstract Definition \ref{def:finite_element} and a simple concrete example, the reference element for Lagrange $\xP_1$ in one dimension is given by the following triple $\RefFE$.
 
-%-------------------------------------------------------------------------------
-\section{Lagrange $\xP_k$ elements}
+\medskip
+\begin{dfntn}[$\RefFE$ for Lagrange $\xPone$ 1D]\label{fem:lagrange_p1_1d}
+The Finite Element space Lagrange $\xPone$ 1D approximating
+\begin{equation*}
+\xVh = \Set{ v \in \xCzero(\bar\dom)\cap\xHone(\dom) : v|_K \in\xP_1(K),\forany K \in\meshT }
+\end{equation*}
+is given by
+\begin{itemize}
+\item $\hat K$ is the unit interval $[0,1]$.
+\item $\hat\SpaceP$ is the space of linear polynomials $\xPone([0,1])$ with the basis $(\hat\varphi_0, \hat\varphi_1)$ by Definition \ref{def:lagrange_poly} of $\Lgr{1}{i}$,
+\begin{equation*}
+\hat\varphi_0(\hat x) = \Lgr{1}{0}(\hat x) = 1 - \hat x, \qquad \hat\varphi_1(\hat x) = \Lgr{1}{1}(\hat x) = \hat x
+\end{equation*}
+\item $\hat\Sigma$ is the set of linear forms evaluating the function at Lagrange nodes $\xi_0 = 0$ and $\xi_1 = 1$, $\Fam{\hat\sigma_0:v\mapsto v(\xi_0), \hat\sigma_1:v\mapsto v(\xi_1)}$.
+\end{itemize}
+\end{dfntn}
 
-\begin{figure}[h!]\label{fig:lagrange_P1_1D}
+Consequently the local interpolation operator is
+\begin{equation*}\label{fem:lagrange_local_interpolator}
+\begin{array}{lclcl}
+\IopK{\xV} &:& \xV(K) &\rightarrow& \xVh(K)\\[2ex]
+           & & v   &\mapsto    & \displaystyle v(\xi_0) \varphi_0 + v(\xi_1) \varphi_1
+\end{array}
+\end{equation*}
+
+\begin{prpstn}
+$\FE$ by Definition \ref{fem:lagrange_p1_1d} is a unisolvent $\xHone$-conformal Finite Element.
+\end{prpstn}
+\begin{proof}
+During the lecture we proved that:
+\begin{itemize}
+\item $\xVh\subset\xHone(\dom)$, since piecewise linear and piecewise constant functions belong to $\xLtwo(\dom)$.
+\item $(\varphi_i)$ is a basis of $\xPone(K)$ since shape functions are linearly independent as they satisfy $\varphi_i(\xi_j) = \delta_{ij}$, and they generate the space $\xVh$ as any piecewise linear function coincides with its interpolate.
+\item $(\sigma_i)$ is a dual basis of $\xPone(K)$ since $\sigma_i(\varphi_j) = \delta_{ij}$.
+\end{itemize}
+\end{proof}
+
+\subsection{Lagrange $\xP_k$ elements}
+
+The extension to Lagrange $\xP_k$ is natural as it boils down to construct a basis of $\xP_k$ using $(\Lgr{k}{i})_{0\leq i \leq k}$ and choose the degrees of freedom at the corresponding Lagrange nodes $\Fam{\xi_i}_{0\leq i \leq k}$.
+Given that the unisolvence for Lagrange $\xPone$ is a direct consequence of the construction from a nodal basis, the same argument applies for higher polynomial order as long as degrees of freedom are located at Lagrange nodes.
+As illustration Table \ref{tab:lagrange_1d} depicts the shape functions for $k=1,2,3$ in one dimension with equidistributed nodes (but other distributions are possible and also other polynomials can be used to build nodal elements).
+
+\clearpage
+\begin{table}[hbt!]\label{tab:lagrange_1d}
 \centering
+\begin{tabular}{|cc|}
+\hline
+$\xPone$
+&
 \begin{tikzpicture}
   \begin{axis}[
     xmin=0.,
@@ -91,11 +216,9 @@ with $\n_i$ the unit outward normal to the facet opposite to $\xi_i$, and $\xi_f
     \addplot[black, dotted, thin] coordinates { (1,0) (1,1)};
   \end{axis}
 \end{tikzpicture}
-\caption{Shape functions for Lagrange $\xPone$ on the interval $\hat{K} = [0,1]$.}
-\end{figure}
-
-\begin{figure}[h!]\label{fig:lagrange_P2_1D}
-\centering
+\\ \hline
+$\xPtwo$
+&
 \begin{tikzpicture}
   \begin{axis}[
     xmin=0.,
@@ -118,11 +241,9 @@ with $\n_i$ the unit outward normal to the facet opposite to $\xi_i$, and $\xi_f
     \addplot[darkblue, dotted, thin] coordinates { (0.5,0) (0.5,1)};
   \end{axis}
 \end{tikzpicture}
-\caption{Shape functions for Lagrange $\xPtwo$ on the interval $\hat{K} = [0,1]$.}
-\end{figure}
-
-\begin{figure}[h!]\label{fig:lagrange_P3_1D}
-\centering
+\\ \hline
+$\xP_3$
+&
 \begin{tikzpicture}
   \begin{axis}[
     xmin=0.,
@@ -147,27 +268,180 @@ with $\n_i$ the unit outward normal to the facet opposite to $\xi_i$, and $\xi_f
     \addplot[darkblue, dotted, thin] coordinates { (2/3,0) (2/3,1)};
   \end{axis}
 \end{tikzpicture}
-\caption{Shape functions for Lagrange $\xP_3$ on the interval $\hat{K} = [0,1]$.}
-\end{figure}
+\\ \hline
+\end{tabular}
+\caption{Shape functions for Lagrange $\xPone,\xPtwo,\xP_3$ on the interval $\hat{K} = [0,1]$.}
+\end{table}
 
 %-------------------------------------------------------------------------------
 \section{Extension to multiple dimensions}
 
-\begin{xmpl}[Lagrange elements of polynomial degree $k=1,2$ on triangle]
-The shape functions are given by:
+\subsection{Barycentric coordinates}
+
+Lagrange polynomials \eqref{def:lagrange_poly} are used to build directly the one-dimensional shape functions, while in higher dimensions they can be reformulated in term of barycentric coordinates.
+
+\begin{dfntn}[Barycentric coordinates]
+\begin{eqnarray*}
+\lambda_i:& \xR^d &\fromto \xR\\
+          & \bfx  &\mapsto \lambda_i(\bfx) = 1 - \dfrac{(\bfx - \Pnode_i)\cdot\n_i}{(\Pnode_{f} - \Pnode_i)\cdot\n_i}
+\end{eqnarray*}
+with $\n_i$ the unit outward normal to the facet opposite to $\Pnode_i$, and $\Pnode_f$ a node belonging to this facet.
+\end{dfntn}
+
+The geometric interpretation of barycentric coordinates is given by
+\[
+\displaystyle\lambda_i = \frac{|K_i|}{|K|}
+\]
+with $K_i(\xx)$ the $d$-simplex constructed with point $\xx$ and the facet opposite to $\Pnode_i$, and in particular the point satisfying equal weight $\lambda_i = (d+1)^{-1}$ is the isobarycentre.
+In practice this property can be used to check if a point is inside a simplex: if $\sum_i |K_i(\xx)| > |K|$ then the point is outside of the simplex.
+
+\begin{xmpl}[Lagrange $\xPone$ 1D]
+In one dimension of space, barycentric coordinates on $K = [x_0, x_1]$ are:
 \begin{equation*}
-\begin{array}{lrlll}
-k = 1, & \varphi_i &=& \lambda_i &,\;0 \leq i \leq d\\[2ex]
-k = 2, & \varphi_i &=& \lambda_i (2 \lambda_i - 1) & ,\;0 \leq i \leq d\\
-         & \varphi_i &=& 4 \lambda_i \lambda_j       & ,\;0 \leq i \leq d
+\left\lbrace
+\begin{array}{lcl}
+\lambda_0(x) &=& 1 - \displaystyle\frac{x - x_0}{x_1 - x_0} = \frac{x_1 - x}{x_1 - x_0}\\[2ex]
+\lambda_1(x) &=& 1 - \displaystyle\frac{x - x_1}{x_0 - x_1} = \frac{x - x_0}{x_1 - x_0}\\
 \end{array}
+\right.
 \end{equation*}
+which is exactly the same expression as linear shape functions $\varphi_0$ and $\varphi_1$.
 \end{xmpl}
 
-%-------------------------------------------------------------------------------
-\section{Examples in one dimension}
+\begin{xmpl}[Lagrange $\xPone$ 2D]
+\begin{figure}[h!]\label{fig:barycentric_coords_2d}
+\centering
+\begin{tikzpicture}[scale=2.0]
+\coordinate (hv0) at (0,0);
+\coordinate (hv1) at (2,0);
+\coordinate (hv2) at (0,2);
+\fill[black] (hv0) circle [radius=1pt];
+\fill[black] (hv1) circle [radius=1pt];
+\fill[black] (hv2) circle [radius=1pt];
+\draw (hv0) node [below] {$\hat\vertex_0 = (0,0)$}
+      (hv1) node [below] {$\hat\vertex_1 = (1,0)$}
+      (hv2) node [above] {$\hat\vertex_2 = (0,1)$}
+      node at (0.66,0.66) {$\hat K$};
+\draw [-,thin] (hv0)  --  (hv1)   --  (hv2) --  (hv0);
+\end{tikzpicture}
+\end{figure}
+\end{xmpl}
 
-The approximate problem of Problem \eqref{pb:weak_poissonHone} by Lagrange $\xP_1$ elements reads:
+Lagrange elements of polynomial degree $k=1,2,3$ can be expressed using barycentric coordinates in higher dimensions, the shape functions are given by:
+\begin{equation*}
+\begin{array}{lll}
+k = 1, & \displaystyle\lambda_i &,\;0 \leq i \leq d\\[4ex]
+k = 2, & \displaystyle\lambda_i\;(2 \lambda_i - 1) & ,\;0 \leq i \leq d\\[2ex]
+       & \displaystyle4\;\lambda_i\;\lambda_j       & ,\;0 \leq i < j \leq d\\[4ex]
+k = 3, & \displaystyle\frac{1}{2}\;\lambda_i\;(3\lambda_i - 1)\;(3 \lambda_i - 2) & ,\;0 \leq i \leq d\\[2ex]
+       & \displaystyle\frac{9}{2}\;\lambda_i\;(3\lambda_i - 1)\;\lambda_j & ,\;0 \leq i,j \leq d, i \neq j\\[2ex]
+       & \displaystyle27\;\lambda_i\;\lambda_j\;\lambda_k & ,\;0 \leq i < j < k \leq d\\
+\end{array}
+\end{equation*}
+
+\subsection{Affine transformation}
+
+In Chapter \ref{sec:fem} the one-dimensional affine mapping between the unit interval and any subinterval $K = [x_{i}, x_{i+1}]$ of a one-dimensional mesh $\meshT$ was given by Equation \eqref{eq:affine_mapping_1d}; the link to higher dimensions in space was then briefly discussed.
+The following example describes how the affine mapping $T_K : \hat K \rightarrow K$ is defined for a triangle in $\xR^2$.
+
+\begin{figure}[h!]\label{fig:affine_mapping_2d}
+\centering
+\begin{tikzpicture}[scale=2.0]
+\coordinate (hv0) at (0,0);
+\coordinate (hv1) at (1,0);
+\coordinate (hv2) at (0,1);
+\fill[black] (hv0) circle [radius=1pt];
+\fill[black] (hv1) circle [radius=1pt];
+\fill[black] (hv2) circle [radius=1pt];
+\draw (hv0) node [below] {$\hat\vertex_0 = (0,0)$}
+      (hv1) node [below] {$\hat\vertex_1 = (1,0)$}
+      (hv2) node [above] {$\hat\vertex_2 = (0,1)$}
+      node at (0.33,0.33) {$\hat K$};
+\draw [-,thin] (hv0)  --  (hv1)   --  (hv2) --  (hv0);
+\coordinate (v0) at (3,0.6);
+\coordinate (v1) at (4,0.1);
+\coordinate (v2) at (4.5,1.4);
+\fill[black] (v0) circle [radius=1pt];
+\fill[black] (v1) circle [radius=1pt];
+\fill[black] (v2) circle [radius=1pt];
+\draw (v0) node [below] {$\vertex_0$}
+      (v1) node [below] {$\vertex_1$}
+      (v2) node [above] {$\vertex_2$}
+      node at (3.83,0.7) {$K$};
+\draw [-,thin] (v0)  --  (v1)   --  (v2) --  (v0);
+\draw[->, darkblue, thick] (0.43,0.33) to [out=30,in=165] (3.73,0.7);
+\draw (1.87,0.9) node[black,above] {$T_K$};
+\end{tikzpicture}
+\end{figure}
+
+The shape of the reference triangle $\hat K$ is defined by vectors $\hat\vertex_1 - \hat\vertex_0$ and $\hat\vertex_2 - \hat\vertex_0$, and in the same fashion the shape of any triangle $K$ is defined by vectors $\vertex_1 - \vertex_0$ and $\vertex_2 - \vertex_0$.
+The affine mapping is a simple change of coordinates but the detail is given below for the sake of completness.
+\begin{equation*}
+\left\lbrace
+\begin{array}{lclcl}
+\vertex_1 &=& T_K(\hat\vertex_1) &=& \vertex_0 + (\vertex_1 - \vertex_0)\\
+\vertex_2 &=& T_K(\hat\vertex_2) &=& \vertex_0 + (\vertex_2 - \vertex_0)\\
+\end{array}
+\right.
+\end{equation*}
+and any point $\xx$ of $K$ can be expressed in terms of the relation
+\begin{equation*}
+\xx = \vertex_0 + \lambda (\vertex_1 - \vertex_0) + \mu (\vertex_2 - \vertex_0)
+\end{equation*}
+with given $\lambda$ and $\mu$.
+The reference triangle is defined by the canonical basis of $\xR^2$ as $(\hat\vertex_1 - \hat\vertex_0, \hat\vertex_1 - \hat\vertex_0) = (\bfe_x, \bfe_y)$ so that the affine mapping
+\begin{equation*}
+\xx = \vertex_0 + \matB_K \hat\xx
+\end{equation*}
+satisfies $T_K(\bfe_x) = (\vertex_1 - \vertex_0)$ and $T_K(\bfe_y) = (\vertex_2 - \vertex_0)$.
+The matrix $\matB_K$ is then the matrix of the corresponding change of basis composed of column vectors $\vertex_j - \vertex_0$, thus
+\begin{equation*}
+\xx = \vertex_0 +
+\begin{bmatrix}
+\vertex_{1,x} - \vertex_{0,x} & \vertex_{2,x} - \vertex_{0,x}\\
+\vertex_{1,y} - \vertex_{0,y} & \vertex_{2,y} - \vertex_{0,y}\\
+\end{bmatrix}
+\hat\xx
+\end{equation*}
+
+\medskip
+\begin{dfntn}[Affine mapping from reference simplex in $\xR^d$]
+The generalization of the affine mapping in $\xR^d$ from the reference simplex $\hat K = \Fam{\hat\vertex_i}_{0\leq i\leq d}$ to $K = \Fam{\vertex_i}_{0\leq i\leq d}$ is given by $\xx = \vertex_0 + \matJ_{T_K} \hat\xx$,
+with
+\begin{equation*}
+\matJ_{T_K} = \left[\frac{\partial T_{K,i}}{\partial x_j}  \right]_{ij}
+\end{equation*}
+given by colum vectors $(\vertex_j - \vertex_0)$.
+\end{dfntn}
+
+While the change of coordinates for the mass matrix does not pose any difficulty, the case of the stiffness matrix requires some precisions.
+The derivation of the composition of two functions reads
+\begin{equation*}
+\Grad{\varphi} = \Grad{(\hat\varphi\circ T_K^{-1})} = (\Grad{\hat\varphi\circ T_K^{-1}})\cdot\matJ_{T_K^{-1}}
+\end{equation*}
+which can be also written formally component by component
+\begin{equation*}
+\frac{\partial\varphi}{\partial x_i}
+= \sum_{j} \displaystyle\frac{\partial\varphi}{\partial \hat x_j} \frac{\partial \hat x_j}{\partial x_i}
+= \sum_{j} \frac{\partial\varphi}{\partial \hat x_j} \frac{\partial T_{K,j}^{-1}}{\partial x_i}
+\end{equation*}
+and can be interpreted as the decomposition of variation $\md \xx$ along each axis in terms of $\md \hat\xx$.
+Moreover the Jacobian matrix of the inverse mapping is the inverse of the Jacobian matrix
+\begin{equation*}
+\matJ_{T_K^{-1}} = (\matJ_{T_K}\circ T_K^{-1})^{-1}
+\end{equation*}
+so that
+\begin{equation*}
+\Grad{\varphi} = [(\matJ_{T_K}\circ T_K^{-1})^{-1}]^\trans (\Grad{\hat\varphi\circ T_K^{-1}})
+\end{equation*}
+and since the Jacobian matrix is constant on each cell $K$, it can be simplified as
+\begin{equation*}
+\Grad{\varphi} = [\matJ_{T_K}^{-1}]^\trans (\Grad{\hat\varphi\circ T_K^{-1}})
+\end{equation*}
+%-------------------------------------------------------------------------------
+\section{Local equation for Lagrange $\xPone$ in one dimension}\label{sec:local_equation_poisson_p1}
+
+The approximation of Problem \eqref{pb:weak_poissonHone} by Lagrange $\xP_1$ elements on domain $\dom = (0,1)$ reads:
 \begin{subequations}\label{pb:poisson_p1}
 \begin{equation}
 \left\lvert
@@ -183,5 +457,41 @@ with the approximation space $\xVh$ chosen as:
 \end{equation}
 \end{subequations}
 
+The interval $\bar\dom = [0,1]$ is discretized by partitioning into disjoints subintervals $[x_{n}, x_{n+1}]$, $1\leq n \leq N_K$ of length $h = 1 / N_K$.
+Steps to obtain a weak formulation and deriving a discrete problem were detailed in Section \ref{sec:poisson_lagrange_p1}.
+
+Expressing the local equation for any subinterval $K = [x_{n}, x_{n+1}]$ consists of assembling a matrix corresponding to contributions
+\begin{equation*}
+\matA_{ij} = \int_{K} \partial_{x}\varphi_j(x)\;\partial_{x}\varphi_i(x) \md x
+\end{equation*}
+for shape functions $\varphi_j$ and $\varphi_i$ which have support on $K$.
+Given that the dimension of the Lagrange $\xPone$ element in one dimension is two, with two shape functions $\varphi_n$ and $\varphi_{n+1}$, the local matrix is of dimension $2\times 2$.
+The derivative of $\varphi_n$ and $\varphi_{n+1}$ is constant on $K$ and of opposite signs: $\varphi_n(x) = -1$ and $\varphi_{n+1}(x) = +1$.
+\begin{equation*}
+\matA_{K} = \frac{1}{h}
+\begin{bmatrix}
++1 & -1 \\
+-1 & +1 \\
+\end{bmatrix}
+\end{equation*}
+with row and column indices of the local matrix mapping to row and column indices $(n , n+1)$ of the global matrix.
+Therefore assembling the local equation into the global matrix consists of adding entries of $A_K$ to the submatrix with row and column indices $(n , n+1)$.
+Since each node $x_n$ has two adjacent subintervals $[x_{n-1}, x_{n}]$ and $[x_{n}, x_{n+1}]$, inner nodes (which are not on the boundary) will see two contributions $+1$ on the diagonal, one contribution $-1$ for columns $n-1$, and one contribution $-1$ for columns $n+1$, scaled by factor $1/h$.
+\begin{equation*}
+\matA_{i} = \frac{1}{h}
+\begin{bmatrix}
+0 & \cdots & 0 & -1 & +2 & -1 & 0 & \cdots & 0
+\end{bmatrix}
+\end{equation*}
+If the partition of the interval is not uniform then the assembly should be modified,
+\begin{equation*}
+\matA_{K} = \frac{1}{|K|}
+\begin{bmatrix}
++1 & -1 \\
+-1 & +1 \\
+\end{bmatrix}
+\end{equation*}
+with $|K| = |x_{n+1} - x_{n}|$.
+\newpage
 
 \section{Exercises}
