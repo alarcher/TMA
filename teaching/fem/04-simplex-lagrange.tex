@@ -279,7 +279,7 @@ $\xP_3$
 \subsection{Barycentric coordinates}
 
 Lagrange polynomials \eqref{def:lagrange_poly} construct directly one-dimensional shape functions, while in higher dimensions they can be reformulated in terms of barycentric coordinates.
-High-order Lagrange basis can also be expressed as polyomials of barycentric coordinates.
+High-order Lagrange basis can also be expressed as polynomials of barycentric coordinates.
 
 \begin{dfntn}[Barycentric coordinates]
 Let us consider $K$ a $d$-simplex with vertices $\Fam{\vertex_i}_{0\leq i \leq d}$, any point $\xx \in K$ satisfies
@@ -353,13 +353,13 @@ We can verify easily that shape functions
 \begin{equation*}
 \left\lbrace
 \begin{array}{lclcl}
-\hat\varphi_0(\xx) &=& 1 - \hat x -\hat y\\[2ex]
-\hat\varphi_1(\xx) &=& \hat x\\[2ex]
-\hat\varphi_2(\xx) &=& \hat y\\
+\hat\varphi_0(\hat\xx) &=& 1 - \hat x -\hat y\\[2ex]
+\hat\varphi_1(\hat\xx) &=& \hat x\\[2ex]
+\hat\varphi_2(\hat\xx) &=& \hat y\\
 \end{array}
 \right.
 \end{equation*}
-form a nodal basis and that $\hat\varphi_0(\xx) + \hat\varphi_1(\xx) + \hat\varphi_2(\xx) = 1$ for any $\hat\xx$.
+form a nodal basis and that $\hat\varphi_0(\hat\xx) + \hat\varphi_1(\hat\xx) + \hat\varphi_2(\hat\xx) = 1$ for any $\hat\xx$.
 
 \end{xmpl}
 
@@ -410,6 +410,7 @@ The following example describes how the affine mapping $T_K : \hat K \rightarrow
 \end{tikzpicture}
 \end{figure}
 
+\medskip
 The shape of the reference triangle $\hat K$ is defined by vectors $\hat\vertex_1 - \hat\vertex_0$ and $\hat\vertex_2 - \hat\vertex_0$, and in the same fashion the shape of any triangle $K$ is defined by vectors $\vertex_1 - \vertex_0$ and $\vertex_2 - \vertex_0$.
 The affine mapping is a simple change of coordinates but the detail is given below for the sake of completness.
 \begin{equation*}
@@ -516,10 +517,10 @@ Since each node $x_n$ has two adjacent subintervals $[x_{n-1}, x_{n}]$ and $[x_{
 \begin{equation*}
 \matA_{i} = \frac{1}{h}
 \begin{bmatrix}
-0 & \cdots & 0 & -1 & +2 & -1 & 0 & \cdots & 0
+0 & \cdots & 0 & -1 & \underbrace{+2}_{a_{ii}} & -1 & 0 & \cdots & 0
 \end{bmatrix}
 \end{equation*}
-If the partition of the interval is not uniform then the assembly should be modified,
+If the partition of the interval is not uniform then the assembly of the local equation should be modified,
 \begin{equation*}
 \matA_{K} = \frac{1}{|K|}
 \begin{bmatrix}
