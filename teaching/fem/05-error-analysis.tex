@@ -59,11 +59,11 @@ For any $v_h\in\xVh$
 \begin{equation*}
 E = \int_\dom \Grad(u - u_h)\xDot\Grad(u - v_h) \md x + \int_\dom \Grad(u - u_h)\xDot\Grad(v_h - u_h) \md x
 \end{equation*}
-
+and the second term cancels by virtue of consistency (Galerkin orthogonality), so that Cauchy--Scwarz gives
 \begin{equation*}
 E = \snorm{u - u_h}^2_{\xHone(\dom)} \leq \Bigl(\int_\dom \Abs{\Grad(u - u_h)}^2 \md x\Bigr)^{1/2} \Bigl(\int_\dom \Abs{\Grad(u - v_h)}^2 \md x\Bigr)^{1/2}
 \end{equation*}
-
+thus
 \begin{equation*}
 \snorm{u - u_h}_{\xHone(\dom)} \leq \snorm{u - v_h}_{\xHone(\dom)}
 \end{equation*}
@@ -222,6 +222,8 @@ Replacing by the bounds from the interpolation inequalities we get:
 which concludes the proof. We have then a second order error estimate in $\xLtwo$.
 \end{proof}
 
+\newpage
+%-------------------------------------------------------------------------------
 \section{Exercises}
 
 
