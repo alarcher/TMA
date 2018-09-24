@@ -77,6 +77,7 @@ The determinant of $M_d$ gives the signed $d$-dimensional measure (volume) of th
 \end{equation*}
 In particular, if all the points are contained in the same hyperplane then any vertex is the linear combinations of others so that the determinant is zero.
 Given that the sign of the determinant depends on permutations of the matrix $M_d$, in practice the meaning of the sign is the \textit{orientation} of the simplex which depends on how vertices are numbered.
+If one substract the first column from all the other columns then the link to the Jacobian matrix of the affine mapping $T_K$ introduced ealier is direct: the determinant of $J_{T_K}$ is equal to $d! |K|$ and a negative determinant means that the simplex $K$ is inverted with respect to $\hat K$.
 
 
 %-------------------------------------------------------------------------------
@@ -296,10 +297,10 @@ with $\n_i$ the unit outward normal to the facet opposite to $\vertex_i$, and $\
 
 The geometric interpretation of barycentric coordinates is given by
 \[
-\displaystyle\lambda_i = \frac{\mathrm{meas}(K_i)}{|K|}
+\displaystyle\lambda_i(\xx) = \frac{\mathrm{meas}(K_i)}{|K|}
 \]
 with $\mathrm{meas}(K_i)$ the signed measure of $K_i(\xx)$ the $d$-simplex constructed with point $\xx$ and the facet opposite to $\vertex_i$.
-In particular, points located within $K_i$ have non-negative $\lambda_i$, and the point satisfying equal weight $\lambda_i = (d+1)^{-1}$ is the isobarycentre.
+In particular, points located within $K_i$ have non-negative $\lambda_i$, and the point satisfying equal weight $\lambda = (d+1)^{-1}$ is the isobarycentre.
 In practice this property can be used to check if a point is inside a simplex: if the signed measure of one $\lambda_i$ is negative or if $\sum_i |K_i(\xx)| > |K|$ then the point is outside of the simplex.
 
 \begin{xmpl}[Lagrange $\xPone$ 1D]
