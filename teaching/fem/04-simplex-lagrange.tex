@@ -300,7 +300,7 @@ The geometric interpretation of barycentric coordinates is given by
 \displaystyle\lambda_i(\xx) = \frac{\mathrm{meas}(K_i)}{|K|}
 \]
 with $\mathrm{meas}(K_i)$ the signed measure of $K_i(\xx)$ the $d$-simplex constructed with point $\xx$ and the facet opposite to $\vertex_i$.
-In particular, points located within $K_i$ have non-negative $\lambda_i$, and the point satisfying equal weight $\lambda = (d+1)^{-1}$ is the isobarycentre.
+In particular, points located within $K_i$ have non-negative $\lambda_i$, and the point $\xx_g$ satisfying equal weight $\lambda_i(\xx_g) = (d+1)^{-1}$ is the isobarycentre.
 In practice this property can be used to check if a point is inside a simplex: if the signed measure of one $\lambda_i$ is negative or if $\sum_i |K_i(\xx)| > |K|$ then the point is outside of the simplex.
 
 \begin{xmpl}[Lagrange $\xPone$ 1D]
@@ -427,7 +427,7 @@ and any point $\xx$ of $K$ can be expressed in terms of the relation
 \xx = \vertex_0 + \lambda (\vertex_1 - \vertex_0) + \mu (\vertex_2 - \vertex_0)
 \end{equation*}
 with given $\lambda$ and $\mu$.
-The reference triangle is defined by the canonical basis of $\xR^2$ as $(\hat\vertex_1 - \hat\vertex_0, \hat\vertex_1 - \hat\vertex_0) = (\bfe_x, \bfe_y)$ so that the affine mapping
+The reference triangle is defined by the canonical basis of $\xR^2$ as $(\hat\vertex_1 - \hat\vertex_0, \hat\vertex_2 - \hat\vertex_0) = (\bfe_x, \bfe_y)$ so that the affine mapping
 \begin{equation*}
 \xx = \vertex_0 + \matB_K \hat\xx
 \end{equation*}
@@ -461,7 +461,7 @@ which can be also written formally component by component
 \begin{equation*}
 \frac{\partial\varphi}{\partial x_i}
 = \sum_{j} \displaystyle\frac{\partial\varphi}{\partial \hat x_j} \frac{\partial \hat x_j}{\partial x_i}
-= \sum_{j} \frac{\partial\varphi}{\partial \hat x_j} \matJ_{T_K^{-1}}
+= \sum_{j} \frac{\partial\varphi}{\partial \hat x_j} \bigl[\matJ_{T_K^{-1}}\bigr]_{ji}
 \end{equation*}
 and can be interpreted as the decomposition of variation $\md \xx$ along each axis in terms of $\md \hat\xx$.
 Moreover the Jacobian matrix of the inverse mapping is the inverse of the Jacobian matrix
@@ -530,6 +530,47 @@ If the partition of the interval is not uniform then the assembly of the local e
 \end{bmatrix}
 \end{equation*}
 with $|K| = |x_{n+1} - x_{n}|$.
+
 \newpage
 
 \section{Exercises}
+
+\begin{tmaxrcs}{}{4.1}
+Let us consider the Helmoltz problem posed on the domain $\dom = (0, 1)$, given $\kappa$ a real coefficient:
+\begin{subequations}\label{pb:helmoltz_4}
+\begin{equation}\label{pb:helmoltz_eq}
+- u''(x) + \kappa u(x)  = f(x), \qquad\forany x \in \dom
+\end{equation}
+with $f\in \xLtwo(\dom)$,
+\begin{equation}\label{pb:helmoltz_bc_4}
+u(x) = 0, \qquad\forany x \in \bound
+\end{equation}
+\bigskip
+\end{subequations}
+Let us consider the analytic solution for $\kappa = 1$ and $f(x) = \sin(\pi x)$ given by $u(x) = \sin(\pi x) / (1 + \pi^2)$.
+\bigskip
+\begin{tmatsks}
+\item Derive a weak formulation of Problem \eqref{pb:helmoltz_4}.
+\item Show that the problem solved by a Galerkin method using the discrete space $\xVh = \Span\Fam{\varphi_i}$, $1\leq i \leq N$, can be written under the form of a linear system
+\[
+(\matA + \kappa \matM) \vecu = \vecb
+\]
+\item Express the linear system when the problem is approximated with $\xVh = X^1_h$ the space of linear Lagrange finite element on a uniform grid.
+\item Implement a program to solve the problem with $\xVh = X^1_h$ and compare the discrete solution with the suggested analytic solution.
+\item Express the linear system when the problem is approximated with $\xVh = X^2_h$ the space of quadratic Lagrange finite element on a uniform grid.
+\item Modify the linear system for a general non-uniform grid, and for testing use vertices:
+\begin{equation*}
+\vertices = \Fam{0.0, 0.1, 0.25, 0.3, 0.4, 0.45, 0.5, 0.55, 0.6, 0.7, 0.8, 0.9, 1.0}
+\end{equation*}
+\item Write a function computing integrals by the quadrature formula:
+\begin{equation*}
+\int_0^1 g(x) \md x \approx \frac{1}{2} \bigl[ g(c_1) + g(c_2) \bigr], \quad c_{1} = \frac{1}{2} + \frac{\sqrt{3}}{6}, \quad c_{2} = \frac{1}{2} - \frac{\sqrt{3}}{6}  
+\end{equation*}
+to approximate contributions for each element to the load vector $\vecb$. 
+\item Implement a program to solve the problem with $\xVh = X^2_h$ and compare the discrete solution with the suggested analytic solution.
+\item Modify the program to implement the boundary condition $u(0) = 1$, $u'(x) = 2$. Which changes are required?
+\end{tmatsks}
+\end{tmaxrcs}
+
+
+
