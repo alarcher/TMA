@@ -4,14 +4,114 @@
 \section{Historical perspective}
 
 The physics of phenomena encountered in engineering applications is often modelled under the form of a boundary and initial value problems.
-They consist of relations describing the evolution of physical quantities involving partial derivatives of physical quantities with respect to space and time, such relations are called Partial Differential Equation (PDE).
-Problems involving only variations in space are called boundary value problems as they involve the description of the considered physical quantities at the frontier of the physical domain.
-Equations describing the evolution in time of physical quantities required the definition of an initial condition in time, and are therefore called initial value problems.
-they consist of the coupling of an Ordinary Differential Equation (ODE) in time with a bounday value problem in space.
+They consist of relations describing the evolution of physical quantities involving partial derivatives of physical quantities with respect to space and time, such relations are called Partial Differential Equations (PDEs).
+Problems involving only variations in space on a domain $\dom \subset \xR^d$ are called Boundary Value Problems \eqref{pb:bvp} as they involve the description of the considered physical quantities at the frontier of the physical domain $\bound$.
+\begin{equation}\label{pb:bvp}
+\left\lvert
+\begin{array}{ll}
+\mbox{Find $u: \xR^d \rightarrow \xR^n$ such that:}\\[2ex]
+\displaystyle\matA u(\xx) = f(\xx)\quad,\;\forany  \xx\in \dom\\[2ex]
+\mbox{+ Boundary conditions on $\bound$}
+\end{array}
+\right .
+\end{equation}
+with $\matA$ a \textit{differential operator}, \ie involving partial derivatives of $u$, like the first derivatives with respect to each axis
+\[
+\displaystyle \frac{\partial}{\partial x_i}
+\]
+for $i = 1,\cdots,d$, or more generally
+\[
+\displaystyle \frac{\partial^{|\alpha|}}{\partial^{\alpha_1}x_1\cdots\partial^{\alpha_i}x_i\cdots\partial^{\alpha_d}x_d}
+\]
+given the multi-index $\alpha = (\alpha_1, \cdots, \alpha_i, \cdots, \alpha_d)$, and $|\alpha|$ the module of the multi-index is the order of the derivative.
+
+\medskip
+Equations describing the evolution in time of physical quantities required the definition of an initial condition in time, and are therefore called Initial Value Problems.
+They consist of the coupling of an Ordinary Differential Equation (ODE) in time, a Cauchy Problem \eqref{pb:cauchy}, with a boundary value problem in space.
+\begin{equation}\label{pb:cauchy}
+\left\lvert
+\begin{array}{ll}
+\mbox{Find $y: \xR \rightarrow \xR^n$ such that:}\\[2ex]
+\displaystyle y'(t) = F(t, y(t)),\;\forany  t\in [0,T)\\[2ex]
+\mbox{+ Intial condition at $t = 0$: $y(t=0) = y_0$}
+\end{array}
+\right .
+\end{equation}
+with $F:\xR\times\xR^n \rightarrow \xR^n$.
+
+\medskip
 The term \textit{Finite Element Method} denotes a family of approaches developed to compute an approximate solution to boundary and initial value problems.
+
+\begin{xmpl}[Partial Differential Equations] A few usual mathematical models are listed below.
+
+\begin{itemize}
+\item
+Transfer of heat/mass by conduction/diffusion, ``Fourier's Law'':
+\[
+- \kappa \Delta T = f
+\]
+with $\kappa$ constant conductivity/diffusivity, and for example $T$ temperature.
+\item
+Unsteady heat equation:
+\[
+\frac{\partial T}{\partial t} - \kappa \Delta T = f
+\]
+with $\kappa$ thermal diffusivity, and $T$ temperature.
+\item
+Transport of a passive scalar field:
+\[
+\frac{\partial c}{\partial t} + \beta\xDot\nabla c = f
+\]
+with $\beta$ advective vector field, and for example $c$ a concentration.
+\item
+Burgers equation in one dimension (Forsyth, 1906, and Burgers, 1948):
+\[
+\frac{\partial u}{\partial t} + u\frac{\partial u}{\partial x} - \nu\frac{\partial^2 u}{\partial x^2} = 0
+\]
+with $\nu$ a viscosity, possibly zero in the inviscid case.
+\item
+Wave equation in one dimension (D'Alembert, 1747):
+\[
+\frac{\partial^2 u}{\partial t^2} - c^2 \frac{\partial^2 u}{\partial x^2} = 0
+\]
+with $c$ a celerity.
+\item
+Euler equations, inviscid and incompressible case (Euler, 1757):
+\[
+\left\lbrace
+\begin{array}{l}
+\displaystyle\frac{\partial \uu}{\partial t} + (\uu\xDot\Grad)\uu + \Grad p = \bff\\[2ex]
+\Div \uu = 0
+\end{array}
+\right.
+\]
+with $\nu$ a viscosity, possibly zero in the inviscid case.
+\item
+Navier--Stokes equations, homogeneous, incompressible and isothermal case (Navier, 1822, then 19th century):
+\[
+\left\lbrace
+\begin{array}{l}
+\displaystyle\frac{\partial \uu}{\partial t} + (\uu\xDot\Grad)\uu - \Div\Bigl(\tau(\uu, p)\Bigr) = \bff\\[2ex]
+\Div \uu = 0
+\end{array}
+\right.
+\]
+with $\tau(\uu, p) = \nu \Grad\uu - p\matII$ for a Newtonian fluid.
+\end{itemize}
+\end{xmpl}
 
 The study of equations involving derivatives of the unknown has led to rethinking the concept of derivation: from the idea of variation, then the study of the Cauchy problem, finally to the generalization of the notion of derivative with the Theory of Distributions.
 The main motivation is the existence of discontinuous solutions produced by classes of PDEs or irregular data, for which the classical definition of a derivative is not suitable.
+The concept of \textit{weak derivative} introduced by L. Schwartz in his Theory of Distributions, was used by mathematicians like J. Leray (Navier--Stokes), or J.-L. Lions (general elliptic and parabolic problems) to seek solutions to Partial Differential Equations.
+The idea is to replace the pointwise approach of the classical (strong) derivative
+\[
+\lim_{h\tendsto 0} \frac{f(x + h) - f(x)}{h}
+\]
+which requires regularity (derivability, continuity) at any point in space and time by the derivation in the distributional sense, \ie by considering the action of linear forms on smooth functions, such as
+\[
+T: \varphi \mapsto \int_{\dom} f \varphi
+\]
+with $\varphi$ a sufficiently regular function such that the integral is defined.
 
 \section{Weak solution to the Dirichlet problem}
 
