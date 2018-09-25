@@ -21,7 +21,7 @@ For consistency with the notation introduced in Chapter \ref{sec:fem} for the La
 %-------------------------------------------------------------------------------
 \section{Preliminary discussion on the Poisson problem}
 
-In the previous chapters, to the weak formulation derived for the Poisson problem with homogeneous Dirichlet boundary conditions and $f\in\xLtwo(\dom)$,
+In the previous chapters, the weak problem derived for the Poisson problem with homogeneous Dirichlet boundary conditions and $f\in\xLtwo(\dom)$,
 \begin{equation*}
 \left\lvert
 \begin{array}{ll}
@@ -30,7 +30,7 @@ In the previous chapters, to the weak formulation derived for the Poisson proble
 \end{array}
 \right.
 \end{equation*}
-we associated a Galerkin problem,
+was approximated by a Galerkin problem,
 \begin{equation*}
 \left\lvert
 \begin{array}{ll}
@@ -81,7 +81,7 @@ Their local interpolation operator given here in one dimension,
 \begin{equation*}
 \LgrK{k} v = \sum_{j=0}^k v(\xi_j) \Lgr{k}{j}
 \end{equation*}
-satisfies Inequality \eqref{th:polyinterpol} controlling the \textit{interpolation error} $e_\imath = v - \LgrK{k} v$ pointwise on $K$.
+with Lagrange nodes $\Fam{\xi_j}$, satisfies Inequality \eqref{th:polyinterpol} controlling the \textit{interpolation error} $e_\imath = v - \LgrK{k} v$ pointwise on $K$.
 
 \medskip
 Inequality \eqref{eq:error_estimate_h1} can be written
@@ -111,8 +111,8 @@ will be considered, then more general results will be stated without proof.
 %-------------------------------------------------------------------------------
 \section{Stability of the Lagrange interpolation operator}
 
-Before moving to interpolation inequalities, the \textit{stability} of the interpolation operator should be proved: such estimate shows that any interpolate of a function in $\xV$ is also in $\xV$.
-The exposé is restricted to the one-dimensional case and detailed so that anybody without prior experience with estimates should be able to follow the procedure.
+Before moving to interpolation inequalities, the \textit{stability} of the interpolation operator should be proved: such estimate shows that the interpolate of any function in $\xV$ is also in $\xV$.
+The exposé is restricted to the one-dimensional case and detailed so that anybody without prior experience in estimates should be able to follow the procedure.
 
 \medskip
 Interpolation properties need to be reformulated in terms of estimates in $\xLtwo$ norms.
@@ -126,7 +126,7 @@ To give a better idea, let us introduce below an ingredient used for subsequent 
 \end{array}
 \end{equation*}
 using Cauchy--Schwarz with $\Abs{v'(s)}$ and $\indic{[\xi, x]}$, the indicator function on $[\xi, x]$.
-The right-hand side is bounded since we assumed that $v\in\xHone(I)$), so that
+The right-hand side is bounded since we assumed that $v\in\xHone(I)$, so that
 \begin{equation}\label{eq:interpolation_estimate_1}
 \Abs{v(x) - v(\xi)} \leq \displaystyle|x - \xi|^{\sfrac{1}{2}}\snorm{v}_{\xHone([\xi, x])}
 \end{equation}
