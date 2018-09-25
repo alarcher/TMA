@@ -217,7 +217,7 @@ we can conclude using the Poincaré Inequality with constant $c_p$,
 %-------------------------------------------------------------------------------
 \section{\textit{A priori} error estimate with Lagrange $\xPone$}
 
-\begin{thrm}[Interpolation Inequality in $\xHonec(\dom)$ and $\xLtwo(\dom)$]
+\begin{prpstn}[Interpolation Inequalities for Lagrange $\xPone$]
 There exists two positive constants $C_1$ and $C_0$ such that for any $v\in\xHtwo(\dom)$
 \begin{equation}
 \snHoneD{v - \Lgrh{1}v}  \leq C_1 \sizeT\;\snHtwoD{v}
@@ -226,39 +226,53 @@ There exists two positive constants $C_1$ and $C_0$ such that for any $v\in\xHtw
 \nLtwo{v - \Lgrh{1}v}  \leq C_0 \sizeT^2 \snHtwoD{v}
 \end{equation}
 with $\sizeT = \max_{K\in\meshT}(h_K)$
-\end{thrm}
+\end{prpstn}
 \begin{proof}
-The proof is based on a decomposition of the error per element and on the Mean-Value Theorem (also known as Rolle Theorem).
-The global interpolation error is then recovered by summing over the cells.
+The proof is sketched in one dimension, based on a decomposition of the error per element and on the Mean-Value Theorem (also known as Rolle Theorem).
+The global interpolation error is then recovered by summing over the cells, given that
+\begin{equation*}
+\norm{e_\imath}^2_{\xLtwo(\dom)} = \sum_{K\in\meshT} \int_K\Abs{e_\imath(x)}^2 \md x = \sum_{K\in\meshT} \norm{e_\imath}^2_{\xLtwo(K)}
+\end{equation*}
 This makes sense since the polynomial interpolation estimate is defined pointwise, it is then a local property.
-In the same spirit as the stability of the interpolation operator which we proved first elementwise for Proposition \ref{prpstn:stability_lagrange_p1}.
+In the same spirit as the stability of the interpolation operator which we proved first elementwise for Proposition \ref{prpstn:stability_lagrange_p1}, the estimate is derived in $\xHone$ semi-norm then in $\xLtwo$ norm.
 
 \medskip
-The main technical ingredient is given by Inequality \eqref{eq:interpolation_estimate_1} for a given function $w\in\xHone(\dom)$,
-\begin{equation}
+The main technical ingredient is given by Inequality \eqref{eq:interpolation_estimate_1} for a given function $w\in\xHone(K)$,
+\begin{equation}\label{eq:interpolation_estimate_trick_1}
 \Abs{w(x) - w(\xi)} \leq \displaystyle|x - \xi|^{\sfrac{1}{2}}\snorm{w}_{\xHone([\xi, x])}
 \end{equation}
-with $\xi, x\in\dom$.
-If we choose $\xi$ such that $w(\xi)$ cancels and if we integrate the square of the expression over any $K\in\meshT$, then we get a control of $w$ in $\xLtwo(\dom)$,
-\begin{equation}
-\Abs{w(x) - w(\xi)} \leq \displaystyle|x - \xi|^{\sfrac{1}{2}}\snorm{w}_{\xHone([\xi, x])}
+with $\xi, x\in K$.
+If we choose $\xi$ such that $w(\xi)$ cancels and if we integrate the square of the expression over any $K\in\meshT$, then we get a control of $w$ in $\xLtwo(K)$,
+\begin{equation}\label{eq:interpolation_estimate_trick_2}
+\norm{w}_{\xLtwo(K)} \leq \displaystyle|x - \xi|^{\sfrac{1}{2}}\left(\int_K \snorm{w}^2_{\xHone([\xi, x])}\md x\right)^{\sfrac{1}{2}} \leq h_K\snorm{w}_{\xHone(K)}
 \end{equation}
 
 \medskip
 \begin{tmaproofitems}
 \item Estimate in $\snorm{\;\cdot\;}_{\xHone}$:\\
-First, an elementwise estimate is derived with the same argument as Inequality \eqref{},
+The elementwise estimate on any $K = [x_{i}, x_{i+1}]$ is obtained by taking $w = (v - \Lgrh{1}v)'$ in Inequality \eqref{eq:interpolation_estimate_trick_1}.
+Given that $x_i$ and $x_{i+1}$ are Lagrange nodes, $\bigl(v-\Lgrh{1}v\bigr)(x_i) = 0$ and $\bigl(v-\Lgrh{1}v\bigr)(x_{i+1}) = 0$, then by virtue of the Mean-Value Theorem, there exists $\xi\in[x_{i}, x_{i+1}]$ such that the derivative cancels, $(v-\Lgrh{1}v)'(\xi) = 0$.
+Moreover $\snorm{(v-\Lgrh{1}v)'}_{\xHone(K)} = \snorm{v'}_{\xHone(K)}$ since $(v-\Lgrh{1}v)'' = v'' - (\Lgrh{1}v)''$ by linearity and $(\Lgrh{1}v)''$ is identically zero, so we get directly
 \begin{equation*}
-\begin{array}{lcl}
-\snorm{v - \Lgrh{1}v}^2_{\xHone(K)} &=&\displaystyle\sum_{K\in\meshT} \int_K h_K^{-2}\Abs{v(x_{i+1})- v(x_{i})}^2 \md x\\[2ex]
-                              &\leq& h_K^{-\sfrac{1}{2}}\Abs{v(x_{i+1})- v(x_{i})}\\[2ex]
-                              &\leq& h_K^{-\sfrac{1}{2}} h_K^{\sfrac{1}{2}}\snorm{v}_{\xHone(K)}\\[2ex]
-                              &\leq& \snorm{v}_{\xHone(K)}\\
-\end{array}
+\norm{(v-\Lgrh{1}v)'}_{\xLtwo(K)} \leq h_K\snorm{v'}_{\xHone(K)}
 \end{equation*}
-\item Estimate in $\norm{\;\cdot\;}_{\xLtwo}$:
+in the same fashion as Inequality \eqref{eq:interpolation_estimate_trick_2}, which can be rewritten under the expected form
+\begin{equation}\label{eq:interpolation_estimate_h1}
+\snorm{v-\Lgrh{1}v}_{\xHone(K)} \leq h_K\snorm{v}_{\xHtwo(K)}
+\end{equation}
+\item Estimate in $\norm{\;\cdot\;}_{\xLtwo}$:\\
+The elementwise estimate on any $K = [x_{i}, x_{i+1}]$ is obtained by taking $w = (v - \Lgrh{1}v)$ in Inequality \eqref{eq:interpolation_estimate_trick_1}.
+Given that $\bigl(v-\Lgrh{1}v\bigr)(x_i) = 0$ and $\bigl(v-\Lgrh{1}v\bigr)(x_{i+1}) = 0$, a similar argument as for the $\xHone$ semi-norm can be used with $\xi = x_i$.
+Inequality \eqref{eq:interpolation_estimate_trick_2} with $w = (v - \Lgrh{1}v)$ reads
+\begin{equation*}
+\norm{v-\Lgrh{1}v}_{\xLtwo(K)} \leq h_K\snorm{v-\Lgrh{1}v}_{\xHone(K)}
+\end{equation*}
+so that using Inequality \eqref{eq:interpolation_estimate_h1}
+\begin{equation*}
+\norm{v-\Lgrh{1}v}_{\xLtwo(K)} \leq h^2_K\snorm{v}_{\xHtwo(K)}
+\end{equation*}
 \end{tmaproofitems}
-
+In both cases global estimates are obtained by summing over $K\in\meshT$ and factoring $\sizeT = \max_{K\in\meshT}(h_K)$.
 \end{proof}
 
 The approximation error being bounded in $O(\sizeT)$ the method is first order in $\xHonec(\dom)$.
@@ -277,6 +291,13 @@ we get
 \end{equation*}
 Thus, we verify that the approximation is first order in $\xHone(\dom)$.
 \end{rmrk}
+
+\begin{prpstn}[Interpolation Inequality for Lagrange $\xP_k$, \cite{EG}]
+Let $0\leq s \leq k$, there exists a positive constant $C$ such that for any $v\in\xH^{s+1}(\dim)$
+\begin{equation*}
+\norm{v-\Lgrh{1}v}_{\xLtwo(K)} + \sizeT \snorm{v-\Lgrh{1}v}_{\xHone(K)}\leq C h^{s+1}_K\snorm{v}_{\xH^{s+1}(K)}
+\end{equation*}
+\end{prpstn}
 
 %-------------------------------------------------------------------------------
 \section{Superconvergence}
