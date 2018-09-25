@@ -61,7 +61,7 @@ E = \int_\dom \Grad(u - u_h)\xDot\Grad(u - v_h) \md x + \int_\dom \Grad(u - u_h)
 \end{equation*}
 and the second term cancels by virtue of consistency (Galerkin orthogonality), so that Cauchy--Scwarz gives
 \begin{equation*}
-E = \snorm{u - u_h}^2_{\xHone(\dom)} \leq \Bigl(\int_\dom \Abs{\Grad(u - u_h)}^2 \md x\Bigr)^{1/2} \Bigl(\int_\dom \Abs{\Grad(u - v_h)}^2 \md x\Bigr)^{1/2}
+E = \snorm{u - u_h}^2_{\xHone(\dom)} \leq \left(\int_\dom \Abs{\Grad(u - u_h)}^2 \md x\right)^{\sfrac{1}{2}} \left(\int_\dom \Abs{\Grad(u - v_h)}^2 \md x\right)^{\sfrac{1}{2}}
 \end{equation*}
 thus
 \begin{equation*}
@@ -79,18 +79,25 @@ means that the \textit{approximation error} $e_h = u - u_h$ is controlled as soo
 In a third stage, we introduced Finite Element approximation spaces based on Lagrange polynomials, Definition \ref{def:lagrange_poly}.
 Their local interpolation operator given here in one dimension,
 \begin{equation*}
-\LgrK{k} v = \sum_{j=0}^k v(x_j) \Lgr{k}{j}
+\LgrK{k} v = \sum_{j=0}^k v(\xi_j) \Lgr{k}{j}
 \end{equation*}
-satisfies Inequality \eqref{th:polyinterpol} controlling the interpolation error $\Abs{v - \LgrK{k} v}$ pointwise on $K$.
+satisfies Inequality \eqref{th:polyinterpol} controlling the \textit{interpolation error} $e_\imath = v - \LgrK{k} v$ pointwise on $K$.
 
 \medskip
-The idea is to derive similar inequalities but in Sobolev and Lebesgue norms so that the right-hand side of Equation \eqref{eq:error_estimate_h1} can be bounded by a function $\epsilon$ of the mesh size $\sizeT$, such that $\epsilon(\sizeT) \tendsto 0$ as $\sizeT \tendsto 0$.
+Inequality \eqref{eq:error_estimate_h1} can be written
+\begin{equation}\label{eq:error_estimate_h1_2}
+\snorm{e_h}_{\xHone(\dom)} \leq \snorm{e_\imath}_{\xHone(\dom)}
+\end{equation}
+which means that the \textit{approximation error} is bounded by the \textit{interpolation error}.
+From pointwise polynomial interpolation estimates we need to derive inequalities in Sobolev and Lebesgue norms, so that the right-hand side of Equation \eqref{eq:error_estimate_h1_2} can be bounded by a function $\epsilon$ of the mesh size $\sizeT$, such that $\epsilon(\sizeT) \tendsto 0$ as $\sizeT \tendsto 0$; convergence of the approximation is then ensured.
+
+\medskip
 Inequalities of the form
 \begin{equation*}
 \norm{e_h} \leq C \epsilon(\sizeT)
 \end{equation*}
 for some constant $C$ depending on the domain and the exact solution, are called \textit{a priori error estimates}.
-Usually $\epsilon(\sizeT) \sim O(\sizeT^r)$, with $r > 0$ the convergence rate of the method.
+Usually $\epsilon(\sizeT) \sim O(\sizeT^r)$, with $r > 0$ the convergence rate of the method, which represents the \textit{accuracy}.
 In this case sequences of approximate solution $(u_h)_{\sizeT}$ converge to the exact solution $u$, as fast as the function $\epsilon$ allows, when $\sizeT$ tends to zero.
 
 \medskip
@@ -105,51 +112,150 @@ will be considered, then more general results will be stated without proof.
 \section{Stability of the Lagrange interpolation operator}
 
 Before moving to interpolation inequalities, the \textit{stability} of the interpolation operator should be proved: such estimate shows that any interpolate of a function in $\xV$ is also in $\xV$.
-Inequality \eqref{eq:stability_lagrange_p1} is also called uniform continuity in zero of the interpolation operator since $C$ does not depend on $\meshT$, but only on the domain $\dom$.
+The exposé is restricted to the one-dimensional case and detailed so that anybody without prior experience with estimates should be able to follow the procedure.
+
+\medskip
+Interpolation properties need to be reformulated in terms of estimates in $\xLtwo$ norms.
+First they are expressed elementwise, then on the entire domain by collecting contributions over the mesh.
+To give a better idea, let us introduce below an ingredient used for subsequent estimates, considering a function $v\in\xHone(I)$ with $I$ an interval, and two points $\xi, x \in I$.
+\begin{equation*}
+\begin{array}{lcl}
+\Abs{v(x) - v(\xi)} &=&    \displaystyle\Abs{\int_\xi^x v'(s) \md s}\\[2ex]
+                    &\leq& \displaystyle\int_\xi^x \Abs{v'(s)} \md s\\[2ex]
+                    &\leq& \displaystyle|x - \xi|^{\sfrac{1}{2}}\left(\int_\xi^x \Abs{v'(s)}^{2} \md s\right)^{\sfrac{1}{2}}\\[2ex]
+\end{array}
+\end{equation*}
+using Cauchy--Schwarz with $\Abs{v'(s)}$ and $\indic{[\xi, x]}$, the indicator function on $[\xi, x]$.
+The right-hand side is bounded since we assumed that $v\in\xHone(I)$), so that
+\begin{equation}\label{eq:interpolation_estimate_1}
+\Abs{v(x) - v(\xi)} \leq \displaystyle|x - \xi|^{\sfrac{1}{2}}\snorm{v}_{\xHone([\xi, x])}
+\end{equation}
+gives a bound involving the $\xHone$ semi-norm.
+
+\medskip
+Now let us consider that $\xi$ realizes the minimum of $|v|$ on $I$, then
+\begin{equation*}
+\Abs{v(x)} \leq |x - \xi|^{\sfrac{1}{2}}\snorm{v}_{\xHone([\xi, x])} + \Abs{v(\xi)},\quad \xi = \argmin{s\in I} |v(s)|
+\end{equation*}
+using the second triangle inequality.
+
+\medskip
+Immediately if $|v(\xi)| = 0$ the estimate gives for any $x\in I$
+\begin{equation}\label{eq:interpolation_estimate_2}
+\Abs{v(x)} \leq |I|^{\sfrac{1}{2}}\snorm{v}_{\xHone(I)}
+\end{equation}
+but otherwise we can bound $|v(\xi)|$ using
+\begin{equation*}
+\Abs{v(\xi)} = \Abs{x-\xi}^{-1} \int_\xi^x \Abs{v(s)} \md s \leq |x - \xi|^{-\sfrac{1}{2}}\norm{v}_{\xLtwo([\xi, x])}
+\end{equation*}
+so that
+\begin{equation*}
+\Abs{v(x)} \leq |x - \xi|^{\sfrac{1}{2}}\snorm{v}_{\xHone([\xi, x])} + |x - \xi|^{-\sfrac{1}{2}}\norm{v}_{\xLtwo([\xi, x])}
+\end{equation*}
+thus for any $x\in I$
+\begin{equation}\label{eq:interpolation_estimate_2}
+\Abs{v(x)} \leq |I|^{\sfrac{1}{2}}\snorm{v}_{\xHone(I)} + |I|^{-\sfrac{1}{2}}\norm{v}_{\xLtwo(I)}
+\end{equation}
+in other words
+\begin{equation}\label{eq:interpolation_estimate_3}
+\norm{v}_{\xLinfty(I)} \leq |I|^{\sfrac{1}{2}}\snorm{v}_{\xHone(I)} + |I|^{-\sfrac{1}{2}}\norm{v}_{\xLtwo(I)}
+\end{equation}
+
+Inequality \eqref{eq:stability_lagrange_p1} is also called \textit{uniform continuity} in zero of the interpolation operator since $C$ should not depend on $\meshT$; but possibly depends on $\dom$.
 
 \begin{prpstn}[$\xHone$-stability of the Lagrange $\xPone$ interpolation operator]
+\label{prpstn:stability_lagrange_p1}
 There exists a constant $C>0$ such that,
 \begin{equation}\label{eq:stability_lagrange_p1}
 \norm{\Lgrh{1} v}_{\xHone(\dom)} \leq C\; \norm{v}_{\xHone(\dom)}
 \end{equation}
 \end{prpstn}
 \begin{proof}
-Since $\norm{\;\cdot\;}^2_{\xHone} = \norm{\;\cdot\;}^2_{\xLtwo} + \snorm{\;\cdot\;}^2_{\xHone}$ then the $\xLtwo$ norm of the interpolate and its derivative should be controlled. Since controlling the derivative of a function in $\xLtwo$ gives a control on the function in $\xLtwo$ (Poincaré inequality), it is natural to start looking for an estimate of $\snorm{\;\cdot\;}_{\xHone}$, then move to $\norm{\;\cdot\;}_{\xLtwo}$.
+Since $\norm{\;\cdot\;}^2_{\xHone} = \norm{\;\cdot\;}^2_{\xLtwo} + \snorm{\;\cdot\;}^2_{\xHone}$ then the $\xLtwo$ norm of the interpolate and its derivative should be controlled. Since controlling the derivative of a function in $\xLtwo$ gives a control on the function in $\xLtwo$ (Poincaré Inequality), it is natural to start looking for an estimate of $\snorm{\;\cdot\;}_{\xHone}$, then move to $\norm{\;\cdot\;}_{\xLtwo}$.
 \begin{tmaproofitems}
-\item Estimate in $\snorm{\;\cdot\;}_{\xHone}$:
+\item Estimate in $\snorm{\;\cdot\;}_{\xHone}$:\\
+Let us consider the restriction of the interpolation operator to any $K = [x_{i}, x_{i+1}] \in \meshT$
 \[
 \Restrict{\bigl(\Lgrh{1}v\bigr)'}{K} = \bigl(\LgrK{1}v\bigr)' = h_K^{-1}\bigl(v(x_{i+1})- v(x_{i}))
 \]
-
-
-
-\item Estimate in $\norm{\;\cdot\;}_{\xLtwo}$:
+which is constant over $K$.
+The elementwise $\xHone$ semi-norm of the interpolate can be bounded using Inequality \eqref{eq:interpolation_estimate_1}
+\begin{equation*}
+\begin{array}{lcl}
+\snorm{\LgrK{1}v}_{\xHone(K)} &=&\displaystyle \left(\int_K h_K^{-2}\Abs{v(x_{i+1})- v(x_{i})}^2 \md x\right)^{\sfrac{1}{2}}\\[2ex]
+                              &\leq& h_K^{-\sfrac{1}{2}}\Abs{v(x_{i+1})- v(x_{i})}\\[2ex]
+                              &\leq& h_K^{-\sfrac{1}{2}} h_K^{\sfrac{1}{2}}\snorm{v}_{\xHone(K)}\\[2ex]
+                              &\leq& \snorm{v}_{\xHone(K)}\\
+\end{array}
+\end{equation*}
+Summing over $K$ and using the definition of $\sizeT$,
+\begin{equation*}
+\snorm{\Lgrh{1}v}_{\xHone(\dom)} \leq \snorm{v}_{\xHone(\dom)}
+\end{equation*}
+\item Estimate in $\norm{\;\cdot\;}_{\xLtwo}$:\\
+In this case we do not need to prove an elementwise estimate first as we already introduced a control of pointwise values in terms of the $\xHone$ seminorm and the $\xLtwo$ norm: it boils down to estimate the maximum attained by the linear interpolate.
+\begin{equation*}
+\begin{array}{lcl}
+\norm{\Lgrh{1}v}_{\xLtwo(\dom)} &=&\displaystyle \left(\int_\dom \Abs{\Lgrh{1}v}^2 \md x\right)^{\sfrac{1}{2}}\\[2ex]
+                              &\leq&\displaystyle \left(\int_\dom \norm{\Lgrh{1}v}_{\xLinfty(\dom)}^2 \md x\right)^{\sfrac{1}{2}}\\[2ex]
+                              &\leq& |\dom|^{\sfrac{1}{2}} \norm{\Lgrh{1}v}_{\xLinfty(\dom)}\\[2ex]
+                              &\leq& |\dom|^{\sfrac{1}{2}} \norm{v}_{\xLinfty(\dom)}\\
+\end{array}
+\end{equation*}
+the last line is given by the $\xLinfty$ stability of the linear interpolation: the function and its linear interpolate coincide at Lagrange nodes so that $\norm{\Lgrh{1}v}_{\xLinfty(\dom)} \leq \norm{v}_{\xLinfty(\dom)}$.
+Therefore, using Inequality \eqref{eq:interpolation_estimate_3}
+\begin{equation*}
+\norm{\Lgrh{1}v}_{\xLtwo(\dom)}  \leq |\dom|^{\sfrac{1}{2}}\snorm{v}_{\xHone(\dom)} + |\dom|^{-\sfrac{1}{2}}\norm{v}_{\xLtwo(\dom)}
+\end{equation*}
+we can conclude using the Poincaré Inequality with constant $c_p$,
+\begin{equation*}
+\norm{\Lgrh{1}v}_{\xLtwo(\dom)}  \leq (|\dom| + c_p^{-1})\snorm{v}_{\xHone(\dom)}
+\end{equation*}
 \end{tmaproofitems}
 \end{proof}
 
 %-------------------------------------------------------------------------------
 \section{\textit{A priori} error estimate with Lagrange $\xPone$}
 
-\begin{thrm}[Interpolation inequality in $\xHonec(\dom)$ and $\xLtwo(\dom)$]
-Let $v \in \xHtwo(\dom)$, $\exists C_1 > 0$ such that
+\begin{thrm}[Interpolation Inequality in $\xHonec(\dom)$ and $\xLtwo(\dom)$]
+There exists two positive constants $C_1$ and $C_0$ such that for any $v\in\xHtwo(\dom)$
 \begin{equation}
 \snHoneD{v - \Lgrh{1}v}  \leq C_1 \sizeT\;\snHtwoD{v}
 \end{equation}
-and $\exists C_0 > 0$ such that
 \begin{equation}
 \nLtwo{v - \Lgrh{1}v}  \leq C_0 \sizeT^2 \snHtwoD{v}
 \end{equation}
-with $\sizeT = \max_{K\in\meshT}(h_K)$.
+with $\sizeT = \max_{K\in\meshT}(h_K)$
 \end{thrm}
 \begin{proof}
-The proof is based on the Mean-Value Theorem and a decomposition of the error per element.
+The proof is based on a decomposition of the error per element and on the Mean-Value Theorem (also known as Rolle Theorem).
 The global interpolation error is then recovered by summing over the cells.
-This makes sense since the polynomial estimate is defined pointwise: this is then a local property.
-In the same spirit the stability of the interpolation operator is also a local property, defined element-wise.
+This makes sense since the polynomial interpolation estimate is defined pointwise, it is then a local property.
+In the same spirit as the stability of the interpolation operator which we proved first elementwise for Proposition \ref{prpstn:stability_lagrange_p1}.
+
+\medskip
+The main technical ingredient is given by Inequality \eqref{eq:interpolation_estimate_1} for a given function $w\in\xHone(\dom)$,
+\begin{equation}
+\Abs{w(x) - w(\xi)} \leq \displaystyle|x - \xi|^{\sfrac{1}{2}}\snorm{w}_{\xHone([\xi, x])}
+\end{equation}
+with $\xi, x\in\dom$.
+If we choose $\xi$ such that $w(\xi)$ cancels and if we integrate the square of the expression over any $K\in\meshT$, then we get a control of $w$ in $\xLtwo(\dom)$,
+\begin{equation}
+\Abs{w(x) - w(\xi)} \leq \displaystyle|x - \xi|^{\sfrac{1}{2}}\snorm{w}_{\xHone([\xi, x])}
+\end{equation}
 
 \medskip
 \begin{tmaproofitems}
-\item Estimate in $\snorm{\;\cdot\;}_{\xHone}$:
+\item Estimate in $\snorm{\;\cdot\;}_{\xHone}$:\\
+First, an elementwise estimate is derived with the same argument as Inequality \eqref{},
+\begin{equation*}
+\begin{array}{lcl}
+\snorm{v - \Lgrh{1}v}^2_{\xHone(K)} &=&\displaystyle\sum_{K\in\meshT} \int_K h_K^{-2}\Abs{v(x_{i+1})- v(x_{i})}^2 \md x\\[2ex]
+                              &\leq& h_K^{-\sfrac{1}{2}}\Abs{v(x_{i+1})- v(x_{i})}\\[2ex]
+                              &\leq& h_K^{-\sfrac{1}{2}} h_K^{\sfrac{1}{2}}\snorm{v}_{\xHone(K)}\\[2ex]
+                              &\leq& \snorm{v}_{\xHone(K)}\\
+\end{array}
+\end{equation*}
 \item Estimate in $\norm{\;\cdot\;}_{\xLtwo}$:
 \end{tmaproofitems}
 
@@ -158,22 +264,18 @@ In the same spirit the stability of the interpolation operator is also a local p
 The approximation error being bounded in $O(\sizeT)$ the method is first order in $\xHonec(\dom)$.
 
 \begin{rmrk}[Convergence order in $\xHone(\dom)$]
-On the other hand we know that $\exists C_I > 0 $ such that, $\forany v \in \xHtwo(\dom)$:
-\begin{equation*}
-\nLtwo{v - \Lgrh{1} v} \leq C_I\; \sizeT^2 \snHtwoD{v}
-\end{equation*}
 Using the definition of the norm
 \begin{equation*}
 \nHoneD{v - \Lgrh{1} v}^2 = \nLtwo{v - \Lgrh{1} v}^2 + \snHoneD{v - \Lgrh{1} v}^2
 \end{equation*}
-we get:
+we get
 \begin{equation*}
 \nHoneD{v - \Lgrh{1} v}^2 \leq C_I^2\; (\sizeT^4 \snHtwoD{v}^2 + \sizeT^2 \snHtwoD{v}^2)
 \end{equation*}
 \begin{equation*}
-\nHoneD{v - \Lgrh{1} v} \leq C_I\; \sizeT\;(1 + \sizeT^2)^{1/2} \snHtwoD{v}
+\nHoneD{v - \Lgrh{1} v} \leq C_I\; \sizeT\;(1 + \sizeT^2)^{\sfrac{1}{2}} \snHtwoD{v}
 \end{equation*}
-Thus, we verify that the approximation is also first order in $\xHone(\dom)$.
+Thus, we verify that the approximation is first order in $\xHone(\dom)$.
 \end{rmrk}
 
 %-------------------------------------------------------------------------------
@@ -190,7 +292,7 @@ Let $\dom$ be a convex polygonal subset of $\xR^d$, $d \geq 1$, $f \in \xLtwo(\d
 \end{thrm}
 
 \begin{proof}
-If $u$ is solution to the Poisson problen then $u \in \xHonec(\dom)$, then by regularity Theorem \eqref{th:poisson_regularity} (by density of $\xHtwo(\dom)$ in $\xHone(\dom)$), $u \in \xHtwo(\dom)$, thus $\exists C_1 > 0$ such that:
+If $u$ is solution to the Poisson problen then $u \in \xHonec(\dom)$, then by regularity Theorem \eqref{th:poisson_regularity} (by density of $\xHtwo(\dom)$ in $\xHone(\dom)$), $u \in \xHtwo(\dom)$, thus $\exists\; C_1 > 0$ such that:
 \begin{equation*}
 \nHtwoD{u}  \leq C_1\;\nLtwo{f}
 \end{equation*}
