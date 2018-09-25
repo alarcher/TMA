@@ -275,9 +275,7 @@ so that using Inequality \eqref{eq:interpolation_estimate_h1}
 In both cases global estimates are obtained by summing over $K\in\meshT$ and factoring $\sizeT = \max_{K\in\meshT}(h_K)$.
 \end{proof}
 
-The approximation error being bounded in $O(\sizeT)$ the method is first order in $\xHonec(\dom)$.
-
-\begin{rmrk}[Convergence order in $\xHone(\dom)$]
+\begin{rmrk}[Convergence order in $\xHone$ norm]
 Using the definition of the norm
 \begin{equation*}
 \nHoneD{v - \Lgrh{1} v}^2 = \nLtwo{v - \Lgrh{1} v}^2 + \snHoneD{v - \Lgrh{1} v}^2
@@ -289,21 +287,25 @@ we get
 \begin{equation*}
 \nHoneD{v - \Lgrh{1} v} \leq C_I\; \sizeT\;(1 + \sizeT^2)^{\sfrac{1}{2}} \snHtwoD{v}
 \end{equation*}
-Thus, we verify that the approximation is first order in $\xHone(\dom)$.
+Thus we verify that the approximation is first order in $\xHone$ norm if $\snHtwoD{v}$ is bounded.
 \end{rmrk}
 
-\begin{prpstn}[Interpolation Inequality for Lagrange $\xP_k$, \cite{EG}]
-Let $0\leq s \leq k$, there exists a positive constant $C$ such that for any $v\in\xH^{s+1}(\dim)$
+\begin{prpstn}[Interpolation Inequality for Lagrange $\xP_k$, \cite{EG}]\label{prpstn:interpolation_pk}
+Given $0\leq s \leq k$, there exists a positive constant $C$ such that for any $v\in\xH^{s+1}(\dom)$,
 \begin{equation*}
-\norm{v-\Lgrh{1}v}_{\xLtwo(K)} + \sizeT \snorm{v-\Lgrh{1}v}_{\xHone(K)}\leq C \sizeT^{s+1}\snorm{v}_{\xH^{s+1}(K)}
+\norm{v-\Lgrh{1}v}_{\xLtwo(\dom)} + \sizeT \snorm{v-\Lgrh{1}v}_{\xHone(\dom)}\leq C \sizeT^{s+1}\snorm{v}_{\xH^{s+1}(\dom)}
 \end{equation*}
 \end{prpstn}
+
+Unfortunately the Lagrange $\xPone$ Finite Element is only $\xHone$--conformal, so \textit{a priori} it cannot represent functions of $\xHtwo$ accurately.
+The interpolation inequality of Proposition \ref{prpstn:interpolation_pk} only applies in the general case with $s = 0$ so that the convergence order is only one in $\xLtwo$.
+The approximation error being bounded in $O(\sizeT)$ the method is first order in $\xHonec(\dom)$.
 
 %-------------------------------------------------------------------------------
 \section{Superconvergence}
 
 The following result shows the the convergence properties of the method is not only limited by the interpolation inequality.
-Indeed, using a result by Aubin--Nitsche, we show that even if the approximation is not $\xHtwo$-conformal, we can improve the error estimate by one order: the convergence order in $\xLtwo(\dom)$ becomes then two.
+Indeed, using a result by Aubin--Nitsche, we show that even if the approximation is not $\xHtwo$-conformal, we can improve the error estimate by one order: the convergence order in $\xLtwo$ becomes then two.
 
 \begin{thrm}[Superconvergence]
 Let $\dom$ be a convex polygonal subset of $\xR^d$, $d \geq 1$, $f \in \xLtwo(\dom)$, $u$ solution to the Dirichlet Problem \eqref{pb:poisson} and $u_h$ approximate solution, $\sizeT\;= \max_{K\in\meshT}(h_K)$:
@@ -317,7 +319,7 @@ If $u$ is solution to the Poisson problen then $u \in \xHonec(\dom)$, then by re
 \begin{equation*}
 \nHtwoD{u}  \leq C_1\;\nLtwo{f}
 \end{equation*}
-Thus replacing the $\xHtwo$-seminorm in the right-hand side of the error estimate, we have
+Thus replacing the $\xHtwo$ semi-norm in the right-hand side of the error estimate, we have
 \begin{equation}\label{eq:h1err_eh}
 \nHoneD{u - u_h}  \leq C_1\;\sizeT\;\nLtwo{f}
 \end{equation}
@@ -350,7 +352,7 @@ estimate, we have
 \end{equation}
 
 \medskip
-Let us try to bound the $\xLtwo$-norm of the approximation error by noticing that its amounts to take $\phi = e_h$ in \eqref{pb:weak_aubin_nitsche}:
+Let us try to bound the $\xLtwo$ norm of the approximation error by noticing that its amounts to take $\phi = e_h$ in \eqref{pb:weak_aubin_nitsche}:
 \begin{equation*}
 \nLtwo{e_h} = \int_\dom |e_h|^2 \dx = \int_\dom \Grad \varphi\xDot \Grad e_h\dx
 \end{equation*}
@@ -362,7 +364,7 @@ Thus we can substract and add this latter to the previous expression:
 \begin{equation*}
 \nLtwo{e_h} = \int_\dom \Grad (\varphi - \varphi_h)\xDot \Grad e_h\dx + \underbrace{\int_\dom \Grad \varphi_h\xDot \Grad e_h\dx}_{0}
 \end{equation*}
-First we use Cauchy-Schwarz and make the $\xHone$-norm of the approximation errors appear since we control them by Equation \eqref{eq:h1err_eh} and \eqref{eq:h1err_phih}:
+First we use Cauchy-Schwarz and make the $\xHone$ norm of the approximation errors appear since we control them by Equation \eqref{eq:h1err_eh} and \eqref{eq:h1err_phih}:
 \begin{equation*}
 \nLtwo{e_h} \leq \nHoneD{\varphi - \varphi_h} \nHoneD{e_h}
 \end{equation*}
