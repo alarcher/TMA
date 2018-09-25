@@ -298,7 +298,7 @@ Given $0\leq s \leq k$, there exists a positive constant $C$ such that for any $
 \end{prpstn}
 
 Unfortunately the Lagrange $\xPone$ Finite Element is only $\xHone$--conformal, so \textit{a priori} it cannot represent functions of $\xHtwo$ accurately.
-The interpolation inequality of Proposition \ref{prpstn:interpolation_pk} only applies with $s = 0$ so that the convergence order is only one in $\xLtwo$ norm in the general case.
+Given that the solution space is $\xHone$ the interpolation inequality of Proposition \ref{prpstn:interpolation_pk} only applies with $s = 0$ so that the convergence order is only one in $\xLtwo$ norm in the general case.
 In the next section we show that the convergence rate for the Poisson problem approximated with Lagrange $\xPone$ is actuall second order in $\xLtwo$ norm and first order in $\xHone$ semi-norm: this is one order more than expected from interpolation inequalities.
 
 %-------------------------------------------------------------------------------
@@ -315,7 +315,7 @@ Let $\dom$ be a convex polygonal subset of $\xR^d$, $d \geq 1$, $f \in \xLtwo(\d
 \end{thrm}
 
 \begin{proof}
-If $u$ is solution to the Poisson problen then $u \in \xHonec(\dom)$, then by regularity Theorem \eqref{th:poisson_regularity} (by density of $\xHtwo(\dom)$ in $\xHone(\dom)$), $u \in \xHtwo(\dom)$, thus $\exists\; C_1 > 0$ such that:
+If $u$ is solution to the Poisson problem then $u \in \xHonec(\dom)$, then by regularity Theorem \eqref{th:poisson_regularity} (by density of $\xHtwo(\dom)$ in $\xHone(\dom)$), $u \in \xHtwo(\dom)$, thus $\exists\; C_1 > 0$ such that:
 \begin{equation*}
 \nHtwoD{u}  \leq C_1\;\nLtwo{f}
 \end{equation*}
