@@ -16,6 +16,7 @@
 \RequirePackage{amssymb}
 \RequirePackage{amsthm}
 \RequirePackage{relsize}
+\RequirePackage{xfrac}
 
 % Graphics
 \RequirePackage{graphicx}
