@@ -97,12 +97,35 @@ In this case sequences of approximate solution $(u_h)_{\sizeT}$ converge to the 
 The goal of this section is to derive such error estimates after proving required interpolation inequalities.
 In particular the space of continuous linear Lagrange elements
 \begin{equation}\label{sp:lagrangeP1}
-\xVh = \lbrace v \in \xC^0(\bar\dom)\cap\xHonec(\dom) : \forany K \in \meshT, v\rvert_{K} \in \xPone(K) \rbrace
+\xVh = \lbrace v \in \xC^0(\bar\dom)\cap\xHonec(\dom) : \forany K \in \meshT, \Restrict{v}{K} \in \xPone(K) \rbrace
 \end{equation}
 will be considered, then more general results will be stated without proof.
 
 %-------------------------------------------------------------------------------
 \section{Stability of the Lagrange interpolation operator}
+
+Before moving to interpolation inequalities, the \textit{stability} of the interpolation operator should be proved: such estimate shows that any interpolate of a function in $\xV$ is also in $\xV$.
+Inequality \eqref{eq:stability_lagrange_p1} is also called uniform continuity in zero of the interpolation operator since $C$ does not depend on $\meshT$, but only on the domain $\dom$.
+
+\begin{prpstn}[$\xHone$-stability of the Lagrange $\xPone$ interpolation operator]
+There exists a constant $C>0$ such that,
+\begin{equation}\label{eq:stability_lagrange_p1}
+\norm{\Lgrh{1} v}_{\xHone(\dom)} \leq C\; \norm{v}_{\xHone(\dom)}
+\end{equation}
+\end{prpstn}
+\begin{proof}
+Since $\norm{\;\cdot\;}^2_{\xHone} = \norm{\;\cdot\;}^2_{\xLtwo} + \snorm{\;\cdot\;}^2_{\xHone}$ then the $\xLtwo$ norm of the interpolate and its derivative should be controlled. Since controlling the derivative of a function in $\xLtwo$ gives a control on the function in $\xLtwo$ (Poincaré inequality), it is natural to start looking for an estimate of $\snorm{\;\cdot\;}_{\xHone}$, then move to $\norm{\;\cdot\;}_{\xLtwo}$.
+\begin{tmaproofitems}
+\item Estimate in $\snorm{\;\cdot\;}_{\xHone}$:
+\[
+\Restrict{\bigl(\Lgrh{1}v\bigr)'}{K} = \bigl(\LgrK{1}v\bigr)' = h_K^{-1}\bigl(v(x_{i+1})- v(x_{i}))
+\]
+
+
+
+\item Estimate in $\norm{\;\cdot\;}_{\xLtwo}$:
+\end{tmaproofitems}
+\end{proof}
 
 %-------------------------------------------------------------------------------
 \section{\textit{A priori} error estimate with Lagrange $\xPone$}
@@ -123,6 +146,13 @@ The proof is based on the Mean-Value Theorem and a decomposition of the error pe
 The global interpolation error is then recovered by summing over the cells.
 This makes sense since the polynomial estimate is defined pointwise: this is then a local property.
 In the same spirit the stability of the interpolation operator is also a local property, defined element-wise.
+
+\medskip
+\begin{tmaproofitems}
+\item Estimate in $\snorm{\;\cdot\;}_{\xHone}$:
+\item Estimate in $\norm{\;\cdot\;}_{\xLtwo}$:
+\end{tmaproofitems}
+
 \end{proof}
 
 The approximation error being bounded in $O(\sizeT)$ the method is first order in $\xHonec(\dom)$.

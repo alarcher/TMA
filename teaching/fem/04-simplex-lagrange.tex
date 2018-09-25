@@ -151,7 +151,7 @@ To make the connection between the abstract Definition \ref{def:finite_element} 
 \begin{dfntn}[$\RefFE$ for Lagrange $\xPone$ 1D]\label{fem:lagrange_p1_1d}
 The Finite Element space Lagrange $\xPone$ 1D approximating
 \begin{equation*}
-\xVh = \Set{ v \in \xCzero(\bar\dom)\cap\xHone(\dom) : v|_K \in\xP_1(K),\forany K \in\meshT }
+\xVh = \Set{ v \in \xCzero(\bar\dom)\cap\xHone(\dom) : \Restrict{v}{K} \in\xP_1(K),\forany K \in\meshT }
 \end{equation*}
 is given by
 \begin{itemize}
@@ -491,7 +491,7 @@ The approximation of Problem \eqref{pb:weak_poissonHone} by Lagrange $\xP_1$ ele
 \end{equation}
 with the approximation space $\xVh$ chosen as:
 \begin{equation}
-\xVh = \Set{ v \in \xCzero(\bar\dom)\cap\xHonec(\dom) : v|_K \in\xP_1(K),\forany K \in\meshT }
+\xVh = \Set{ v \in \xCzero(\bar\dom)\cap\xHonec(\dom) : \Restrict{v}{K} \in\xP_1(K),\forany K \in\meshT }
 \end{equation}
 \end{subequations}
 
