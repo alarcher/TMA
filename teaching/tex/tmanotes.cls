@@ -63,6 +63,14 @@
 	\end{enumerate}
 }
 
+\newenvironment{tmaproofitems}
+{
+	\begin{enumerate}[label=(\roman*), noitemsep]
+}
+{
+	\end{enumerate}
+}
+
 
 \newenvironment{tmaxrcs}[2]
 {
