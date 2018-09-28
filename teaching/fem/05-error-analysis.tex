@@ -42,7 +42,7 @@ was approximated by a Galerkin problem,
 by simply looking for a finite dimensional solution.
 
 \medskip
-In a first stage, we verified that the problem is well-posed for the chosen solution and test spaces, and that the exact solution $u$ and discrete solution $u_h$ satisfy both a relation of the type
+In a first stage, we verified that the weak problem is well-posed for the chosen solution and test spaces, and that the exact solution $u$ and discrete solution $u_h$ satisfy both a relation of the type
 \begin{equation*}
 \snorm{u}_{\xHone(\dom)} \leq C \norm{f}_{\xLtwo(\dom)}
 \end{equation*}
@@ -97,7 +97,7 @@ Inequalities of the form
 \norm{e_h} \leq C \epsilon(\sizeT)
 \end{equation*}
 for some constant $C$ depending on the domain and the exact solution, are called \textit{a priori error estimates}.
-Usually $\epsilon(\sizeT) \sim O(\sizeT^r)$, with $r > 0$ the convergence rate of the method, which represents the \textit{accuracy}.
+Usually $\epsilon(\sizeT) \sim O(\sizeT^r)$, with $r > 0$ the convergence rate of the method, which represents the expected \textit{accuracy}.
 In this case sequences of approximate solution $(u_h)_{\sizeT}$ converge to the exact solution $u$, as fast as the function $\epsilon$ allows, when $\sizeT$ tends to zero.
 
 \medskip
@@ -126,11 +126,11 @@ To give a better idea, let us introduce below an ingredient used for subsequent 
 \end{array}
 \end{equation*}
 using Cauchy--Schwarz with $\Abs{v'(s)}$ and $\indic{[\xi, x]}$, the indicator function on $[\xi, x]$.
-The right-hand side is bounded since we assumed that $v\in\xHone(I)$, so that
+Since we assumed that $v\in\xHone(I)$, then the right-hand side of
 \begin{equation}\label{eq:interpolation_estimate_1}
 \Abs{v(x) - v(\xi)} \leq \displaystyle|x - \xi|^{\sfrac{1}{2}}\snorm{v}_{\xHone([\xi, x])}
 \end{equation}
-gives a bound involving the $\xHone$ semi-norm.
+is bounded.
 
 \medskip
 Now let us consider that $\xi$ realizes the minimum of $|v|$ on $I$, then
@@ -160,8 +160,6 @@ in other words
 \begin{equation}\label{eq:interpolation_estimate_3}
 \norm{v}_{\xLinfty(I)} \leq |I|^{\sfrac{1}{2}}\snorm{v}_{\xHone(I)} + |I|^{-\sfrac{1}{2}}\norm{v}_{\xLtwo(I)}
 \end{equation}
-
-Inequality \eqref{eq:stability_lagrange_p1} is also called \textit{uniform continuity} in zero of the interpolation operator since $C$ should not depend on $\meshT$; but possibly depends on $\dom$.
 
 \begin{prpstn}[$\xHone$-stability of the Lagrange $\xPone$ interpolation operator]
 \label{prpstn:stability_lagrange_p1}
@@ -214,10 +212,13 @@ we can conclude using the Poincaré Inequality with constant $c_p$,
 \end{tmaproofitems}
 \end{proof}
 
+Inequality \eqref{eq:stability_lagrange_p1} is also called \textit{uniform continuity} in zero of the interpolation operator since $C$ should not depend on $\meshT$; but possibly depends on $\dom$.
+
 %-------------------------------------------------------------------------------
 \section{\textit{A priori} error estimate with Lagrange $\xPone$}
 
 \begin{prpstn}[Interpolation Inequalities for Lagrange $\xPone$]
+\label{prpstn:interpolation_p1}
 There exists two positive constants $C_1$ and $C_0$ such that for any $v\in\xHtwo(\dom)$
 \begin{equation}
 \snHoneD{v - \Lgrh{1}v}  \leq C_1 \sizeT\;\snHtwoD{v}
@@ -234,7 +235,7 @@ The global interpolation error is then recovered by summing over the cells, give
 \norm{e_\imath}^2_{\xLtwo(\dom)} = \sum_{K\in\meshT} \int_K\Abs{e_\imath(x)}^2 \md x = \sum_{K\in\meshT} \norm{e_\imath}^2_{\xLtwo(K)}
 \end{equation*}
 This makes sense since the polynomial interpolation estimate is defined pointwise, it is then a local property.
-In the same spirit as the stability of the interpolation operator which we proved first elementwise for Proposition \ref{prpstn:stability_lagrange_p1}, the estimate is derived in $\xHone$ semi-norm then in $\xLtwo$ norm.
+In the same spirit as the stability of the interpolation operator of Proposition \ref{prpstn:stability_lagrange_p1} which we proved first elementwise, the estimate is derived in $\xHone$ semi-norm then in $\xLtwo$ norm.
 
 \medskip
 The main technical ingredient is given by Inequality \eqref{eq:interpolation_estimate_1} for a given function $w\in\xHone(K)$,
@@ -290,6 +291,8 @@ we get
 Thus we verify that the approximation is first order in $\xHone$ norm if $\snHtwoD{v}$ is bounded.
 \end{rmrk}
 
+A more general result Proposition \ref{prpstn:interpolation_pk} can be proved for Lagrange $\xP_k$ Finite Elements, which we verify is equivalent to Proposition \ref{prpstn:interpolation_p1} for $s=1$, $k=1$.
+
 \begin{prpstn}[Interpolation Inequality for Lagrange $\xP_k$, \cite{EG}]\label{prpstn:interpolation_pk}
 Given $0\leq s \leq k$, there exists a positive constant $C$ such that for any $v\in\xH^{s+1}(\dom)$,
 \begin{equation*}
@@ -297,15 +300,17 @@ Given $0\leq s \leq k$, there exists a positive constant $C$ such that for any $
 \end{equation*}
 \end{prpstn}
 
+One important remark is that the convergence order depends on the regularity of the solution since the order is $s + 1$ for a solution in $\xH^{s+1}(\dom)$.
 Unfortunately the Lagrange $\xPone$ Finite Element is only $\xHone$--conformal, so \textit{a priori} it cannot represent functions of $\xHtwo$ accurately.
-Given that the solution space is $\xHone$ the interpolation inequality of Proposition \ref{prpstn:interpolation_pk} only applies with $s = 0$ so that the convergence order is only one in $\xLtwo$ norm in the general case.
-In the next section we show that the convergence rate for the Poisson problem approximated with Lagrange $\xPone$ is actuall second order in $\xLtwo$ norm and first order in $\xHone$ semi-norm: this is one order more than expected from interpolation inequalities.
+Given that the solution space is $\xHone$ the interpolation inequality of Proposition \ref{prpstn:interpolation_pk} only applies with $s = 0$ so that the convergence order is only one in $\xLtwo$ norm in the general case, and we have only a weak convergence result in $\xHone$.
+In the next section we show that the convergence rate for the Poisson problem approximated with Lagrange $\xPone$ is actually second order in $\xLtwo$ norm and first order in $\xHone$ semi-norm: this is one order more than expected from interpolation inequalities.
 
 %-------------------------------------------------------------------------------
 \section{Superconvergence}
 
-The following result shows the the convergence properties of the method is not only limited by the interpolation inequality.
-Indeed, using a result by Aubin--Nitsche, we show that even if the approximation is not $\xHtwo$-conformal, we can improve the error estimate by one order: the convergence order in $\xLtwo$ becomes then two.
+The following result shows the the convergence properties of the method is not only limited by interpolation inequalities.
+Indeed, using a result by Aubin and Nitsche, we show that even if the approximation is not $\xHtwo$-conformal, we can improve the error estimate by one order: the convergence in $\xLtwo$ becomes then second order in $\sizeT$.
+The idea behind this result is that if $u$ is the weak solution to the Poisson equation then it is not only in $\xHonec(\dom)$ since the differential operator involves second order derivatives: we say that $u$ is regularized due to the ellipticity of the operator.
 
 \begin{thrm}[Superconvergence]
 Let $\dom$ be a convex polygonal subset of $\xR^d$, $d \geq 1$, $f \in \xLtwo(\dom)$, $u$ solution to the Dirichlet Problem \eqref{pb:poisson} and $u_h$ approximate solution, $\sizeT\;= \max_{K\in\meshT}(h_K)$:
@@ -315,13 +320,13 @@ Let $\dom$ be a convex polygonal subset of $\xR^d$, $d \geq 1$, $f \in \xLtwo(\d
 \end{thrm}
 
 \begin{proof}
-If $u$ is solution to the Poisson problem then $u \in \xHonec(\dom)$, then by regularity Theorem \eqref{th:poisson_regularity} (by density of $\xHtwo(\dom)$ in $\xHone(\dom)$), $u \in \xHtwo(\dom)$, thus $\exists\; C_1 > 0$ such that:
+If $u \in \xHonec(\dom)$ is solution to the Poisson problem, then by elliptic regularity and density of $\xHtwo(\dom)$ in $\xHone(\dom)$), $u \in \xHtwo(\dom)$, thus $\exists\; C_u > 0$ such that:
 \begin{equation*}
-\nHtwoD{u}  \leq C_1\;\nLtwo{f}
+\nHtwoD{u}  \leq C_u\;\nLtwo{f}
 \end{equation*}
 Thus replacing the $\xHtwo$ semi-norm in the right-hand side of the error estimate, we have
 \begin{equation}\label{eq:h1err_eh}
-\nHoneD{u - u_h}  \leq C_1\;\sizeT\;\nLtwo{f}
+\nHoneD{u - u_h}  \leq C_u\;\sizeT\;\nLtwo{f}
 \end{equation}
 Let us introduce the following auxiliary problem:
 \begin{subequations}\label{pb:aubin_nitsche}
@@ -332,7 +337,18 @@ Let us introduce the following auxiliary problem:
 \varphi(\xx) = 0\quad,\;\xx\in\partial\dom
 \end{equation}
 \end{subequations}
-and its weak formulation:
+obtained by a duality argument, formally
+\begin{equation*}
+-\Inner{\Lap v}{w} = \Inner{\nabla v}{\nabla w} = -\Inner{v}{\Lap w}
+\end{equation*}
+by integration by parts; since the adjoint operator of the Laplace operator is the Laplace operator itself, it is said \textit{self-adjoint}.
+The motivation of introducing this equation is to control the \textit{approximation error} $e_h$ in $\xLtwo$:
+\begin{equation*}
+\Inner{e_h}{e_h} = \Inner{e_h}{-\Lap \phi} = \Inner{\nabla e_h}{\nabla \phi} = \Inner{-\Lap e_h}{\phi}
+\end{equation*}
+for $\phi\in\xHonec(\dom)$ called \textit{dual solution} satisfying $-\Lap \phi = e_h$.
+
+Similarly to the Poisson equation, the weak formulation of Problem $\ref{pb:aubin_nitsche}$ reads:
 \begin{equation}\label{pb:weak_aubin_nitsche}
 \left\lvert
 \begin{array}{ll}
@@ -341,14 +357,13 @@ and its weak formulation:
 \end{array}
 \right .
 \end{equation}
-Since $e_h$ is bounded in $\xLtwo(\dom)$ then the same regularity result holds for the auxiliary Problem \eqref{pb:aubin_nitsche}, $\exists C_2 > 0$ such that:
+Since $e_h$ is bounded in $\xLtwo(\dom)$ then the same regularity result holds for the auxiliary Problem \eqref{pb:aubin_nitsche}, $\exists C_\varphi > 0$ such that:
 \begin{equation*}
-\nHtwoD{\varphi}  \leq C_2\;\nLtwo{e_h}
+\nHtwoD{\varphi}  \leq C_\varphi\;\nLtwo{e_h}
 \end{equation*}
-and thus:
-estimate, we have
+so we have from the interpolation inequality for $\varphi$
 \begin{equation}\label{eq:h1err_phih}
-\nHoneD{\varphi - \varphi_h}  \leq C_2\;\sizeT\;\nLtwo{e_h}
+\nHoneD{\varphi - \varphi_h}  \leq C_\varphi\;\sizeT\;\nLtwo{e_h}
 \end{equation}
 
 \medskip
@@ -360,7 +375,7 @@ If we consider the approximate of Problem \eqref{pb:weak_aubin_nitsche} by Galer
 \begin{equation*}
 \int_\dom \Grad \varphi_h\xDot \Grad e_h\dx  = 0
 \end{equation*}
-Thus we can substract and add this latter to the previous expression:
+Thus we can subtract and add this latter to the previous expression:
 \begin{equation*}
 \nLtwo{e_h} = \int_\dom \Grad (\varphi - \varphi_h)\xDot \Grad e_h\dx + \underbrace{\int_\dom \Grad \varphi_h\xDot \Grad e_h\dx}_{0}
 \end{equation*}
@@ -372,10 +387,13 @@ First we use Cauchy-Schwarz and make the $\xHone$ norm of the approximation erro
 \medskip
 Replacing by the bounds from the interpolation inequalities we get:
 \begin{equation*}
-\nLtwo{e_h} \leq C_1\;C_2\;\sizeT^2\;\nLtwo{f}
+\nLtwo{e_h} \leq C_u\;C_\varphi\;\sizeT^2\;\nLtwo{f}
 \end{equation*}
 which concludes the proof. We have then a second order error estimate in $\xLtwo$.
 \end{proof}
+
+The conclusion of this result is that the observed convergence order may be different than the order suggested by the interpolation inequality.
+As seen in this example it may be improved if the differential operator has a regularizing effect, but can also be influenced by other factors like the discretization of the computional domain.
 
 \newpage
 %-------------------------------------------------------------------------------
