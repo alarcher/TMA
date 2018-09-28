@@ -2,6 +2,27 @@
 \ProvidesClass{tmanotes}[2018/03/21 Lecture Notes class]
 \LoadClass[onecolumn, twoside, a4paper, 11pt]{memoir}
 
+\newcommand{\tmacoursecode}{}
+\newcommand{\tmacoursename}{}
+\newcommand{\tmacourseshrt}{}
+\newcommand{\tmacoursefull}{}
+\newcommand{\settmacourse}[3]
+{
+\renewcommand{\tmacoursecode}{#1}
+\renewcommand{\tmacoursename}{#2}
+\renewcommand{\tmacourseshrt}{#3}
+\renewcommand{\tmacoursefull}{\tmacoursecode\tmacoursename}
+}
+\RequirePackage[sectionbib]{bibunits}
+\DeclareOption{assignment}
+{
+\pagestyle{headings}
+\renewcommand{\chaptermark}[1]{ \markboth{{\small\tmacoursecode\;--\;\tmacourseshrt}}{} }
+\renewcommand{\sectionmark}[1]{ \markboth{{\small\tmacoursecode\;--\;\tmacourseshrt}}{} }
+\renewcommand\thesection{\arabic{section}}
+}
+\ProcessOptions\relax
+
 \setcounter{secnumdepth}{2}
 \setcounter{tocdepth}{2}
 
@@ -33,7 +54,7 @@
 \RequirePackage{algpseudocode}
 \RequirePackage{algorithm}
 
-\newenvironment{pseudo}
+\newenvironment{tmapseudo}
 {
 	\begin{algorithm}[H]
 	\begin{algorithmic}
@@ -43,14 +64,28 @@
 	\end{algorithm}
 }
 
-\newenvironment{algo}[1]
-{	\begin{algorithm}
+\newenvironment{tmaalgo}[1]
+{
+	\begin{algorithm}
   \caption{#1}
 	\begin{algorithmic}
 }
 {
 	\end{algorithmic}
 	\end{algorithm}
+}
+
+\newenvironment{tmatable}[1]
+{
+	\begin{center}
+	\bgroup
+	\def\arraystretch{2}
+	\begin{tabular}{#1}
+}
+{
+	\end{tabular}
+	\egroup
+	\end{center}
 }
 
 \RequirePackage{enumitem}
