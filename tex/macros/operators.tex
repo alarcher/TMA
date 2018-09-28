@@ -19,8 +19,12 @@
 \newcommand{\Union}{\mathop\bigcup}
 \newcommand{\Inter}{\mathop\bigcap}
 \newcommand{\Interior}[1]{\mathring{#1}}
-
 \newcommand{\Restrict}[2]{{\left.\kern-\nulldelimiterspace#1\vphantom{\big|}\right|_{#2}}}
+\newcommand{\Comp}[2]{#1\mathop{\circ}#2}
+\newcommand{\Seq}[1]{\bigl(#1\bigr)}
+\newcommand{\Cond}[1]{\mathcal{C}(#1)}
+\newcommand{\Order}[1]{\mathcal{O}\left(#1\right)}
+
 %-------------------------------------------------------------------------------
 % Miscellaneous
 \newcommand{\Grp}[1]{\displaystyle\left({#1}\right)}
@@ -64,6 +68,7 @@
 \newcommand{\DualP}[2]{\mathbf{\langle}\;#1\:,\: #2 \;\mathbf{\rangle}}
 \newcommand{\Inner}[2]{{{\scriptstyle\mathbf{(}}\;#1\:,\: #2 \;{\scriptstyle\mathbf{)}}}}
 \newcommand{\InnerP}[3]{{{\scriptstyle\mathbf{(}}\;#1\:,\: #2 \;{\scriptstyle\mathbf{)}}}_{\,#3}}
+\newcommand{\InnerK}[2]{{{\mathbf\langle}\;#1\:,\: #2 \;{\rangle}}}
 \newcommand{\Span}{\mathop{\mathrm{span}}}
 \newcommand{\T}{{^{\mathrm T}}}
 \newcommand{\Trace}[2]{{\mathbf{Tr}}^{(#1)}(#2)}
@@ -76,7 +81,7 @@
 % continuous
 \newcommand{\D}{{\boldsymbol{\mathrm D}}} % gradient
 \newcommand{\Grad}{{\boldsymbol\nabla}} % gradient
-\newcommand{\Gradt}{{\boldsymbol\nabla^t}}
+\newcommand{\Gradt}{{\boldsymbol\nabla^\trans}}
 \newcommand{\Gradx}{\Grad_x}
 \newcommand{\GradxR}{\Grad_{\xR}}
 \newcommand{\Div}{{\boldsymbol\nabla\cdot\,}} % divergence
