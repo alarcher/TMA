@@ -1,0 +1,208 @@
+\documentclass[assignment]{tmanotes}
+\settmacourse{TMA4220}
+{Numerical Solution of Partial Differential Equations Using Finite Element Methods}
+{Numerical Solution of PDEs Using Finite Element Methods}
+
+\input{../macros}
+
+\bibliographystyle{plain}
+\title{Project I -- Helmoltz equation in two dimensions}
+\date{}
+
+\begin{document}
+\maketitle
+
+The deadline for this assignment is 28. October 2018 and counts towards 15\% of the final grade.
+The delivery consists of a report answering all the questions and presenting the results, together with a source code in MATLAB.
+Working in pairs is possible but not compulsory.
+
+\section{Problem formulation}
+
+Let us consider the Helmoltz equation posed on $\dom = (0,1)^2$,
+\begin{equation}\label{eq:helmoltz}
+u(\xx) - \Delta u(\xx) = f(\xx), \qquad \forany \xx = (x,y)\in\dom
+\end{equation}
+with source term $f(\xx) = (2\pi^2 + 1)\cos(\pi x)\sin(\pi y)$, and supplemented with boundary conditions,
+\begin{equation}\label{bc:helmoltz}
+\begin{array}{lcccl}
+u(\xx)              &=& 0 &,&\quad \xx\in\Gamma_D = \Set{\xx\in\bound : y \in \Fam{0,1}}\\
+\Grad u\xDot\n(\xx) &=& 0 &,&\quad \xx\in\Gamma_N = \Set{\xx\in\bound : x \in \Fam{0,1}}\\
+\end{array}
+\end{equation}
+with $\n$ the outward normal to the boundary $\bound$.
+
+\medskip
+The goal of this assignment is to write an algorithm to compute approximate solutions to Problem \eqref{eq:helmoltz}--\eqref{bc:helmoltz} using linear Lagrange Finite Elements on a triangular mesh $\meshT$.
+
+\medskip
+\begin{tmatsks}
+\item Verify that $\tilde u: (x,y) \mapsto \cos(\pi x)\sin(\pi y)$ is solution to \eqref{eq:helmoltz}--\eqref{bc:helmoltz}.
+\item Derive a weak formulation of \eqref{eq:helmoltz}--\eqref{bc:helmoltz}, specify the function spaces.
+\item Is the solution $\tilde u$ unique?
+\end{tmatsks}
+
+\section{Finite Element space}
+
+The construction of the approximation space based on Lagrange $\xPone$ Finite Elements is now considered.
+
+\medskip
+\begin{tmatsks}
+\item Give the definition of the Lagrange $\xPone$ reference element on the unit triangle $\hat K$ with vertices $\Fam{ \hat\vertex_0 = (0,0), \hat\vertex_1 = (1,0), \hat\vertex_2 = (0,1)}$, and associated local shape functions $(\hat\varphi_0, \hat\varphi_1, \hat\varphi_2)$, then implement it
+\item Write a simple test showing that shape functions $(\hat\varphi_0, \hat\varphi_1, \hat\varphi_2)$ form a nodal basis, and that for any $\hat\xx\in\hat K$, $\hat\varphi_0(\hat\xx) + \hat\varphi_1(\hat\xx) + \hat\varphi_2(\hat\xx) = 1$.
+\item Implement the affine mapping $T_K: \hat K \rightarrow K$ and verify that the determinant of the Jacobian $\matJ_{T_K}$ is positive for triangle $K_0 = \Fam{ (1,0), (3,1), (3,2)}$. Interpret this result.
+\item Implement the inverse of $\matJ_{T_K}$ and verify that the Finite Element obtained by transporting the reference Finite Element $\RefFE$ to $K_0$ is equivalent to $\RefFE$.
+\item Formulate the Galerkin problem corresponding to the weak formulation derived at the preceding section, in particular define the approximation space carefully.
+\end{tmatsks}
+
+\section{Numerical integration}
+
+Unless efficient exact evaluation is possible, computation of integrals is performed using quadrature rules.
+Such approximations are expressed as the weighted sum of integrand values over $N_{q}$ \textit{quadrature points} $\sFam{\QRn{q}}$,
+\[
+I_K = \int_K \psi(\xx) \md \xx \approx \sum_{q = 1}^{N_q} \psi(\QRn{q})\;\omega_q
+\]
+with real coefficients $\sFam{\omega_q}$ called \textit{quadrature weights}.
+The order $k_q$ of a quadrature rule is the polynomial degree of the integrand for which the evaluation is exact.
+In particular, Gauss--Legendre quadratures on a real interval gathered in Table \ref{table:gauss_legendre_1d} satisfy the relation $k_q = 2N_q - 1$.
+Quadrature rules can be defined using other polynomials and considering higher dimensions in space.
+In the frame of Finite Elements, contributions on the reference simplex $\hat K$ can be written as
+\[
+\int_\RefK \hat\psi(\hxx) \md \hxx \approx \sum_{q = 1}^{N_q} \hat\psi(\QRn{q})\;\hat\omega_q
+\]
+with $q$ the index of the quadrature point.
+Therefore any contribution on cell $K \in \meshT$ is obtained directly by composition with the affine change of coordinates $T_K$,
+\[
+\int_K \psi(\xx) \md \xx \approx |\det(J_{T_K})|\sum_{q = 1}^{N_q} \Comp{\psi}{T_K}(\QRn{q})\;\hat\omega_q
+\]
+with $J_{T_K}$ elementwise constant.
+If $\psi$ involves derivatives, the change of variable should take into account that $(\Comp{f}{g})' = (\Comp{f'}{g})\cdot g'$.
+
+\begin{table}
+\label{table:gauss_legendre_1d}
+\begin{tmatable}{llcc}
+$k_q$ & $N_q$ & $\sFam{\rQRn{q}}$ & $\sFam{\rQRw{q}}$\\
+\hline
+\hline
+1     & 1     & $\bar\zeta$                                   & $|I|$             \\
+\hline
+3     & 2     & $\bar\zeta\pm|I|\frac{\sqrt{3}}{6}$ & $\frac{1}{2}|I|$  \\
+\hline
+5     & 3     & $\bar\zeta\pm|I|\frac{\sqrt{15}}{10}$ & $\frac{5}{18}|I|$ \\
+      &       & $\bar\zeta$                                   & $\frac{8}{18}|I|$ \\
+\hline
+7     & 4     & $\bar\zeta\pm|I|\frac{\sqrt{525+70\sqrt{30}}}{70}$ & $\frac{18-\sqrt{30}}{36}|I|$ \\
+      &       & $\bar\zeta\pm|I|\frac{\sqrt{525-70\sqrt{30}}}{70}$ & $\frac{18+\sqrt{30}}{36}|I|$ \\
+\hline
+\end{tmatable}
+\caption{Gauss--Legendre quadratures on the interval $[a,b]$ with $\bar\zeta = (a+b)/2$, and $|I| = |b -a|$}
+\end{table}
+
+
+
+\begin{table}
+\label{table:gauss_legendre_2d}
+\begin{tmatable}{llcc}
+$k_q$ & $N_q$ & $\sFam{\rQRn{q}}$ & $\sFam{\rQRw{q}}$\\
+\hline
+\hline
+1     & 1     & $\Coords{\frac{1}{3}, \frac{1}{3}, \frac{1}{3}}$ & $|K|$ \\
+\hline
+2     & 3     & $\Coords{\frac{1}{2}, \frac{1}{2}, 0}_{3}$ & $\frac{1}{3}|K|$  \\
+\hline
+3     & 4     & $\Coords{\frac{1}{3}, \frac{1}{3}, \frac{1}{3}}$ & $\frac{-9}{16}|K|$  \\
+      &       & $\Coords{\frac{1}{5}, \frac{1}{5}, \frac{3}{5}}_{3}$   & $\frac{25}{48}|K|$ \\
+\hline
+4     & 6     & $\Coords{\frac{1}{3}, \frac{1}{3}, \frac{1}{3}}$ & $\frac{9}{40}|K|$  \\
+      &       & $\Coords{a_i, a_i, 1 - 2a_i}_{3}$  &  $\frac{155 \pm \sqrt{15}}{1200}|K|$ \\
+      &       & $a_i = \frac{6 \pm \sqrt{15}}{21}$  &  \\
+\hline
+\end{tmatable}
+\caption{Gauss--Legendre quadratures on a triangle $K$ in barycentric coordinates $\sFam{\rQRn{q}} = (\lambda_0, \lambda_1, \lambda_2)$, with $(\xDot,\xDot,\xDot)_{k}$ the $k$ distinct tuples obtained by permutation, \cite{EG} page 360.}
+\end{table}
+
+%\begin{tmaalgo}{Integration by quadrature}
+%\State $I_K = 0$
+%\For{$q = 1:N_q$}
+%\EndFor
+%\end{tmaalgo}
+
+\medskip
+\begin{tmatsks}
+\item Implement Gauss--Legendre quadratures from Table \ref{table:gauss_legendre_1d} and plot the approximation error for
+\[
+I = \int_1^2 e^x \md x
+\]
+\item Implement Gauss--Legendre quadratures from Table \ref{table:gauss_legendre_2d} and plot the approximation error for
+\[
+I = \int_{K_0} \log(x+y) \md x
+\]
+with $K_0 = \Fam{ (1,0), (3,1), (3,2)}$.
+\item Discuss why the choice of quadrature is important for the evaluation of Finite Element contributions. Which properties of the problem should be considered for terms corresponding to the left-hand side and right-hand side of the equation?
+\end{tmatsks}
+
+\section{Assembly of the linear system}
+
+For each cell $K \in \meshT$, elementwise contributions for the Helmoltz equation are under the form of a sum of two submatrices, corresponding to contributions of the mass matrix
+\[
+\matM_K =  \left[\int_K \varphi_j(\xx) \varphi_i(\xx) \md\xx\right]_{i j}
+\]
+and of the stiffness matrix
+\[
+\matK_K = \left[\int_K \nabla\varphi_j(\hxx) \nabla\varphi_i(\xx) \md\xx\right]_{ij}
+\]
+with $j$ indices of the \textit{global shape functions} (solution space), and $i$ indices of the \textit{global basis functions} (test space) with support on $K$.
+For any $K\in\meshT$ assembling the local equation consists of computing the contributions for indices $\hat j = 1,\cdots,N_\SpaceP$  of the \textit{local shape functions} (solution space), and $\hat i = 1,\cdots,N_\SpaceP$ indices of the \textit{local basis functions} (test space) with support on $K$, $N_\SpaceP$ the dimension of the Finite Element.
+The passage from one to another is performed with a mapping from (cell) local indices $(\hat i, \hat j)$ to (mesh) global indices $(i, j)$.
+The obtained submatrix and subvector are then added to the global matrix and load vector.
+%\begin{tmaalgo}{Assembly of the local equation matrix}
+%\State $K \in \meshT$
+%\State $I_K = 0$
+%\For{$j = 1:N_{\SpaceP}$}
+%	\For{$i = 1:N_{\SpaceP}$}
+%  \State $I_K +=  $
+%	\EndFor
+%\EndFor
+%\end{tmaalgo}
+
+\medskip
+\begin{tmatsks}
+\item Detail the assembly of the local matrix and the local vector for any $K\in\meshT$.
+\item Describe the assembly of the Dirichlet and Neumann boundary conditions.
+\end{tmatsks}
+
+\section{Convergence analysis}
+
+\medskip
+\begin{tmatsks}
+\item Implement the computation of the $\xLtwo$ error norm given by
+\[
+\norm{u - u_h}_{\xLtwo} = \left(\int_{\dom} |u(\xx) - u_h(\xx)|^2 \md\xx\right)^\frac{1}{2}
+\]
+Why should you be careful with the evaluation of the integral?
+\item Solve the problem for different mesh sizes $\sizeT = 1/M$ with $M = 4,8,16$ and plot the $\xLtwo$ error norm with respect to the dimension of the problem.
+\end{tmatsks}
+
+\section{Extension to an evolution problem}
+
+Let us consider the evolution problem,
+\begin{equation}\label{eq:heat_equation}
+\partial_t u(\xx,t) - \nu\Delta u(\xx,t) = f(\xx,t), \qquad \forany (\xx,t)\in\dom\times(0,T)
+\end{equation}
+with $u(\xx, 0) = u_0$ given initial data, and $\nu$ diffusivity.
+
+%\begin{tmaalgo}{Time stepping}
+%\State $\matA = 0$, $\vecb = 0$
+%\For{$n = 1:N$}
+%\EndFor
+%\end{tmaalgo}
+
+\medskip
+\begin{tmatsks}
+\item Describe how you would modify the algorithm developed for the Helmoltz problem to solve this equation for a given discretization in time. For example use the Backward Euler scheme. The function $\tilde u(\xx,t) = e^{-\nu t} \sin\bigl(x \cos(\theta) + y\sin(\theta)\bigr)$ can be used to verify the implementation for the homogeneous equation (optional); take $\nu = 1$ and $\theta = \pi/4$ for instance.
+\end{tmatsks}
+
+
+\bibliography{../main}
+
+\end{document}
+
