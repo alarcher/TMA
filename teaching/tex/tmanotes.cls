@@ -20,6 +20,7 @@
 \renewcommand{\chaptermark}[1]{ \markboth{{\small\tmacoursecode\;--\;\tmacourseshrt}}{} }
 \renewcommand{\sectionmark}[1]{ \markboth{{\small\tmacoursecode\;--\;\tmacourseshrt}}{} }
 \renewcommand\thesection{\arabic{section}}
+\renewcommand\thetable{\arabic{section}}
 }
 \ProcessOptions\relax
 
