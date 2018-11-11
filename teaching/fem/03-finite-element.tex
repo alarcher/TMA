@@ -55,15 +55,15 @@ For the sake of completeness, steps performed to derive a Galerkin method for th
 
 A solution is sought in the distributional sense by testing the equation against smooth functions,
 \begin{equation*}
-- \int_\dom u''(x) v(x) \md x = \int_\dom f(x) v(x) \md x\:,\qquad\forany v \in \xCinfc(\dom)
+- \intD u''(x) v(x) \md x = \intD f(x) v(x) \md x\:,\qquad\forany v \in \xCinfc(\dom)
 \end{equation*}
 then reporting derivatives on the test functions using the integration by part
 \begin{equation*}
-- \int_\dom u''(x) v(x) \md x = - \underbrace{[u'(x)v(x)]_0^1}_{= 0} + \int_\dom u'(x) v'(x) \md x
+- \intD u''(x) v(x) \md x = - \underbrace{[u'(x)v(x)]_0^1}_{= 0} + \intD u'(x) v'(x) \md x
 \end{equation*}
 the weak formulation consists of finding $u\in\xV$ such that
 \begin{equation*}
-\int_\dom u'(x) v'(x) \md x = \int_\dom f(x) v(x) \md x\:,\qquad\forany v \in \xV
+\intD u'(x) v'(x) \md x = \intD f(x) v(x) \md x\:,\qquad\forany v \in \xV
 \end{equation*}
 given $f \in \xLtwo(\dom)$.
 The choice of solution space and test space is guided by the equation and the data: in this case $\xV = \xHonec(\dom)$ since $v$ and $v'$ should be controlled in $\xLtwo(\dom)$, and homogeneous Dirichlet boundary conditions are imposed.
@@ -72,7 +72,7 @@ The choice of solution space and test space is guided by the equation and the da
 
 The approximate problem by a Galerkin method consists of seeking a discrete solution $\uh$ in a finite dimensional space $\xVh \in \xV$, such that
 \begin{equation*}
-\int_\dom \uh'(x) v'(x) \md x = \int_\dom f(x) v(x) \md x\:,\qquad\forany v \in \xVh
+\intD \uh'(x) v'(x) \md x = \intD f(x) v(x) \md x\:,\qquad\forany v \in \xVh
 \end{equation*}
 and given a basis $\Fam{\varphi_j}$ of $\xVh$ any function $w\in\xVh$ can be written as
 \begin{equation*}
@@ -92,15 +92,15 @@ Bounds of the sum will be omitted to simplify the notation,
 \medskip
 Inserting the Galerkin decomposition in the weak formulation and using the commutativity of the derivation with the linear combinations,
 \begin{equation*}
-\int_\dom \Bigl(\sum_{j} u_j\;\varphi'_j(x)\Bigr) \Bigl(\sum_{i} v_i\;\varphi'_i(x)\Bigr) \md x = \int_\dom f(x) \Bigl(\sum_{i} v_i\;\varphi_i(x)\Bigr) \md x
+\intD \Bigl(\sum_{j} u_j\;\varphi'_j(x)\Bigr) \Bigl(\sum_{i} v_i\;\varphi'_i(x)\Bigr) \md x = \intD f(x) \Bigl(\sum_{i} v_i\;\varphi_i(x)\Bigr) \md x
 \end{equation*}
 and the integration can also commute with the linear combinations,
 \begin{equation*}
-\sum_{j} \sum_{i} u_j v_i \int_\dom \varphi'_j(x)\varphi'_i(x) \md x = \sum_{i} v_i\int_\dom f(x) \varphi_i(x) \md x
+\sum_{j} \sum_{i} u_j v_i \intD \varphi'_j(x)\varphi'_i(x) \md x = \sum_{i} v_i\intD f(x) \varphi_i(x) \md x
 \end{equation*}
 so that up to some cosmetic reordering, for any $v \in \xV$
 \begin{equation*}
-\sum_{i}  \sum_{j} v_i \int_\dom \varphi'_i(x)\varphi'_j(x) \md x u_j = \sum_{i} v_i\int_\dom f(x) \varphi_i(x) \md x
+\sum_{i}  \sum_{j} v_i \intD \varphi'_i(x)\varphi'_j(x) \md x u_j = \sum_{i} v_i\intD f(x) \varphi_i(x) \md x
 \end{equation*}
 the relation to the linear system of algebraic equations becomes evident,
 \begin{equation*}
@@ -108,7 +108,7 @@ the relation to the linear system of algebraic equations becomes evident,
 \end{equation*}
 for any $\vecv = [v_i]\in \xR^\NxVh$, with
 \begin{equation*}
-\matA = \left[\int_\dom \varphi'_j(x)\varphi'_i(x) \md x\right]_{ij},\quad\vecb = \left[\int_\dom f(x) \varphi_i(x) \md x\right]_{i}
+\matA = \left[\intD \varphi'_j(x)\varphi'_i(x) \md x\right]_{ij},\quad\vecb = \left[\intD f(x) \varphi_i(x) \md x\right]_{i}
 \end{equation*}
 and the discrete solution is represented by the solution vector $\vecu = [u_j]\in \xR^\NxVh$.
 Computing contributions $\matA_{ij}$ and $\vecb_i$ is possible as soon as the basis $\Fam{\varphi}_j$ is constructed explicitly.

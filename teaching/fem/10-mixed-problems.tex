@@ -41,15 +41,15 @@ with $\Stress_N$ a surface force acting on $\bound_N$.
 \medskip
 According to the method developed during the course, we would like first of all to derive a weak formulation by testing Equations \eqref{pb:stokes_momentum} and \eqref{pb:stokes_continuity} against smooth functions, such that we consider
 \begin{equation*}
-- \int_\dom \Div\Tvisc\xDot\vv\dx + \int_\dom \Grad p \xDot \vv\dx = \int_\dom \dens\grav\xDot\vv\dx\quad,\forany\vv\in\xVd
+- \intD \Div\Tvisc\xDot\vv\dx + \intD \Grad p \xDot \vv\dx = \intD \dens\grav\xDot\vv\dx\quad,\forany\vv\in\xVd
 \end{equation*}
 and
 \begin{equation*}
-\int_\dom \Div\bar\uu\,q\dx = 0\quad,\forany q\in\xM
+\intD \Div\bar\uu\,q\dx = 0\quad,\forany q\in\xM
 \end{equation*}
 Integrating by parts to report the derivatives on the tests functions:
 \begin{equation*}
-- \int_\dom \Div\Tvisc\xDot\vv\dx = - \int_\dom \Div(\Tvisc^t\xDot\vv)\dx + \int_\dom \Tvisc:\Grad\vv\dx
+- \intD \Div\Tvisc\xDot\vv\dx = - \intD \Div(\Tvisc^t\xDot\vv)\dx + \intD \Tvisc:\Grad\vv\dx
 \end{equation*}
 which uses the tensor identity, given under repeated indices form:
 \begin{equation*}
@@ -57,19 +57,19 @@ which uses the tensor identity, given under repeated indices form:
 \end{equation*}
 Owing to relation
 \begin{equation*}
-- \int_\dom \Div\Tvisc\xDot\vv\dx = - \int_\bound \Tvisc\xDot\n\xDot\vv\ds + \int_\dom \Tvisc:\Grad\vv\dx
+- \intD \Div\Tvisc\xDot\vv\dx = - \int_\bound \Tvisc\xDot\n\xDot\vv\ds + \intD \Tvisc:\Grad\vv\dx
 \end{equation*}
 and
 \begin{equation*}
-- \int_\dom \Grad p\xDot\vv\dx = - \int_\bound p \n\xDot\vv\ds + \int_\dom p\,\Div\vv\dx
+- \intD \Grad p\xDot\vv\dx = - \int_\bound p \n\xDot\vv\ds + \intD p\,\Div\vv\dx
 \end{equation*}
 the weak formulation of Problem \eqref{pb:stokes} reads:
 \begin{equation*}\label{pb:stokes_weak}
 \left\vert
 \begin{array}{rlll}
 \mbox{Find $(\bar\uu,p)\in \xWd\times\xM$ such that:}\\[2ex]
-\displaystyle \int_\dom \Tvisc:\Grad\vv\dx - \int_\dom p\,\Div\vv\dx &=& \displaystyle\int_\dom \dens\grav\xDot\vv\dx + \int_{\bound_N}\Stress_N\xDot\n\ds & ,\forany\vv\in\xVd\\[2ex]
-\displaystyle \int_\dom \Div\bar\uu\,q\dx &=& 0 & ,\forany q\in\xM
+\displaystyle \intD \Tvisc:\Grad\vv\dx - \intD p\,\Div\vv\dx &=& \displaystyle\intD \dens\grav\xDot\vv\dx + \int_{\bound_N}\Stress_N\xDot\n\ds & ,\forany\vv\in\xVd\\[2ex]
+\displaystyle \intD \Div\bar\uu\,q\dx &=& 0 & ,\forany q\in\xM
 \end{array}
 \right.
 \end{equation*}
@@ -99,21 +99,21 @@ defining $a(\xDot,\xDot)$ as the continuous bilinear form:
 \begin{equation*}
 \begin{array}{rlll}
 a :& \xWd\times\xVd & \fromto & \xR \\[2ex]
-   & (\bar\uu,\vv)      & \mapsto & \displaystyle \int_\dom \Tvisc:\Grad\vv\dx
+   & (\bar\uu,\vv)      & \mapsto & \displaystyle \intD \Tvisc:\Grad\vv\dx
 \end{array}
 \end{equation*}
 $b(\xDot,\xDot)$ as the continuous bilinear form:
 \begin{equation*}
 \begin{array}{rlll}
 b :& \xVd\times\xM  & \fromto & \xR \\[2ex]
-   & (\vv , p)      & \mapsto & \displaystyle - \int_\dom p\,\Div\vv\dx
+   & (\vv , p)      & \mapsto & \displaystyle - \intD p\,\Div\vv\dx
 \end{array}
 \end{equation*}
 and $L(\xDot)$ as the continuous linear form:
 \begin{equation*}
 \begin{array}{rlll}
 L :& \xVd   & \fromto & \xR \\[2ex]
-   & \vv    & \mapsto & \displaystyle \displaystyle\int_\dom \dens\grav\xDot\vv\dx + \int_{\bound_N}\Stress_N\xDot\n\ds
+   & \vv    & \mapsto & \displaystyle \displaystyle\intD \dens\grav\xDot\vv\dx + \int_{\bound_N}\Stress_N\xDot\n\ds
 \end{array}
 \end{equation*}
 

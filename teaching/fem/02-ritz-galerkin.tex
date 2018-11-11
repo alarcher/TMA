@@ -104,17 +104,17 @@ Let us derive the expression of $J'(u;w)$ defined by \eqref{eq:directional_deriv
 First let us verify that if $u$ solves the minimization problem then it solves the corresponding weak problem.
 \begin{subequations}
 \begin{eqnarray*}
-J(u + \varepsilon w) &=& \frac{1}{2} \int_\dom \bigl[(u + \varepsilon w)' \bigr]^2 \dxx - \int_\dom f (u + \varepsilon w) \dxx\\
-                     &=& \frac{1}{2} \int_\dom \bigl[(u')^2 + 2\varepsilon u'w' + \varepsilon^2 (v')^2 \bigr] \dxx - \int_\dom f u \dxx - \varepsilon\int_\dom f w \dxx\\
-                     &=& J(u) + \varepsilon\left[\int_\dom u'w' \dxx - \int_\dom f w \dxx \right] + \frac{1}{2}\;\varepsilon^2\int_\dom (w')^2 \dxx
+J(u + \varepsilon w) &=& \frac{1}{2} \intD \bigl[(u + \varepsilon w)' \bigr]^2 \dxx - \intD f (u + \varepsilon w) \dxx\\
+                     &=& \frac{1}{2} \intD \bigl[(u')^2 + 2\varepsilon u'w' + \varepsilon^2 (v')^2 \bigr] \dxx - \intD f u \dxx - \varepsilon\intD f w \dxx\\
+                     &=& J(u) + \varepsilon\left[\intD u'w' \dxx - \intD f w \dxx \right] + \frac{1}{2}\;\varepsilon^2\intD (w')^2 \dxx
 \end{eqnarray*}
 Writing the derivative gives,
 \begin{equation*}
-\lim_{\varepsilon\tendsto 0} \displaystyle \frac{1}{\varepsilon}\bigr( J(u + \varepsilon w) - J(u) \bigl) = \lim_{\varepsilon\tendsto 0} \left[\int_\dom u'w' \dxx - \int_\dom f w \dxx + \frac{1}{2}\;\varepsilon\snorm{w}_{\xHonec} \right]
+\lim_{\varepsilon\tendsto 0} \displaystyle \frac{1}{\varepsilon}\bigr( J(u + \varepsilon w) - J(u) \bigl) = \lim_{\varepsilon\tendsto 0} \left[\intD u'w' \dxx - \intD f w \dxx + \frac{1}{2}\;\varepsilon\snorm{w}_{\xHonec} \right]
 \end{equation*}
 so that the Euler condition holds if for any $w\in\xV = \xHonec(\dom)$
 \begin{equation*}
-J'(u; w) = \int_\dom u'w' \dxx - \int_\dom f w \dxx = 0
+J'(u; w) = \intD u'w' \dxx - \intD f w \dxx = 0
 \end{equation*}
 \end{subequations}
 In this case the functional $J$ is Fréchet-derivable as $L_u$ is linear.
@@ -123,7 +123,7 @@ In this case the functional $J$ is Fréchet-derivable as $L_u$ is linear.
 \medskip
 Secondly, the other way around considering that the weak formulation holds for the test function $\varepsilon w \in \xV$ then in the relation
 \begin{equation*}
-J(u + \varepsilon w) = J(u) + \varepsilon\left[\int_\dom u'w' \dxx - \int_\dom f w \dxx \right] + \frac{1}{2}\;\varepsilon^2\int_\dom (w')^2 \dxx
+J(u + \varepsilon w) = J(u) + \varepsilon\left[\intD u'w' \dxx - \intD f w \dxx \right] + \frac{1}{2}\;\varepsilon^2\intD (w')^2 \dxx
 \end{equation*}
 the second term of the right-hand side cancels, and the third term is non-negative, then
 \begin{equation*}

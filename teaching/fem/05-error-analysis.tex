@@ -26,7 +26,7 @@ In the previous chapters, the weak problem derived for the Poisson problem with 
 \left\lvert
 \begin{array}{ll}
 \mbox{Find $u\in \xV = \xHonec(\dom)$ such that:}\\[2ex]
-\displaystyle\int_\dom \Grad{u}\xDot\Grad{v} \dxx = \int_\dom f\;v \dxx\;,\quad\forany v \in\xV\\[2ex]
+\displaystyle\intD \Grad{u}\xDot\Grad{v} \dxx = \intD f\;v \dxx\;,\quad\forany v \in\xV\\[2ex]
 \end{array}
 \right.
 \end{equation*}
@@ -35,7 +35,7 @@ was approximated by a Galerkin problem,
 \left\lvert
 \begin{array}{ll}
 \mbox{Find $u_h\in\xVh\subset\xHonec(\dom)$ such that:}\\[2ex]
-\displaystyle\int_\dom \Grad{u_h}\xDot\Grad{v} \dxx = \int_\dom f\;v \dxx\;,\quad\forany v \in\xVh\\[2ex]
+\displaystyle\intD \Grad{u_h}\xDot\Grad{v} \dxx = \intD f\;v \dxx\;,\quad\forany v \in\xVh\\[2ex]
 \end{array}
 \right.
 \end{equation*}
@@ -52,16 +52,16 @@ with $C > 0$, which we denoted as \textit{a priori} estimate.
 In a second stage, without making any further assumption on the approximation space $\xVh$, a general result was introduced showing that the distance between the exact solution and the approximate solution $\norm{u - u_h}_{\xV}$ is bounded by the distance of $u$ to the best approximation of $u$ in $\xVh$; this is Cea's Lemma.
 For the sake of completeness, the estimate corresponding to Cea's Lemma is given in the case of the Poisson problem with homogeneous Dirichlet boundary conditions.
 \begin{equation*}
-E = \snorm{u - u_h}^2_{\xHone(\dom)} = \int_\dom \Abs{\Grad(u - u_h)}^2\dxx = \int_\dom \Grad(u - u_h)\xDot\Grad(u - u_h) \dxx
+E = \snorm{u - u_h}^2_{\xHone(\dom)} = \intD \Abs{\Grad(u - u_h)}^2\dxx = \intD \Grad(u - u_h)\xDot\Grad(u - u_h) \dxx
 \end{equation*}
 
 For any $v_h\in\xVh$
 \begin{equation*}
-E = \int_\dom \Grad(u - u_h)\xDot\Grad(u - v_h) \dxx + \int_\dom \Grad(u - u_h)\xDot\Grad(v_h - u_h) \dxx
+E = \intD \Grad(u - u_h)\xDot\Grad(u - v_h) \dxx + \intD \Grad(u - u_h)\xDot\Grad(v_h - u_h) \dxx
 \end{equation*}
 and the second term cancels by virtue of consistency (Galerkin orthogonality), so that Cauchy--Scwarz gives
 \begin{equation*}
-E = \snorm{u - u_h}^2_{\xHone(\dom)} \leq \left(\int_\dom \Abs{\Grad(u - u_h)}^2 \dxx\right)^{\sfrac{1}{2}} \left(\int_\dom \Abs{\Grad(u - v_h)}^2 \dxx\right)^{\sfrac{1}{2}}
+E = \snorm{u - u_h}^2_{\xHone(\dom)} \leq \left(\intD \Abs{\Grad(u - u_h)}^2 \dxx\right)^{\sfrac{1}{2}} \left(\intD \Abs{\Grad(u - v_h)}^2 \dxx\right)^{\sfrac{1}{2}}
 \end{equation*}
 thus
 \begin{equation*}
@@ -194,8 +194,8 @@ Summing over $K$ and using the definition of $\sizeT$,
 In this case we do not need to prove an elementwise estimate first as we already introduced a control of pointwise values in terms of the $\xHone$ seminorm and the $\xLtwo$ norm: it boils down to estimate the maximum attained by the linear interpolate.
 \begin{equation*}
 \begin{array}{lcl}
-\norm{\Lgrh{1}v}_{\xLtwo(\dom)} &=&\displaystyle \left(\int_\dom \Abs{\Lgrh{1}v}^2 \dxx\right)^{\sfrac{1}{2}}\\[2ex]
-                              &\leq&\displaystyle \left(\int_\dom \norm{\Lgrh{1}v}_{\xLinfty(\dom)}^2 \dxx\right)^{\sfrac{1}{2}}\\[2ex]
+\norm{\Lgrh{1}v}_{\xLtwo(\dom)} &=&\displaystyle \left(\intD \Abs{\Lgrh{1}v}^2 \dxx\right)^{\sfrac{1}{2}}\\[2ex]
+                              &\leq&\displaystyle \left(\intD \norm{\Lgrh{1}v}_{\xLinfty(\dom)}^2 \dxx\right)^{\sfrac{1}{2}}\\[2ex]
                               &\leq& |\dom|^{\sfrac{1}{2}} \norm{\Lgrh{1}v}_{\xLinfty(\dom)}\\[2ex]
                               &\leq& |\dom|^{\sfrac{1}{2}} \norm{v}_{\xLinfty(\dom)}\\
 \end{array}
@@ -353,7 +353,7 @@ Similarly to the Poisson equation, the weak formulation of Problem $\ref{pb:aubi
 \left\lvert
 \begin{array}{ll}
 \mbox{Find $\varphi \in \xHonec(\dom)$, given $e_h \in \xLtwo(\dom)$, such that:}\\[2ex]
-\displaystyle\int_\dom \Grad \varphi\xDot \Grad \phi\dxx = \int_\dom e_h \phi  \dxx\quad,\;\forany  \phi\in \xHonec(\dom)
+\displaystyle\intD \Grad \varphi\xDot \Grad \phi\dxx = \intD e_h \phi  \dxx\quad,\;\forany  \phi\in \xHonec(\dom)
 \end{array}
 \right .
 \end{equation}
@@ -369,15 +369,15 @@ so we have from the interpolation inequality for $\varphi$
 \medskip
 Let us try to bound the $\xLtwo$ norm of the approximation error by noticing that its amounts to take $\phi = e_h$ in \eqref{pb:weak_aubin_nitsche}:
 \begin{equation*}
-\nLtwo{e_h} = \int_\dom |e_h|^2 \dxx = \int_\dom \Grad \varphi\xDot \Grad e_h\dxx
+\nLtwo{e_h} = \intD |e_h|^2 \dxx = \intD \Grad \varphi\xDot \Grad e_h\dxx
 \end{equation*}
 If we consider the approximate of Problem \eqref{pb:weak_aubin_nitsche} by Galerkin method, with $\varphi_h \in \xVh$ its solution, then the Galerkin orthogonality reads:
 \begin{equation*}
-\int_\dom \Grad \varphi_h\xDot \Grad e_h\dxx  = 0
+\intD \Grad \varphi_h\xDot \Grad e_h\dxx  = 0
 \end{equation*}
 Thus we can subtract and add this latter to the previous expression:
 \begin{equation*}
-\nLtwo{e_h} = \int_\dom \Grad (\varphi - \varphi_h)\xDot \Grad e_h\dxx + \underbrace{\int_\dom \Grad \varphi_h\xDot \Grad e_h\dxx}_{0}
+\nLtwo{e_h} = \intD \Grad (\varphi - \varphi_h)\xDot \Grad e_h\dxx + \underbrace{\intD \Grad \varphi_h\xDot \Grad e_h\dxx}_{0}
 \end{equation*}
 First we use Cauchy-Schwarz and make the $\xHone$ norm of the approximation errors appear since we control them by Equation \eqref{eq:h1err_eh} and \eqref{eq:h1err_phih}:
 \begin{equation*}

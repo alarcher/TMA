@@ -12,10 +12,10 @@ Provided that we are able to compute an approximate solution $\uh$, we want now 
 
 Let $u$ and $\uh$ be respectively the solutions to Problem \eqref{pb:weak_poissonHone} and Problem \eqref{pb:poisson_p1}
 \begin{eqnarray*}
-\snHoneD{e_h}^2 &=& \int_\dom \Grad e_h \xDot \Grad e_h \dx \\
-                &=& \int_\dom \Grad e_h \xDot \Grad (e_h - \Projh{h} e_h)\dx \\
-                &=& \int_\dom \Grad u \xDot  \Grad (e_h - \Projh{h} e_h)  \dx - \int_\dom \Grad \uh \xDot \Grad (e_h - \Projh{h} e_h) \dx \\
-                &=& \int_\dom f\; (e_h - \Projh{h} e_h)  \dx - \int_\dom \Grad \uh \xDot \Grad (e_h - \Projh{h} e_h) \dx
+\snHoneD{e_h}^2 &=& \intD \Grad e_h \xDot \Grad e_h \dx \\
+                &=& \intD \Grad e_h \xDot \Grad (e_h - \Projh{h} e_h)\dx \\
+                &=& \intD \Grad u \xDot  \Grad (e_h - \Projh{h} e_h)  \dx - \intD \Grad \uh \xDot \Grad (e_h - \Projh{h} e_h) \dx \\
+                &=& \intD f\; (e_h - \Projh{h} e_h)  \dx - \intD \Grad \uh \xDot \Grad (e_h - \Projh{h} e_h) \dx
 \end{eqnarray*}
 To obtain the residual $\Res \uh$ we need to consider the equation element-wise, then integrating by part on any cell $K \in \meshT$, we obtain
 \begin{equation*}

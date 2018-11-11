@@ -38,16 +38,16 @@ u(\xx,0) = u_0(\xx)
 $\matA\;u = - \Delta\;u$.
 
 \begin{equation*}
-\InnerP{\matA\;u}{v} = - \int_\dom \Delta\;u v \dxx = \int_\dom \Grad u \cdot \Grad v \dxx
+\InnerP{\matA\;u}{v} = - \intD \Delta\;u v \dxx = \intD \Grad u \cdot \Grad v \dxx
 \end{equation*}
 
 Firstly, let us derive the energy estimate for the heat equation in the by recalling the weak form and then taking the test function to be the unknown $u$:
 \begin{eqnarray*}
-\int_\dom \pdt u\, v \dxx + \kappa \int_\dom \Grad u . \Grad v \dxx &=& \int_\dom f\,v \dxx \\[2ex]
-\int_\dom \pdt u\, u \dxx + \kappa \int_\dom | \Grad u |^2 \dxx &=& \int_\dom f\,u \dxx \\
-\dfrac{1}{2}\int_\dom \pdt |u|^2 \dxx + \kappa \int_\dom | \Grad u |^2 \dxx &=& \int_\dom f\,u \dxx \\[2ex]
-\dfrac{1}{2} \ddd{t} \int_\dom  |u|^2 \dxx + \kappa \int_\dom | \Grad u |^2 \dxx &=& \int_\dom f\,u \dxx \\[2ex]
-\dfrac{1}{2} \ddd{t} \nLtwo{u}^2 + \kappa \snHoneD{u}^2 \dxx &=& \int_\dom f\,u \dxx
+\intD \pdt u\, v \dxx + \kappa \intD \Grad u . \Grad v \dxx &=& \intD f\,v \dxx \\[2ex]
+\intD \pdt u\, u \dxx + \kappa \intD | \Grad u |^2 \dxx &=& \intD f\,u \dxx \\
+\dfrac{1}{2}\intD \pdt |u|^2 \dxx + \kappa \intD | \Grad u |^2 \dxx &=& \intD f\,u \dxx \\[2ex]
+\dfrac{1}{2} \ddd{t} \intD  |u|^2 \dxx + \kappa \intD | \Grad u |^2 \dxx &=& \intD f\,u \dxx \\[2ex]
+\dfrac{1}{2} \ddd{t} \nLtwo{u}^2 + \kappa \snHoneD{u}^2 \dxx &=& \intD f\,u \dxx
 \end{eqnarray*}
 
 In the case of an homogeneous equation, the latest relation is directly the instantaneous conservation of energy
@@ -102,7 +102,7 @@ The solution is said to be bounded in $\xLinfty(0,T;\xLtwo(\dom))$, \ie $u \in \
 Now, if we turn to the discrete case the estimate is not different aside from the the discrete time derivative.
 The term for the discrete time derivative in the case of backward Euler reads
 \begin{equation*}
-\dfrac{1}{\kt}\int_\dom (u - u^\ast)\, u \dxx
+\dfrac{1}{\kt}\intD (u - u^\ast)\, u \dxx
 \end{equation*}
 with $\kt$ the current time step, $u$ and $u^\ast$ respectively the solution at the current and previous time stepping.
 
@@ -111,16 +111,16 @@ with $\kt$ the current time step, $u$ and $u^\ast$ respectively the solution at 
 Take $v = - t \Delta u$.
 
 \begin{equation*}
-- \int_\dom \bigl(\partial_t u - \Delta u\bigr)\,t\;\Delta u \dxx
+- \intD \bigl(\partial_t u - \Delta u\bigr)\,t\;\Delta u \dxx
 \end{equation*}
 
 
 \begin{equation*}
-\int_\dom t \Grad(\partial_t u)\cdot\Grad u  \dxx + \int_\dom t \snorm{\Delta u}^2 \dxx
+\intD t \Grad(\partial_t u)\cdot\Grad u  \dxx + \intD t \snorm{\Delta u}^2 \dxx
 \end{equation*}
 
 \begin{equation*}
-t \int_\dom \partial_t(\Grad u)\cdot\Grad u \dxx + t \int_\dom \snorm{\Delta u}^2 \dxx
+t \intD \partial_t(\Grad u)\cdot\Grad u \dxx + t \intD \snorm{\Delta u}^2 \dxx
 \end{equation*}
 
 \begin{equation*}
