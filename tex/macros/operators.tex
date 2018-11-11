@@ -36,31 +36,36 @@
 
 %-------------------------------------------------------------------------------
 % Derivatives
-\newcommand{\ds}{\hspace{.5ex}{\mathrm d}s}
 \newcommand{\md}{\hspace{.5ex}{\mathrm d}}
-%
-\newcommand{\dt}{\delta \hspace{-0.05ex} t}
-\newcommand{\pdt}{\partial_t}
-\newcommand{\ddt}{\hspace{.5ex}{\mathrm d}t}
-%
-\newcommand{\pd}[1]{\partial_{#1}\,}
-\newcommand{\pdx}{\partial_x}
-\newcommand{\dxd}{\hspace{.5ex}{\mathrm d}\bfx}
-\newcommand{\dx}{\hspace{.5ex}{\mathrm d}\bfx}
-\newcommand{\dy}{\hspace{.5ex}{\mathrm d}\bfy}
-\newcommand{\dz}{\hspace{.5ex}{\mathrm d}\bfz}
-%\newcommand{\ddx}{\frac{{\mathrm d}}{{\mathrm d}x}}
-%\newcommand{\ddy}{\frac{{\mathrm d}}{{\mathrm d}y}}
-%\newcommand{\ddz}{\frac{{\mathrm d}}{{\mathrm d}z}}
-\newcommand{\ddx}{\frac{{\partial}}{{\partial}x}}
-\newcommand{\ddy}{\frac{{\partial}}{{\partial}y}}
-\newcommand{\ddz}{\frac{{\partial}}{{\partial}z}}
 
-\newcommand{\pddx}[1]{\frac{{\partial #1}}{{\partial}x}}
-\newcommand{\pddy}[1]{\frac{{\partial #1}}{{\partial}y}}
-\newcommand{\pddz}[1]{\frac{{\partial #1}}{{\partial}z}}
-\newcommand{\dd}[2]{\frac{{\partial #1}}{{\partial#2}}}
-\newcommand{\ddd}[1]{\frac{{\mathrm d}}{{\mathrm d #1}}}
+% Derivatives
+\newcommand{\dd}{\md}
+\newcommand{\dt}{\dd t}
+\newcommand{\dx}{\dd x}
+\newcommand{\dy}{\dd y}
+\newcommand{\dz}{\dd z}
+\newcommand{\dxd}{\dd \bfx}
+\newcommand{\ddd}[1]{\frac{{\dd}}{{\dd #1}}}
+\newcommand{\ddx}{\ddd{x}}
+\newcommand{\ddy}{\ddd{y}}
+\newcommand{\ddz}{\ddd{z}}
+
+% Partial derivatives
+\newcommand{\pd}[1]{\partial_{#1}\,}
+\newcommand{\pdt}{\pd{t}}
+\newcommand{\pdx}{\pd{x}}
+\newcommand{\pdy}{\pd{y}}
+\newcommand{\pdz}{\pd{z}}
+\newcommand{\pdd}[2]{\frac{{\partial #1}}{{\partial#2}}}
+\newcommand{\pddx}[1]{\pdd{#1}{x}}
+\newcommand{\pddy}[1]{\pdd{#1}{x}}
+\newcommand{\pddz}[1]{\pdd{#1}{x}}
+
+% Surface integral
+\newcommand{\ds}{\md s}
+
+% Time stepping
+\newcommand{\kt}{\delta \hspace{-0.05ex} t}
 
 %-------------------------------------------------------------------------------
 \newcommand{\xDot}{\,{\mathbf\cdot}\,}

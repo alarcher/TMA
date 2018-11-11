@@ -1,21 +1,53 @@
 
 \chapter{Time-dependent problems}
 
-The objective of this section is to introduce the \apriori stability analysis of time-dependent problems on several examples to obtain estimates similar to Lemma \eqref{ln:stability_elliptic}.
+The objective of this section is to introduce the \apriori stability analysis of time-dependent problems on several examples to obtain estimates similar to Lemma \ref{lm:stability_elliptic}.
 
 \section{Time marching schemes}
+
+Open cylinder $\cyl = \dom \times (0,T)$.
+
+Initial Value problem:
+\begin{equation*}
+\left\lvert
+\begin{array}{l}
+\partial_t u(\xx,t) + \matA\;u(\xx,t) = f(\xx,t) \\
+u(\xx,t) = g(\xx,t) \\
+u(\xx,0) = u_0(\xx)
+\end{array}
+\right.
+\end{equation*}
+
+Time stepping, discretization in time on $(0,T)$.
+
+Parabolic problem: smoothing property, dissipation by elliptic operator.
 
 \section{\textit{A priori} stability estimate}
 
 \subsection{Heat equation}
 
+\begin{equation*}
+\left\lvert
+\begin{array}{l}
+\partial_t u(\xx,t) - \Delta u(\xx,t) = f(\xx,t) \\
+u(\xx,t) = 0 \\
+u(\xx,0) = u_0(\xx)
+\end{array}
+\right.
+\end{equation*}
+$\matA\;u = - \Delta\;u$.
+
+\begin{equation*}
+\InnerP{\matA\;u}{v} = - \int_\dom \Delta\;u v \dxd = \int_\dom \Grad u \cdot \Grad v \dxd
+\end{equation*}
+
 Firstly, let us derive the energy estimate for the heat equation in the by recalling the weak form and then taking the test function to be the unknown $u$:
 \begin{eqnarray*}
-\int_\dom \pdt u\, v \dx + \kappa \int_\dom \Grad u . \Grad v \dx &=& \int_\dom f\,v \dx \\[2ex]
-\int_\dom \pdt u\, u \dx + \kappa \int_\dom | \Grad u |^2 \dx &=& \int_\dom f\,u \dx \\
-\dfrac{1}{2}\int_\dom \pdt |u|^2 \dx + \kappa \int_\dom | \Grad u |^2 \dx &=& \int_\dom f\,u \dx \\[2ex]
-\dfrac{1}{2} \ddd{t} \int_\dom  |u|^2 \dx + \kappa \int_\dom | \Grad u |^2 \dx &=& \int_\dom f\,u \dx \\[2ex]
-\dfrac{1}{2} \ddd{t} \nLtwo{u}^2 + \kappa \snHoneD{u}^2 \dx &=& \int_\dom f\,u \dx
+\int_\dom \pdt u\, v \dxd + \kappa \int_\dom \Grad u . \Grad v \dxd &=& \int_\dom f\,v \dxd \\[2ex]
+\int_\dom \pdt u\, u \dxd + \kappa \int_\dom | \Grad u |^2 \dxd &=& \int_\dom f\,u \dxd \\
+\dfrac{1}{2}\int_\dom \pdt |u|^2 \dxd + \kappa \int_\dom | \Grad u |^2 \dxd &=& \int_\dom f\,u \dxd \\[2ex]
+\dfrac{1}{2} \ddd{t} \int_\dom  |u|^2 \dxd + \kappa \int_\dom | \Grad u |^2 \dxd &=& \int_\dom f\,u \dxd \\[2ex]
+\dfrac{1}{2} \ddd{t} \nLtwo{u}^2 + \kappa \snHoneD{u}^2 \dxd &=& \int_\dom f\,u \dxd
 \end{eqnarray*}
 
 In the case of an homogeneous equation, the latest relation is directly the instantaneous conservation of energy
@@ -25,7 +57,7 @@ In the case of an homogeneous equation, the latest relation is directly the inst
 with the first term being the variation of kinetic energy and the second term being the dissipation of energy with diffusion coefficient $\kappa$.
 Integrating over the time interval, we get the energy budget over $[0,T]$:
 \begin{equation}\label{eq:energy_budget}
-\dfrac{1}{2} \nLtwo{u}^2 + \kappa \int_{0}^T \snHoneD{u}^2 \ddt = 0
+\dfrac{1}{2} \nLtwo{u}^2 + \kappa \int_{0}^T \snHoneD{u}^2 \dt = 0
 \end{equation}
 
 \medskip
@@ -41,7 +73,7 @@ Using first the Poincaré inequality (Lemma \ref{lm:poincare}) and then the Youn
 \nLtwo{f} \nLtwo{u} \leq \dfrac{1}{2 \gamma^2 c_P^2} \nLtwo{f}^2 + \dfrac{\gamma^2}{2}\snHoneD{u}^2
 \end{equation}
 with $\gamma$ a positive real number which can be chosen arbitrarily.
-Therefore, as soon as we choose $\gamma < \sqrt{2 \kappa}$, it is possible to substract the second term of \eqref{eq:apriori_rhs_bound} to the left-hand side of the estimate, given that
+Therefore, as soon as we choose $\gamma < \sqrt{2 \kappa}$, it is possible to subtract the second term of \eqref{eq:apriori_rhs_bound} to the left-hand side of the estimate, given that
 \begin{equation}
 \dfrac{1}{2} \ddd{t} \nLtwo{u}^2 + \dfrac{2\kappa - \gamma^2}{2}  \snHoneD{u}^2 \leq \dfrac{1}{2 \gamma^2 c_P^2} \nLtwo{f}^2
 \end{equation}
@@ -51,18 +83,18 @@ Consequently, taking $\gamma= \sqrt{\kappa}$ there exists a constant $C > 0$ dep
 \ddd{t} \nLtwo{u}^2 + \kappa  \snHoneD{u}^2 \leq C(c_P) \nLtwo{f}^2
 \end{equation}
 
-This inequality yields a control of the $\xLtwo$ norm and $\xHone$ seminorn of the solution at any time $t$ of the time interval $[0,T]$.
+This inequality yields a control of the $\xLtwo$ norm and $\xHone$ seminorm of the solution at any time $t$ of the time interval $[0,T]$.
 Similarly to Equation \eqref{eq:energy_budget}, if we integrate over the time, we get
 \begin{equation*}
-\nLtwo{u}^2 + \kappa \int_{0}^T \snHoneD{u}^2 \ddt \leq C(c_P) \int_{0}^T \nLtwo{f}^2 \ddt
+\nLtwo{u(T)}^2 - \nLtwo{u(0)}^2 + \kappa \int_{0}^T \snHoneD{u}^2 \dt \leq C(c_P) \int_{0}^T \nLtwo{f}^2 \dt
 \end{equation*}
 which, by defining,
 \begin{equation}
-\norm{v}_{\xL^{r}(0,T;\xL^{p}(\dom))} = \Grp{\int_{0}^T \norm{v}_{\xL^p(\dom)}^{r} \ddt}^{1/r}
+\norm{v}_{\xL^{r}(0,T;\xL^{p}(\dom))} = \Grp{\int_{0}^T \norm{v}_{\xL^p(\dom)}^{r} \dt}^{1/r}
 \end{equation}
 can be rewritten as
 \begin{equation*}
-\nLtwo{u}^2 + \kappa \norm{u}_{\xLtwo(0,T;\xHonec(\dom))}^2 \leq C(c_P) \norm{f}_{\xLtwo(0,T;\xLtwo(\dom))}^2
+\nLtwo{u(T)}^2 + \kappa \norm{u}_{\xLtwo(0,T;\xHonec(\dom))}^2 \leq C(c_P) \norm{f}_{\xLtwo(0,T;\xLtwo(\dom))}^2 + \nLtwo{u(0)}^2
 \end{equation*}
 The solution is said to be bounded in $\xLinfty(0,T;\xLtwo(\dom))$, \ie $u \in \xLtwo(\dom)$ for almost every $t \in [0,T]$, and is it also bounded in $\xLtwo(0,T;\xHone(\dom))$ by the data (provided that $f \in \xLtwo(0,T;\xLtwo(\dom))$ of course).
 
@@ -70,10 +102,62 @@ The solution is said to be bounded in $\xLinfty(0,T;\xLtwo(\dom))$, \ie $u \in \
 Now, if we turn to the discrete case the estimate is not different aside from the the discrete time derivative.
 The term for the discrete time derivative in the case of backward Euler reads
 \begin{equation*}
-\dfrac{1}{\dt}\int_\dom (u - u^\ast)\, u \dx
+\dfrac{1}{\kt}\int_\dom (u - u^\ast)\, u \dxd
 \end{equation*}
-with $\dt$ the current time step, $u$ and $u^\ast$ respectively the solution at the current and previous time stepping.
+with $\kt$ the current time step, $u$ and $u^\ast$ respectively the solution at the current and previous time stepping.
 
-\subsection{Wave equation}
+\subsubsection{$\xHtwo$}
 
-\section{Exercises}
+Take $v = - t \Delta u$.
+
+\begin{equation*}
+- \int_\dom \bigl(\partial_t u - \Delta u\bigr)\,t\;\Delta u \dxd
+\end{equation*}
+
+
+\begin{equation*}
+\int_\dom t \Grad(\partial_t u)\cdot\Grad u  \dxd + \int_\dom t \snorm{\Delta u}^2 \dxd
+\end{equation*}
+
+\begin{equation*}
+t \int_\dom \partial_t(\Grad u)\cdot\Grad u \dxd + t \int_\dom \snorm{\Delta u}^2 \dxd
+\end{equation*}
+
+\begin{equation*}
+\dfrac{t}{2}\dfrac{\md}{\dt}\snHoneD{u}^2 + \snHtwoD{u}^2
+\end{equation*}
+
+\begin{equation*}
+\dfrac{1}{2}\dfrac{\md}{\dt}\bigl(t \snHoneD{u}^2\bigr) - \dfrac{1}{2} \snHoneD{u}^2 + t\snHtwoD{u}^2
+\end{equation*}
+
+\begin{equation*}
+\dfrac{T}{2}\snHoneD{u(T)}^2 + \int_0^T t\snHtwoD{u}^2 \dt - \dfrac{1}{2}\int_0^T \snHoneD{u}^2 = \underbrace{\dfrac{0}{2}\snHoneD{u(0)}^2}_{0}
+\end{equation*}
+
+\begin{equation*}
++ t\snHtwoD{u}^2 = + \dfrac{1}{2}\int_0^T \snHoneD{u}^2 - \dfrac{T}{2}\snHoneD{u(T)}^2
+\end{equation*}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
