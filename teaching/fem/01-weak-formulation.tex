@@ -142,11 +142,11 @@ Three properties of the weak formulation should be studied: firstly that a class
 
 Let $u \in \xCtwo(\domc)$ be a classical solution to \eqref{pb:poisson} and let us test Equation \eqref{pb:poisson_eq} against any smooth function $\varphi\in\xCinfc(\dom)$:
 \begin{equation*}
-- \int_\dom \Lap u(\xx) \varphi(\xx) \dx = \int_\dom f(\xx) \varphi(\xx)  \dx
+- \int_\dom \Lap u(\xx) \varphi(\xx) \dxx = \int_\dom f(\xx) \varphi(\xx)  \dxx
 \end{equation*}
 Since $u \in \xCtwo(\domc)$, $\Delta u$ is well defined. Integrating by parts, the left-hand side reads:
 \begin{equation*}
-- \int_\dom \Lap u(\xx) \varphi(\xx) \dx = - \int_\bound \Grad u(\xx) \xDot \n \varphi(\xx) \ds + \int_\dom \Grad u(\xx)\xDot \Grad \varphi(\xx) \dx
+- \int_\dom \Lap u(\xx) \varphi(\xx) \dxx = - \int_\bound \Grad u(\xx) \xDot \n \varphi(\xx) \ds + \int_\dom \Grad u(\xx)\xDot \Grad \varphi(\xx) \dxx
 \end{equation*}
 For simplicity, we recall the one-dimensional case:
 \begin{equation*}
@@ -154,7 +154,7 @@ For simplicity, we recall the one-dimensional case:
 \end{equation*}
 Since $\varphi$ has compact support in $\dom$, it vanishes on the boundary $\partial\dom$, consequently the boundary integral is zero, thus the distributional formulation reads
 \begin{equation*}
-\int_\dom \Grad u(\xx)\xDot \Grad \varphi(\xx) \dx = \int_\dom f(\xx) \varphi(\xx)  \dx\quad,\;\forany\varphi\in\xCinfc(\dom)
+\int_\dom \Grad u(\xx)\xDot \Grad \varphi(\xx) \dxx = \int_\dom f(\xx) \varphi(\xx)  \dxx\quad,\;\forany\varphi\in\xCinfc(\dom)
 \end{equation*}
 and we are led to look for a solution $u$ belonging to a function space such that the previous relation makes sense.
 
@@ -164,7 +164,7 @@ A weak formulation of Problem \eqref{pb:poisson} consists in solving:
 \left\lvert
 \begin{array}{ll}
 \mbox{Find $u \in \xHil$, given $f \in \xV'$, such that:}\\[2ex]
-\displaystyle\int_\dom \Grad u\xDot \Grad v\dx = \int_\dom f v  \dx\quad,\;\forany  v\in \xV
+\displaystyle\int_\dom \Grad u\xDot \Grad v\dxx = \int_\dom f v  \dxx\quad,\;\forany  v\in \xV
 \end{array}
 \right .
 \end{equation}
@@ -204,15 +204,15 @@ Hilbert--Sobolev spaces $\xH^s$ (Section \ref{sec:Hspace}) are a natural choice 
 \end{equation*}
 with the Lebesgue space of square integrable functions on $\dom$:
 \begin{equation*}
-\xLtwo(\dom) = \Set{ u\,:\; \int_\dom |u(\xx)|^2 \dx < +\infty  }
+\xLtwo(\dom) = \Set{ u\,:\; \int_\dom |u(\xx)|^2 \dxx < +\infty  }
 \end{equation*}
 endowed with its natural scalar product
 \begin{equation*}
-\InnerLtwo{u}{v} = \int_\dom u\: v\dx
+\InnerLtwo{u}{v} = \int_\dom u\: v\dxx
 \end{equation*}
 Since Problem \eqref{pb:weak_poisson} involves first order derivatives according to relation,
 \begin{equation*}
-\int_\dom \Grad u\xDot \Grad v\dx = \int_\dom f v  \dx
+\int_\dom \Grad u\xDot \Grad v\dxx = \int_\dom f v  \dxx
 \end{equation*}
 then we should consider a solution in $\xHone(\dom)$.
 \begin{equation*}
@@ -224,7 +224,7 @@ with the weak derivative $\D u$ \ie a function of $\xLtwo(\dom)$ which identifie
 \end{equation*}
 defined from the scalar product,
 \begin{equation*}
-\InnerHone{u}{v} = \int_\dom u\: v\dx + \int_\dom \Grad u\xDot \Grad v\dx
+\InnerHone{u}{v} = \int_\dom u\: v\dxx + \int_\dom \Grad u\xDot \Grad v\dxx
 \end{equation*}
 
 \medskip
@@ -275,7 +275,7 @@ The weak formulation of Problem \eqref{pb:poisson} reads then:
 \left\lvert
 \begin{array}{ll}
 \mbox{Find $u \in \xHonec(\dom)$, such that:}\\[2ex]
-\displaystyle\int_\dom \Grad u\xDot \Grad v\dx = \int_\dom f v  \dx\quad,\;\forany  v\in \xHonec(\dom)
+\displaystyle\int_\dom \Grad u\xDot \Grad v\dxx = \int_\dom f v  \dxx\quad,\;\forany  v\in \xHonec(\dom)
 \end{array}
 \right .
 \end{equation}
@@ -305,14 +305,14 @@ For example, in the previous section for Problem \eqref{pb:weak_poissonHone}, th
 \begin{equation*}
 \begin{array}{llll}
 a:\quad& \xV\times \xV &\rightarrow& \xR \\
-\hfill & (u,v)     &\mapsto    & \displaystyle\int_\dom \Grad u \xDot \Grad v \dx
+\hfill & (u,v)     &\mapsto    & \displaystyle\int_\dom \Grad u \xDot \Grad v \dxx
 \end{array}
 \end{equation*}
 and the linear form,
 \begin{equation*}
 \begin{array}{llll}
 L:\quad& \xV &\rightarrow& \xR \\
-\hfill &   v &\mapsto    & \displaystyle\int_\dom f\,v \dx
+\hfill &   v &\mapsto    & \displaystyle\int_\dom f\,v \dxx
 \end{array}
 \end{equation*}
 
@@ -373,7 +373,7 @@ Answer the following questions.
 
 \begin{tmatsks}
 \item Discuss whether the set $S = \Set{ v \in \xCinfc((0,1)) : v(\frac{1}{2}) = 1 }$ is a vector space.
-\item For $\xV = \xHonec((0,1))$, show that $L(v) =\int_0^1 xv \md x$ defines a linear functional. Recall the definition of the topological dual $\xV'$ and show that $L$ is continuous for $x \in \xV$.
+\item For $\xV = \xHonec((0,1))$, show that $L(v) =\int_0^1 xv \dx$ defines a linear functional. Recall the definition of the topological dual $\xV'$ and show that $L$ is continuous for $x \in \xV$.
 \item For $\xV \equiv \xR$ discuss whether $\InnerP{u}{v}{\xV} = |u| |v|$ is an inner-product in $\xV$.
 \item Does $\snorm{u}_{\xHone(\dom)} = \norm{\nabla u}_{\xLtwo(\dom)}$, $\dom\in\xR^2$ define a norm in $\xHone(\dom)$? Explain why.
 \item Assess whether the function $f(x) = x^{3/4}$ an element of the following spaces: $\xLtwo((0,1))$, $\xHone((0,1))$, $\xHtwo((0,1))$.
@@ -387,7 +387,7 @@ Let us consider the following problem posed on the domain $\dom = (0, 1)$, with 
 \left\lvert
 \begin{array}{ll}
 \mbox{Find $u \in \xHonec(\dom)$ such that:}\\[2ex]
-\displaystyle \int_\dom \kappa \pddx{u} v \md x + \int_\dom \pddx{u} \pddx{v} \md x + \int_\dom u v \md x = \int_\dom f v \md x, \qquad v \in \xHonec(\dom)
+\displaystyle \int_\dom \kappa \pddx{u} v \dx + \int_\dom \pddx{u} \pddx{v} \dx + \int_\dom u v \dx = \int_\dom f v \dx, \qquad v \in \xHonec(\dom)
 \end{array}
 \right .
 \end{equation}
