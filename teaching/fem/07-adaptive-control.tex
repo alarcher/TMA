@@ -33,7 +33,7 @@ As an introduction, let us consider the exact solution $u\in\xV$ and its approxi
 \[
 \Inner{\Res{\uh}}{v} = L(v) - a(\uh,  v)
 \]
-for $v\in\xV$ so that by consistency of Galerkin's method
+for $v\in\xV$ so that by consistency of the Galerkin method
 \[
 \Inner{\Res{\uh}}{v} = a(u - \uh,  v)
 \]
@@ -100,25 +100,39 @@ in terms of the residual of the equation $\Res{\uh}$.
 \medskip
 By Galerkin orthogonality $a(e_h, \vh) = 0$ for $\vh \in \xVh$, in particular testing against $\vh = \Iop{h} e_h$ is possible so that
 \begin{equation*}
-\snHone{e_h}^2 =  = \intD \Grad e_h \xDot \Grad (e_h - \Iop{h} e_h)\dxx
+\snHone{e_h}^2 = \intD \Grad e_h \xDot \Grad (e_h - \Iop{h} e_h)\dxx
 \end{equation*}
+The immediate motivation for introducing this test function is to be able to use interpolation inequalities.
 
-%                &=& \intD \Grad u \xDot  \Grad (e_h - \Iop{h} e_h)  \dxx - \intD \Grad \uh \xDot \Grad (e_h - \Iop{h} e_h) \dxx \\
-%                &=& \intD f\; (e_h - \Iop{h} e_h)  \dxx - \intD \Grad \uh \xDot \Grad (e_h - \Iop{h} e_h) \dxx
-%\end{eqnarray*}
-To obtain the residual $\Res \uh$ we need to consider the equation element-wise, then integrating by part on any cell $K \in \meshT$, we obtain
+\medskip
+Following the ideas of the previous section,
+\begin{equation*}
+\snHone{e_h}^2 = \intD \Grad u \xDot  \Grad (e_h - \Iop{h} e_h)  \dxx - \intD \Grad \uh \xDot \Grad (e_h - \Iop{h} e_h) \dxx
+\end{equation*}
+so that by consistency of the Galerkin method
+\begin{equation}
+\snHone{e_h}^2 = \intD f\; (e_h - \Iop{h} e_h)  \dxx - \intD \Grad \uh \xDot \Grad (e_h - \Iop{h} e_h) \dxx
+\end{equation}
+with the first term being $L(v)$ and the second term $a(\uh, v)$.
+
+\medskip
+Similarly to interpolation inequalities we consider the expression per element $K \in \meshT$.
+The second term is integrated the by part,
 \begin{equation*}
 \int_K \Grad \uh \xDot \Grad (e_h - \Iop{h} e_h) \dxx = \int_{\partial K} \Grad \uh \xDot \n\;(e_h - \Iop{h} e_h) \dxx - \int_K \Delta \uh \; (e_h - \Iop{h} e_h) \dxx
 \end{equation*}
-with
-\begin{equation*}
+and combined with the first term to obtain the element residual
+\[
 \ResK{\uh} = (f + \Delta \uh)\rvert_K
-\end{equation*}
+\]
+
+\medskip
 Summing again over the domain yields
 \begin{equation*}
 \snHone{e_h}^2 = \sum _{K\in\meshT}\left[\int_K \ResK{\uh}\; \Grad (e_h - \Iop{h} e_h) \dxx + \int_{\partial K} \Grad \uh \xDot \n\;(e_h - \Iop{h} e_h) \dxx \right]
 \end{equation*}
-noting that in the case of continuous elements the boundary term cancels.
+with the first term being a volume integral involving the residual of the equation, and the second term being a surface integral involving jump of the normal gradient of $\uh$ across the cell facets.
+
 Using first the Cauchy--Schwarz inequality
 \begin{equation*}
 \snHone{e_h}^2 \leq \nLtwo{\Res{\uh}} \nLtwo{e_h - \Iop{h} e_h}
@@ -171,12 +185,12 @@ with $\Inner{\xDot}{\xDot}$ the scalar product of $\xLtwo(\dom)$, then $\opA\dua
 
 We define the dual problem as seeking $\eta$ satisfying $\opA^\star\eta = e_h$, which gives a control on the discretization error, using the definition of the adjoint operator $\opA^\star$:
 \begin{eqnarray*}
-\nLtwo{e_h} &=& \Inner{e_h}{e_h}\\
-            &=& \Inner{e_h}{\opA^\star\eta}\\
-            &=& \Inner{\opA e_h}{\eta}\\
-            &=& \Inner{\opA u}{\eta} - \Inner{\opA \uh}{\eta}\\
-            &=& \Inner{f - \opA \uh}{\eta}\\
-            &=& \Inner{\Res \uh}{\eta}
+\nLtwo{e_h}^2 &=& \Inner{e_h}{e_h}\\
+              &=& \Inner{e_h}{\opA^\star\eta}\\
+              &=& \Inner{\opA e_h}{\eta}\\
+              &=& \Inner{\opA u}{\eta} - \Inner{\opA \uh}{\eta}\\
+              &=& \Inner{f - \opA \uh}{\eta}\\
+              &=& \Inner{\Res \uh}{\eta}
 \end{eqnarray*}
 with $\Res \uh = f -  \opA \uh$. Moreover, if the dual problem is stable then there exists a constant $\Stab$ such that the dual solution $\eta$ is bounded:
 \begin{equation*}
