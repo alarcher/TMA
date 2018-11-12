@@ -83,7 +83,7 @@ If one substract the first column from all the other columns then the link to th
 %-------------------------------------------------------------------------------
 \section{Polynomial interpolation in one dimension}
 
-Let $\xP_k([a,b])$ be the space of polynomials $p = \sum_{i=0}^k \alpha_i x^i$ of degre lower or equal to $k$ on the interval $[a,b]$, with $c_i x^i$ the monomial of order $i$, $c_i$ a real number.
+Let $\xP_k([a,b])$ be the space of polynomials $p = \sum_{i=0}^k \alpha_i x^i$ of degree lower or equal to $k$ on the interval $[a,b]$, with $c_i x^i$ the monomial of order $i$, $c_i$ a real number.
 
 \medskip
 A natural basis of $\xP_k([a,b])$ consists of the set of monomials $\Set{1,x,x^2,\cdots,x^k}$.
@@ -413,7 +413,7 @@ The following example describes how the affine mapping $T_K : \hat K \rightarrow
 
 \medskip
 The shape of the reference triangle $\hat K$ is defined by vectors $\hat\vertex_1 - \hat\vertex_0$ and $\hat\vertex_2 - \hat\vertex_0$, and in the same fashion the shape of any triangle $K$ is defined by vectors $\vertex_1 - \vertex_0$ and $\vertex_2 - \vertex_0$.
-The affine mapping is a simple change of coordinates but the detail is given below for the sake of completness.
+The affine mapping is a simple change of coordinates but the detail is given below for the sake of completeness.
 \begin{equation*}
 \left\lbrace
 \begin{array}{lclcl}
@@ -449,7 +449,7 @@ with
 \begin{equation*}
 \matJ_{T_K} = \left[\frac{\partial T^i_{K}}{\partial x_j}  \right]_{ij}
 \end{equation*}
-given by colum vectors $(\vertex_j - \vertex_0)$.
+given by column vectors $(\vertex_j - \vertex_0)$.
 \end{dfntn}
 
 While the change of coordinates for the mass matrix does not pose any difficulty, the case of the stiffness matrix requires some precisions.
@@ -536,13 +536,13 @@ with $|K| = |x_{n+1} - x_{n}|$.
 \section{Exercises}
 
 \begin{tmaxrcs}{}{4.1}
-Let us consider the Helmoltz problem posed on the domain $\dom = (0, 1)$, given $\kappa$ a real coefficient:
-\begin{subequations}\label{pb:helmoltz_4}
-\begin{equation}\label{pb:helmoltz_eq}
+Let us consider the Helmholtz problem posed on the domain $\dom = (0, 1)$, given $\kappa$ a real coefficient:
+\begin{subequations}\label{pb:helmholtz_4}
+\begin{equation}\label{pb:helmholtz_eq}
 - u''(x) + \kappa u(x)  = f(x), \qquad\forany x \in \dom
 \end{equation}
 with $f\in \xLtwo(\dom)$,
-\begin{equation}\label{pb:helmoltz_bc_4}
+\begin{equation}\label{pb:helmholtz_bc_4}
 u(x) = 0, \qquad\forany x \in \bound
 \end{equation}
 \bigskip
@@ -550,7 +550,7 @@ u(x) = 0, \qquad\forany x \in \bound
 Let us consider the analytic solution for $\kappa = 1$ and $f(x) = \sin(\pi x)$ given by $u(x) = \sin(\pi x) / (1 + \pi^2)$.
 \bigskip
 \begin{tmatsks}
-\item Derive a weak formulation of Problem \eqref{pb:helmoltz_4}.
+\item Derive a weak formulation of Problem \eqref{pb:helmholtz_4}.
 \item Show that the problem solved by a Galerkin method using the discrete space $\xVh = \Span\Fam{\varphi_i}$, $1\leq i \leq N$, can be written under the form of a linear system
 \[
 (\matA + \kappa \matM) \vecu = \vecb
