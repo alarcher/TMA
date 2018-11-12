@@ -4,7 +4,7 @@
 The goal of this section is to bound the approximation error $e_h = u - u_h$ in a Sobolev or Lebesgue norm.
 To this purpose we have already two ingredients:
 
---- on the one hand, in the analysis of Ritz and Galerkin methods, consistency estimates like Cea's Lemma give a control on the approximation error in the solution space $\xV$ in term of ``distance'' between the solution space and the approximation space:
+--- on the one hand, in the analysis of Ritz and Galerkin methods, consistency estimates like Céa's Lemma give a control on the approximation error in the solution space $\xV$ in term of ``distance'' between the solution space and the approximation space:
 \begin{equation*}
 \norm{u - u_h}_\xV  \leq C \norm{u - v_h}_\xV\quad,\; \forany v_h \in \xVh
 \end{equation*}
@@ -13,7 +13,7 @@ with $C > 0$ a constant real number,
 --- on the other hand, the pointwise interpolation inequality of Theorem \eqref{th:polyinterpol} gives a control on the interpolation error $e_{\pi} = u - \Projh{k} u$, \ie the difference between any function and its interpolate by Lagrange polynomials of order $k$.
 
 \medskip
-For consistency with the notation introduced in Chapter \ref{sec:fem} for the Lagrange interpolation operator in the Finite Element setting, $\Iop{h}^k$ will stand for the Lagange $\xP_k$ interpolation operator in this section.
+For consistency with the notation introduced in Chapter \ref{sec:fem} for the Lagrange interpolation operator in the Finite Element setting, $\Iop{h}^k$ will stand for the Lagrange $\xP_k$ interpolation operator in this section.
 
 \medskip
 \Question Can we control the approximation error by bounding the right-hand side of the consistency inequality using interpolation properties?
@@ -49,8 +49,8 @@ In a first stage, we verified that the weak problem is well-posed for the chosen
 with $C > 0$, which we denoted as \textit{a priori} estimate.
 
 \medskip
-In a second stage, without making any further assumption on the approximation space $\xVh$, a general result was introduced showing that the distance between the exact solution and the approximate solution $\norm{u - u_h}_{\xV}$ is bounded by the distance of $u$ to the best approximation of $u$ in $\xVh$; this is Cea's Lemma.
-For the sake of completeness, the estimate corresponding to Cea's Lemma is given in the case of the Poisson problem with homogeneous Dirichlet boundary conditions.
+In a second stage, without making any further assumption on the approximation space $\xVh$, a general result was introduced showing that the distance between the exact solution and the approximate solution $\norm{u - u_h}_{\xV}$ is bounded by the distance of $u$ to the best approximation of $u$ in $\xVh$; this is Céa's Lemma.
+For the sake of completeness, the estimate corresponding to Céa's Lemma is given in the case of the Poisson problem with homogeneous Dirichlet boundary conditions.
 \begin{equation*}
 E = \snorm{u - u_h}^2_{\xHone(\dom)} = \intD \Abs{\Grad(u - u_h)}^2\dxx = \intD \Grad(u - u_h)\xDot\Grad(u - u_h) \dxx
 \end{equation*}
@@ -59,7 +59,7 @@ For any $v_h\in\xVh$
 \begin{equation*}
 E = \intD \Grad(u - u_h)\xDot\Grad(u - v_h) \dxx + \intD \Grad(u - u_h)\xDot\Grad(v_h - u_h) \dxx
 \end{equation*}
-and the second term cancels by virtue of consistency (Galerkin orthogonality), so that Cauchy--Scwarz gives
+and the second term cancels by virtue of consistency (Galerkin orthogonality), so that Cauchy--Schwarz gives
 \begin{equation*}
 E = \snorm{u - u_h}^2_{\xHone(\dom)} \leq \left(\intD \Abs{\Grad(u - u_h)}^2 \dxx\right)^{\sfrac{1}{2}} \left(\intD \Abs{\Grad(u - v_h)}^2 \dxx\right)^{\sfrac{1}{2}}
 \end{equation*}
@@ -379,7 +379,7 @@ Thus we can subtract and add this latter to the previous expression:
 \begin{equation*}
 \nLtwo{e_h} = \intD \Grad (\varphi - \varphi_h)\xDot \Grad e_h\dxx + \underbrace{\intD \Grad \varphi_h\xDot \Grad e_h\dxx}_{0}
 \end{equation*}
-First we use Cauchy-Schwarz and make the $\xHone$ norm of the approximation errors appear since we control them by Equation \eqref{eq:h1err_eh} and \eqref{eq:h1err_phih}:
+First we use Cauchy--Schwarz and make the $\xHone$ norm of the approximation errors appear since we control them by Equation \eqref{eq:h1err_eh} and \eqref{eq:h1err_phih}:
 \begin{equation*}
 \nLtwo{e_h} \leq \nHoneD{\varphi - \varphi_h} \nHoneD{e_h}
 \end{equation*}
@@ -393,7 +393,7 @@ which concludes the proof. We have then a second order error estimate in $\xLtwo
 \end{proof}
 
 The conclusion of this result is that the observed convergence order may be different than the order suggested by the interpolation inequality.
-As seen in this example it may be improved if the differential operator has a regularizing effect, but can also be influenced by other factors like the regularity of the boundary or the discretization of the computional domain.
+As seen in this example it may be improved if the differential operator has a regularizing effect, but can also be influenced by other factors like the regularity of the boundary or the discretization of the computational domain.
 
 \newpage
 %-------------------------------------------------------------------------------
