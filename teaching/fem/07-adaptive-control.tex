@@ -10,31 +10,37 @@ Provided that we are able to compute an approximate solution $\uh$, we want now 
 
 \section{\textit{A posteriori} estimates}
 
-In Chapter \ref{chap:ea} error estimates
+In Chapter \ref{chap:ea} interpolation inequalities were established, such as
 \begin{equation*}
 \begin{array}{lcl}
 \snHone{u - \Iop{h} u} &\leq& C_1 \sizeT   \snHtwo{u} \\
  \nLtwo{u - \Iop{h} u} &\leq& C_0 \sizeT^2 \snHtwo{u}
 \end{array}
 \end{equation*}
-were established with the purpose of bounding the right-and side of Céa's inequality
+in order to bound the right-and side of Céa's inequality
 \begin{equation*}
-\nHone{u - \uh} &\leq& \nHone{u - v}
+\nHone{u - \uh} \leq \nHone{u - v}
 \end{equation*}
-for $v\in\xVh$, which provides directly as such a control on the $\xHone$ norm of the approximation error $\eh = u - \uh$.
+for $v\in\xVh$.
+As such this provides directly a control on the $\xHone$ norm of the approximation error $\eh = u - \uh$: the obtained estimation is called \textit{a priori} error estimate.
+This type of result is important to indicate the optimal convergence order of sequence of discrete solutions to the exact solution as the mesh size tends to zero (which means that the dimension of the solution space tends to infinity).
+Since \textit{a priori} error estimates depend on the exact solution to the problem they does not provide a quality measure of the discrete solution which is \textit{computable}.
+Instead we would like to derive an error estimate which would hep us determine if the computed discrete solution is accurate.
+This type of estimation is called \textit{a posteriori} error estimate: it consists of computing \textit{error indicators} depending on the discrete solution $\uh$ and the discretization, providing a quality measure of $\uh$.
 
-
+\medskip
+As an introduction, let us consider the exact solution $u\in\xV$ and its approximation $\uh\in\xVh$ and observe that there exists a direct relation between the \textit{approximation error} $e_h = u - \uh \in\xV$ and the residual of the equation $\Res{\uh}\in\xV'$,
 \[
 \Inner{\Res{\uh}}{v} = L(v) - a(\uh,  v)
 \]
-
+for $v\in\xV$ so that by consistency of Galerkin's method
 \[
 \Inner{\Res{\uh}}{v} = a(u - \uh,  v)
 \]
+and in the case $v\in\xVh$ the inner-product cancels.
 
-and the \textit{approximation error} $e_h = u - \uh$ belongs to $\xV$.
-
-
+\medskip
+In case $a(\cdot,\cdot)$ is a coercive continuous bilinear form we can write:
 \begin{enumerate}
 \item Coercivity:
 \begin{equation}\label{eq:adapt_coercivity}
