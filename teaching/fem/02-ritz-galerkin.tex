@@ -30,7 +30,7 @@ But for the moment, let us focus on the symmetric case: we want now to construct
 
 \subsection{Variational formulation and minimization problem}
 
-The idea behing the Ritz method is to replace the solution space $\xV$ (which is infinite dimensional) by a finite dimensional subspace $\xV_n \subset \xV$, $\dim(\xV_n) = n$.
+The idea behind the Ritz method is to replace the solution space $\xV$ (which is infinite dimensional) by a finite dimensional subspace $\xV_n \subset \xV$, $\dim(\xV_n) = n$.
 
 \medskip
 Problem \eqref{pb:ritz_weak} is the approximate weak problem by the Ritz method:
@@ -61,7 +61,7 @@ Problem \ref{pb:ritz_weak} and \ref{pb:ritz_variational} are equivalent.
 \end{prpstn}
 
 \medskip
-Before moving to the well-posedness of the approximate variational problem some definitions are introduced to caracterize the solution of mimimization problems, then the equivalence of formulations for the Poisson problem with homogeneous Dirichlet boundary conditions in one dimension of space is given as example.
+Before moving to the well-posedness of the approximate variational problem some definitions are introduced to characterize the solution of minimization problems, then the equivalence of formulations for the Poisson problem with homogeneous Dirichlet boundary conditions in one dimension of space is given as example.
 
 
 \begin{dfntn}[Directional derivative]
@@ -154,8 +154,8 @@ Let $\xV$ be a Hilbert space and $\xV_n$ a finite dimensional subspace of $\xV$,
 \end{thrm}
 
 \begin{proof}
-Given that the weak formulation differs only by introducting finite dimensional subspaces the proof could conclude directly with the Lax--Milgram Theorem.
-Instead we show that there exists a unique solution to the equivalent minimisation problem \eqref{pb:ritz_variational} by explicitly constructing an approximation $u_n \in \xV_n$ decomposed uniquely on a basis $(\varphi_1,\cdots,\varphi_n)$ of $\xV_n$:
+Given that the weak formulation differs only by introducing finite dimensional subspaces the proof could conclude directly with the Lax--Milgram Theorem.
+Instead we show that there exists a unique solution to the equivalent minimization problem \eqref{pb:ritz_variational} by explicitly constructing an approximation $u_n \in \xV_n$ decomposed uniquely on a basis $(\varphi_1,\cdots,\varphi_n)$ of $\xV_n$:
 \begin{equation*}
 u_n = \sum_{j=1}^{n} u_j\; \varphi_j
 \end{equation*}
@@ -163,7 +163,7 @@ In practice this basis is not any basis but the one constructed to define the ap
 In so doing, the constructive approach paves the way to the Finite Element Method and is thus chosen as a prequel to establishing the Galerkin method.
 
 \medskip
-Writing the minimisation functional for $u_n$ reads:
+Writing the minimization functional for $u_n$ reads:
 \begin{eqnarray*}
 J(u_n) &=& \frac{1}{2}\,a(u_n,u_n) - L(u_n) \\
        &=& \frac{1}{2}\,a(\sum_{j = 1}^{n} u_j \varphi_j,\sum_{i = 1}^{n} u_i \varphi_i) - L(\sum_{j = 1}^{n} u_i \varphi_i) \\
@@ -259,7 +259,7 @@ Consequently:
 \end{equation*}
 \end{proof}
 
-Lemma \eqref{lm:cea} gives a control on the discretisation error $e_n = u - u_n$ which is \textit{quasi-optimal} in the $\xV$-norm (\ie bound multiplied by a constant).
+Lemma \eqref{lm:cea} gives a control on the discretization error $e_n = u - u_n$ which is \textit{quasi-optimal} in the $\xV$-norm (\ie bound multiplied by a constant).
 
 \begin{lmm}[Stability]\label{lm:stability_elliptic}
 Any solution $u_n \in \xV_n$ to Problem \eqref{pb:ritz_weak} satisfies:
@@ -290,7 +290,7 @@ so that
 \item Chose an approximation space $\xV_n$
 \item Construct a basis $\Basis= (\varphi_1,\dots,\varphi_n)$
 \item Assemble stiffness matrix $\matA$ and load vector $\vecb$
-\item Solve $\matA \vecu = \vecb$ as a minimisation problem
+\item Solve $\matA \vecu = \vecb$ as a minimization problem
 \end{enumerate}
 \end{lgrthm}
 
@@ -407,7 +407,7 @@ J(u) \leq J(v)\quad,\forany  v \in \xV\\[2ex]
 \end{equation*}
 \begin{tmatsks}
 \item Show the equivalence of the formulations when $a$ is bilinear symmetric positive definite and $L$ linear.
-\item Show that if $\xV = \xR^n$ the minimization problem can be recast into a stricly convex quadratic form $J(\vecu) = \frac{1}{2} \vecu^\trans \matA \vecu - \vecu^\trans \vecb$ and the unique solution satisfies $\matA \vecu = \vecb$.
+\item Show that if $\xV = \xR^n$ the minimization problem can be recast into a strictly convex quadratic form $J(\vecu) = \frac{1}{2} \vecu^\trans \matA \vecu - \vecu^\trans \vecb$ and the unique solution satisfies $\matA \vecu = \vecb$.
 \end{tmatsks}
 \end{tmaxrcs}
 
@@ -427,7 +427,7 @@ u(x) = 0, \qquad\forany x\in\bound
 \item Find the weak formulation (WF) of Problem \eqref{pb:poisson_unit} and specify the function spaces.
 \item Is this problem well-posed?
 \item Justify that it is possible to reformulate this problem into a minimization problem?
-\item Derive the minimisation functional $J(u)$.
+\item Derive the minimization functional $J(u)$.
 \item Let $w_1 = a_1 \sin(\pi x)$. Find the value of the amplitude $a_1$ minimizes $J(w_1)$. How does $a_1$ compare with the maximum of the exact solution $u$?
 \item Show that $J(w_1) > J(u)$ and interpret.
 \item Let $\phi_i = \sin\bigl((2 i - 1) \pi x\bigr)$, $i\in\xN$. Verify that these function are infinitely differentiable and satisfy $\phi_i(0)= \phi_i(1)=0$. Compute coefficients
