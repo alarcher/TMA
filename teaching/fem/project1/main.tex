@@ -6,7 +6,7 @@
 \input{../macros}
 
 \bibliographystyle{plain}
-\title{Project I -- Helmoltz equation in two dimensions}
+\title{Project I -- Helmholtz equation in two dimensions}
 \date{}
 
 \begin{document}
@@ -18,12 +18,12 @@ Working in pairs is possible but not compulsory.
 
 \section{Problem formulation}
 
-Let us consider the Helmoltz equation posed on $\dom = (0,1)^2$,
-\begin{equation}\label{eq:helmoltz}
+Let us consider the Helmholtz equation posed on $\dom = (0,1)^2$,
+\begin{equation}\label{eq:helmholtz}
 u(\xx) - \Delta u(\xx) = f(\xx), \qquad \forany \xx = (x,y)\in\dom
 \end{equation}
 with source term $f(\xx) = (2\pi^2 + 1)\cos(\pi x)\sin(\pi y)$, and supplemented with boundary conditions,
-\begin{equation}\label{bc:helmoltz}
+\begin{equation}\label{bc:helmholtz}
 \begin{array}{lcccl}
 u(\xx)              &=& u_D &,&\quad \xx\in\Gamma_D = \Set{\xx\in\bound : y \in \Fam{0,1}}\\
 \Grad u\xDot\n(\xx) &=& 0   &,&\quad \xx\in\Gamma_N = \Set{\xx\in\bound : x \in \Fam{0,1}}\\
@@ -32,12 +32,12 @@ u(\xx)              &=& u_D &,&\quad \xx\in\Gamma_D = \Set{\xx\in\bound : y \in 
 with $\n$ the outward normal to the boundary $\bound$.
 
 \medskip
-The goal of this assignment is to write an algorithm to compute approximate solutions to Problem \eqref{eq:helmoltz}--\eqref{bc:helmoltz} using linear Lagrange Finite Elements on a triangular mesh $\meshT$.
+The goal of this assignment is to write an algorithm to compute approximate solutions to Problem \eqref{eq:helmholtz}--\eqref{bc:helmholtz} using linear Lagrange Finite Elements on a triangular mesh $\meshT$.
 
 \medskip
 \begin{tmatsks}
-\item Verify that $\tilde u: (x,y) \mapsto \cos(\pi x)\sin(\pi y)$ is solution to \eqref{eq:helmoltz}--\eqref{bc:helmoltz}.
-\item Derive a weak formulation of \eqref{eq:helmoltz}--\eqref{bc:helmoltz}, specify the function spaces.
+\item Verify that $\tilde u: (x,y) \mapsto \cos(\pi x)\sin(\pi y)$ is solution to \eqref{eq:helmholtz}--\eqref{bc:helmholtz}.
+\item Derive a weak formulation of \eqref{eq:helmholtz}--\eqref{bc:helmholtz}, specify the function spaces.
 \item Is the solution $\tilde u$ unique?
 \end{tmatsks}
 
@@ -142,7 +142,7 @@ with $K_0 = \Fam{ (1,0), (3,1), (3,2)}$.
 
 \section{Assembly of the linear system}
 
-For each cell $K \in \meshT$, elementwise contributions for the Helmoltz equation are under the form of a sum of two submatrices, corresponding to contributions of the mass matrix
+For each cell $K \in \meshT$, elementwise contributions for the Helmholtz equation are under the form of a sum of two submatrices, corresponding to contributions of the mass matrix
 \[
 \matM_K =  \left[\int_K \varphi_j(\xx) \varphi_i(\xx) \md\xx\right]_{i j}
 \]
@@ -198,7 +198,7 @@ with $u(\xx, 0) = u_0$ given initial data, and $\nu$ diffusivity.
 
 \medskip
 \begin{tmatsks}
-\item Describe how you would modify the algorithm developed for the Helmoltz problem to solve this equation for a given discretization in time. For example use the Backward Euler scheme. The function $\tilde u(\xx,t) = e^{-\nu t} \sin\bigl(x \cos(\theta) + y\sin(\theta)\bigr)$ can be used to verify the implementation for the homogeneous equation (optional); take $\nu = 1$ and $\theta = \pi/4$ for instance.
+\item Describe how you would modify the algorithm developed for the Helmholtz problem to solve this equation for a given discretization in time. For example use the Backward Euler scheme. The function $\tilde u(\xx,t) = e^{-\nu t} \sin\bigl(x \cos(\theta) + y\sin(\theta)\bigr)$ can be used to verify the implementation for the homogeneous equation (optional); take $\nu = 1$ and $\theta = \pi/4$ for instance.
 \end{tmatsks}
 
 
