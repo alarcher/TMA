@@ -59,7 +59,7 @@ The construction of the approximation space based on Lagrange $\xPone$ Finite El
 Unless efficient exact evaluation is possible, computation of integrals is performed using quadrature rules.
 Such approximations are expressed as the weighted sum of integrand values over $N_{q}$ \textit{quadrature points} $\sFam{\QRn{q}}$,
 \[
-I_K = \int_K \psi(\xx) \md \xx \approx \sum_{q = 1}^{N_q} \psi(\QRn{q})\;\omega_q
+I_K = \int_K \psi(\xx) \md \xx \approx \sum_{q = 1}^{N_q} \psi(\QRn{q})\;\QRw{q}
 \]
 with real coefficients $\sFam{\omega_q}$ called \textit{quadrature weights}.
 The order $k_q$ of a quadrature rule is the polynomial degree of the integrand for which the evaluation is exact.
@@ -67,12 +67,12 @@ In particular, Gauss--Legendre quadratures on a real interval gathered in Table 
 Quadrature rules can be defined using other polynomials and considering higher dimensions in space.
 In the frame of Finite Elements, contributions on the reference simplex $\hat K$ can be written as
 \[
-\int_\RefK \hat\psi(\hxx) \md \hxx \approx \sum_{q = 1}^{N_q} \hat\psi(\QRn{q})\;\hat\omega_q
+\int_\RefK \hat\psi(\hxx) \md \hxx \approx \sum_{q = 1}^{N_q} \hat\psi(\rQRn{q})\;\rQRw{q}
 \]
 with $q$ the index of the quadrature point.
 Therefore any contribution on cell $K \in \meshT$ is obtained directly by composition with the affine change of coordinates $T_K$,
 \[
-\int_K \psi(\xx) \md \xx \approx |\det(J_{T_K})|\sum_{q = 1}^{N_q} \Comp{\psi}{T_K}(\QRn{q})\;\hat\omega_q
+\int_K \psi(\xx) \md \xx \approx |\det(J_{T_K})|\sum_{q = 1}^{N_q} \Comp{\psi}{T_K}(\rQRn{q})\;\rQRw{q}
 \]
 with $J_{T_K}$ elementwise constant.
 If $\psi$ involves derivatives, the change of variable should take into account that $(\Comp{f}{g})' = (\Comp{f'}{g})\cdot g'$.
@@ -80,7 +80,7 @@ If $\psi$ involves derivatives, the change of variable should take into account 
 \begin{table}
 \label{table:gauss_legendre_1d}
 \begin{tmatable}{llcc}
-$k_q$ & $N_q$ & $\sFam{\rQRn{q}}$ & $\sFam{\rQRw{q}}$\\
+$k_q$ & $N_q$ & $\sFam{\QRn{q}}$ & $\sFam{\QRw{q}}$\\
 \hline
 \hline
 1     & 1     & $\bar\zeta$                                   & $|I|$             \\
@@ -102,7 +102,7 @@ $k_q$ & $N_q$ & $\sFam{\rQRn{q}}$ & $\sFam{\rQRw{q}}$\\
 \begin{table}
 \label{table:gauss_legendre_2d}
 \begin{tmatable}{llcc}
-$k_q$ & $N_q$ & $\sFam{\rQRn{q}}$ & $\sFam{\rQRw{q}}$\\
+$k_q$ & $N_q$ & $\sFam{\QRn{q}}$ & $\sFam{\QRw{q}}$\\
 \hline
 \hline
 1     & 1     & $\Coords{\frac{1}{3}, \frac{1}{3}, \frac{1}{3}}$ & $|K|$ \\
@@ -117,7 +117,7 @@ $k_q$ & $N_q$ & $\sFam{\rQRn{q}}$ & $\sFam{\rQRw{q}}$\\
       &       & $a_i = \frac{6 \pm \sqrt{15}}{21}$  &  \\
 \hline
 \end{tmatable}
-\caption{Gauss--Legendre quadratures on a triangle $K$ in barycentric coordinates $\sFam{\rQRn{q}} = (\lambda_0, \lambda_1, \lambda_2)$, with $(\xDot,\xDot,\xDot)_{k}$ the $k$ distinct tuples obtained by permutation, \cite{EG} page 360.}
+\caption{Gauss--Legendre quadratures on a triangle $K$ in barycentric coordinates $\sFam{\QRn{q}} = (\lambda_0, \lambda_1, \lambda_2)$, with $(\xDot,\xDot,\xDot)_{k}$ the $k$ distinct tuples obtained by permutation, \cite{EG} page 360.}
 \end{table}
 
 %\begin{tmaalgo}{Integration by quadrature}
@@ -148,7 +148,7 @@ For each cell $K \in \meshT$, elementwise contributions for the Helmholtz equati
 \]
 and of the stiffness matrix
 \[
-\matK_K = \left[\int_K \nabla\varphi_j(\hxx) \nabla\varphi_i(\xx) \md\xx\right]_{ij}
+\matK_K = \left[\int_K \nabla\varphi_j(\xx) \nabla\varphi_i(\xx) \md\xx\right]_{ij}
 \]
 with $j$ indices of the \textit{global shape functions} (solution space), and $i$ indices of the \textit{global basis functions} (test space) with support on $K$.
 For any $K\in\meshT$ assembling the local equation consists of computing the contributions for indices $\hat j = 1,\cdots,N_\SpaceP$  of the \textit{local shape functions} (solution space), and $\hat i = 1,\cdots,N_\SpaceP$ indices of the \textit{local basis functions} (test space) with support on $K$, $N_\SpaceP$ the dimension of the Finite Element.
