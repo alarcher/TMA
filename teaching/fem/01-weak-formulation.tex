@@ -168,7 +168,7 @@ A weak formulation of Problem \eqref{pb:poisson} consists in solving:
 \end{array}
 \right .
 \end{equation}
-in which $\xHil$ and $\xV$ are a function spaces yet to be defined, both satisfying regularity contraints and for $\xHil$ boundary condition constraints.
+in which $\xHil$ and $\xV$ are a function spaces yet to be defined, both satisfying regularity constraints and for $\xHil$ boundary condition constraints.
 The choice of the \textit{solution space} $\xHil$ and the \textit{test space} $\xV$ is described Section \ref{sec:weak_forms}.
 
 \subsection{Formal passage from weak solution to classical solution}
@@ -264,7 +264,7 @@ The determination of the function space is guided,
 \end{itemize}
 
 \begin{lmm}[Trace Theorem]
-Let $\dom$ be a bounded open subset of $\xR^d$ with piecewise $\xCone$ boundary, then there exists a linear application $\gamma : \xHone(\dom) \fromto \xLtwo(\partial\dom)$ continous on $\xHone(\dom)$ such that $\gamma(u) = 0 \Rightarrow u \in \Ker(\gamma)$.
+Let $\dom$ be a bounded open subset of $\xR^d$ with piecewise $\xCone$ boundary, then there exists a linear application $\gamma : \xHone(\dom) \fromto \xLtwo(\partial\dom)$ continuous on $\xHone(\dom)$ such that $\gamma(u) = 0 \Rightarrow u \in \Ker(\gamma)$.
 \end{lmm}
 
 The regularity of the solution itself depends on the nature of the differential operators involved in the problem (\eg up to which order should be derivatives controlled?), but also on the data of the problem: regularity of the domain and right-hand side.
@@ -418,27 +418,27 @@ u(x) = u'(x) = 0, \qquad\forany x\in\bound
 
 
 \begin{tmaxrcs}{}{1.4}
-Let us consider the Helmoltz equation posed on the domain $\dom = (0, 1)$, given $\kappa$ a real coefficient:
-\begin{subequations}\label{pb:helmoltz}
-\begin{equation}\label{pb:helmoltz_eq}
+Let us consider the Helmholtz equation posed on the domain $\dom = (0, 1)$, given $\kappa$ a real coefficient:
+\begin{subequations}\label{pb:helmholtz}
+\begin{equation}\label{pb:helmholtz_eq}
 - u''(x) + \kappa u(x)  = f(x), \qquad\forany x \in \dom
 \end{equation}
 with $f\in \xLtwo(\dom)$,
-\begin{equation}\label{pb:helmoltz_bc}
+\begin{equation}\label{pb:helmholtz_bc}
 u(x) = 0, \qquad\forany x \in \bound
 \end{equation}
 \end{subequations}
 \begin{tmatsks}
-\item Derive a weak formulation (WF) of Problem \eqref{pb:helmoltz}.
+\item Derive a weak formulation (WF) of Problem \eqref{pb:helmholtz}.
 \item Specify the solution and test spaces.
 \item What is the nature of the bilinear form for $\kappa = 1$?
 \item Prove that the problem is well-posed for $\kappa = 0$ and $\kappa > 0$.
 \item Comment on the difficulty posed by the case $\kappa < 0$.
 \item The boundary condition is now given by:
-\begin{equation}\label{pb:helmoltz_mixed}
+\begin{equation}\label{pb:helmholtz_mixed}
  u(0) - u'(0) = 0,\quad u'(1) = -1
 \end{equation}
-Derive a weak formulation for the Problem \eqref{pb:helmoltz_eq}--\eqref{pb:helmoltz_mixed} and show that it admits a unique solution.
+Derive a weak formulation for the Problem \eqref{pb:helmholtz_eq}--\eqref{pb:helmholtz_mixed} and show that it admits a unique solution.
 To prove the coercivity the following relation can be used:
 \[
 v(1) = v(x) + \int_x^1 v'(t) \md t
