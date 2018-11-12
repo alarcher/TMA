@@ -58,46 +58,46 @@ Firstly, let us derive the energy estimate for the heat equation in the by recal
 \intD \pdt u\, u \dxx + \kappa \intD | \Grad u |^2 \dxx &=& \intD f\,u \dxx \\
 \dfrac{1}{2}\intD \pdt |u|^2 \dxx + \kappa \intD | \Grad u |^2 \dxx &=& \intD f\,u \dxx \\[2ex]
 \dfrac{1}{2} \ddd{t} \intD  |u|^2 \dxx + \kappa \intD | \Grad u |^2 \dxx &=& \intD f\,u \dxx \\[2ex]
-\dfrac{1}{2} \ddd{t} \nLtwo{u}^2 + \kappa \snHoneD{u}^2 \dxx &=& \intD f\,u \dxx
+\dfrac{1}{2} \ddd{t} \nLtwo{u}^2 + \kappa \snHone{u}^2 \dxx &=& \intD f\,u \dxx
 \end{eqnarray*}
 
 In the case of an homogeneous equation, the latest relation is directly the instantaneous conservation of energy
 \begin{equation}
-\dfrac{1}{2} \ddd{t} \nLtwo{u}^2 + \kappa \snHoneD{u}^2 = 0
+\dfrac{1}{2} \ddd{t} \nLtwo{u}^2 + \kappa \snHone{u}^2 = 0
 \end{equation}
 with the first term being the variation of kinetic energy and the second term being the dissipation of energy with diffusion coefficient $\kappa$.
 Integrating over the time interval, we get the energy budget over $[0,T]$:
 \begin{equation}\label{eq:energy_budget}
-\dfrac{1}{2} \nLtwo{u}^2 + \kappa \int_{0}^T \snHoneD{u}^2 \dt = 0
+\dfrac{1}{2} \nLtwo{u}^2 + \kappa \int_{0}^T \snHone{u}^2 \dt = 0
 \end{equation}
 
 \medskip
 Let us consider now a non-zero source term $f$, then using the Cauchy--Schwarz inequality yields the following relation:
 \begin{equation}
-\dfrac{1}{2} \ddd{t} \nLtwo{u}^2 + \kappa \snHoneD{u}^2 \leq \nLtwo{f} \nLtwo{u}
+\dfrac{1}{2} \ddd{t} \nLtwo{u}^2 + \kappa \snHone{u}^2 \leq \nLtwo{f} \nLtwo{u}
 \end{equation}
 Since the bound should depend only on the data, the name of the game is to absorb any term involving the unknown in the left-hand side.
 To this purpose, inequalities like Hölder, Korn, Sobolev injections are to be used in order to get a power of the proper $\xL^p$ or $\xH^s$ norm of the unknown.
 In the case of coercive problems, the diffusion term giving directly the $\xHone$ seminorm (to a factor depending on the diffusive coefficient), we should try to make it pop from the right-hand side.
 Using first the Poincaré inequality (Lemma \ref{lm:poincare}) and then the Young inequality (Lemma \ref{lm:young}), we can bound the right-hand side by the data and the $\xHone$ seminorm,
 \begin{equation}\label{eq:apriori_rhs_bound}
-\nLtwo{f} \nLtwo{u} \leq \dfrac{1}{2 \gamma^2 c_P^2} \nLtwo{f}^2 + \dfrac{\gamma^2}{2}\snHoneD{u}^2
+\nLtwo{f} \nLtwo{u} \leq \dfrac{1}{2 \gamma^2 c_P^2} \nLtwo{f}^2 + \dfrac{\gamma^2}{2}\snHone{u}^2
 \end{equation}
 with $\gamma$ a positive real number which can be chosen arbitrarily.
 Therefore, as soon as we choose $\gamma < \sqrt{2 \kappa}$, it is possible to subtract the second term of \eqref{eq:apriori_rhs_bound} to the left-hand side of the estimate, given that
 \begin{equation}
-\dfrac{1}{2} \ddd{t} \nLtwo{u}^2 + \dfrac{2\kappa - \gamma^2}{2}  \snHoneD{u}^2 \leq \dfrac{1}{2 \gamma^2 c_P^2} \nLtwo{f}^2
+\dfrac{1}{2} \ddd{t} \nLtwo{u}^2 + \dfrac{2\kappa - \gamma^2}{2}  \snHone{u}^2 \leq \dfrac{1}{2 \gamma^2 c_P^2} \nLtwo{f}^2
 \end{equation}
 
 Consequently, taking $\gamma= \sqrt{\kappa}$ there exists a constant $C > 0$ depending on the Poincaré constant, such that
 \begin{equation}
-\ddd{t} \nLtwo{u}^2 + \kappa  \snHoneD{u}^2 \leq C(c_P) \nLtwo{f}^2
+\ddd{t} \nLtwo{u}^2 + \kappa  \snHone{u}^2 \leq C(c_P) \nLtwo{f}^2
 \end{equation}
 
 This inequality yields a control of the $\xLtwo$ norm and $\xHone$ seminorm of the solution at any time $t$ of the time interval $[0,T]$.
 Similarly to Equation \eqref{eq:energy_budget}, if we integrate over the time, we get
 \begin{equation*}
-\nLtwo{u(T)}^2 - \nLtwo{u(0)}^2 + \kappa \int_{0}^T \snHoneD{u}^2 \dt \leq C(c_P) \int_{0}^T \nLtwo{f}^2 \dt
+\nLtwo{u(T)}^2 - \nLtwo{u(0)}^2 + \kappa \int_{0}^T \snHone{u}^2 \dt \leq C(c_P) \int_{0}^T \nLtwo{f}^2 \dt
 \end{equation*}
 which, by defining,
 \begin{equation}
@@ -135,19 +135,19 @@ t \intD \partial_t(\Grad u)\cdot\Grad u \dxx + t \intD \snorm{\Delta u}^2 \dxx
 \end{equation*}
 
 \begin{equation*}
-\dfrac{t}{2}\dfrac{\md}{\dt}\snHoneD{u}^2 + \snHtwoD{u}^2
+\dfrac{t}{2}\dfrac{\md}{\dt}\snHone{u}^2 + \snHtwo{u}^2
 \end{equation*}
 
 \begin{equation*}
-\dfrac{1}{2}\dfrac{\md}{\dt}\bigl(t \snHoneD{u}^2\bigr) - \dfrac{1}{2} \snHoneD{u}^2 + t\snHtwoD{u}^2
+\dfrac{1}{2}\dfrac{\md}{\dt}\bigl(t \snHone{u}^2\bigr) - \dfrac{1}{2} \snHone{u}^2 + t\snHtwo{u}^2
 \end{equation*}
 
 \begin{equation*}
-\dfrac{T}{2}\snHoneD{u(T)}^2 + \int_0^T t\snHtwoD{u}^2 \dt - \dfrac{1}{2}\int_0^T \snHoneD{u}^2 = \underbrace{\dfrac{0}{2}\snHoneD{u(0)}^2}_{0}
+\dfrac{T}{2}\snHone{u(T)}^2 + \int_0^T t\snHtwo{u}^2 \dt - \dfrac{1}{2}\int_0^T \snHone{u}^2 = \underbrace{\dfrac{0}{2}\snHone{u(0)}^2}_{0}
 \end{equation*}
 
 \begin{equation*}
-+ t\snHtwoD{u}^2 = + \dfrac{1}{2}\int_0^T \snHoneD{u}^2 - \dfrac{T}{2}\snHoneD{u(T)}^2
++ t\snHtwo{u}^2 = + \dfrac{1}{2}\int_0^T \snHone{u}^2 - \dfrac{T}{2}\snHone{u(T)}^2
 \end{equation*}
 
 

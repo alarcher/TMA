@@ -221,10 +221,10 @@ Inequality \eqref{eq:stability_lagrange_p1} is also called \textit{uniform conti
 \label{prpstn:interpolation_p1}
 There exists two positive constants $C_1$ and $C_0$ such that for any $v\in\xHtwo(\dom)$
 \begin{equation}
-\snHoneD{v - \Lgrh{1}v}  \leq C_1 \sizeT\;\snHtwoD{v}
+\snHone{v - \Lgrh{1}v}  \leq C_1 \sizeT\;\snHtwo{v}
 \end{equation}
 \begin{equation}
-\nLtwo{v - \Lgrh{1}v}  \leq C_0 \sizeT^2 \snHtwoD{v}
+\nLtwo{v - \Lgrh{1}v}  \leq C_0 \sizeT^2 \snHtwo{v}
 \end{equation}
 with $\sizeT = \max_{K\in\meshT}(h_K)$
 \end{prpstn}
@@ -279,16 +279,16 @@ In both cases global estimates are obtained by summing over $K\in\meshT$ and fac
 \begin{rmrk}[Convergence order in $\xHone$ norm]
 Using the definition of the norm
 \begin{equation*}
-\nHoneD{v - \Lgrh{1} v}^2 = \nLtwo{v - \Lgrh{1} v}^2 + \snHoneD{v - \Lgrh{1} v}^2
+\nHone{v - \Lgrh{1} v}^2 = \nLtwo{v - \Lgrh{1} v}^2 + \snHone{v - \Lgrh{1} v}^2
 \end{equation*}
 we get
 \begin{equation*}
-\nHoneD{v - \Lgrh{1} v}^2 \leq C_I^2\; (\sizeT^4 \snHtwoD{v}^2 + \sizeT^2 \snHtwoD{v}^2)
+\nHone{v - \Lgrh{1} v}^2 \leq C_I^2\; (\sizeT^4 \snHtwo{v}^2 + \sizeT^2 \snHtwo{v}^2)
 \end{equation*}
 \begin{equation*}
-\nHoneD{v - \Lgrh{1} v} \leq C_I\; \sizeT\;(1 + \sizeT^2)^{\sfrac{1}{2}} \snHtwoD{v}
+\nHone{v - \Lgrh{1} v} \leq C_I\; \sizeT\;(1 + \sizeT^2)^{\sfrac{1}{2}} \snHtwo{v}
 \end{equation*}
-Thus we verify that the approximation is first order in $\xHone$ norm if $\snHtwoD{v}$ is bounded.
+Thus we verify that the approximation is first order in $\xHone$ norm if $\snHtwo{v}$ is bounded.
 \end{rmrk}
 
 A more general result Proposition \ref{prpstn:interpolation_pk} can be proved for Lagrange $\xP_k$ Finite Elements, which we verify is equivalent to Proposition \ref{prpstn:interpolation_p1} for $s=1$, $k=1$.
@@ -315,18 +315,18 @@ The idea behind this result is that if $u$ is the weak solution to the Poisson e
 \begin{thrm}[Superconvergence]
 Let $\dom$ be a convex polygonal subset of $\xR^d$, $d \geq 1$, $f \in \xLtwo(\dom)$, $u$ solution to the Dirichlet Problem \eqref{pb:poisson} and $u_h$ approximate solution, $\sizeT\;= \max_{K\in\meshT}(h_K)$:
 \begin{equation*}
-\nHoneD{u - u_h}  \leq C_1\;\sizeT\quad\mbox{and}\quad\nLtwo{u - u_h}  \leq C_0\;\sizeT^2
+\nHone{u - u_h}  \leq C_1\;\sizeT\quad\mbox{and}\quad\nLtwo{u - u_h}  \leq C_0\;\sizeT^2
 \end{equation*}
 \end{thrm}
 
 \begin{proof}
 If $u \in \xHonec(\dom)$ is solution to the Poisson problem, then by elliptic regularity and density of $\xHtwo(\dom)$ in $\xHone(\dom)$), $u \in \xHtwo(\dom)$, thus $\exists\; C_u > 0$ such that:
 \begin{equation*}
-\nHtwoD{u}  \leq C_u\;\nLtwo{f}
+\nHtwo{u}  \leq C_u\;\nLtwo{f}
 \end{equation*}
 Thus replacing the $\xHtwo$ semi-norm in the right-hand side of the error estimate, we have
 \begin{equation}\label{eq:h1err_eh}
-\nHoneD{u - u_h}  \leq C_u\;\sizeT\;\nLtwo{f}
+\nHone{u - u_h}  \leq C_u\;\sizeT\;\nLtwo{f}
 \end{equation}
 Let us introduce the following auxiliary problem:
 \begin{subequations}\label{pb:aubin_nitsche}
@@ -359,11 +359,11 @@ Similarly to the Poisson equation, the weak formulation of Problem $\ref{pb:aubi
 \end{equation}
 Since $e_h$ is bounded in $\xLtwo(\dom)$ then the same regularity result holds for the auxiliary Problem \eqref{pb:aubin_nitsche}, $\exists C_\varphi > 0$ such that:
 \begin{equation*}
-\nHtwoD{\varphi}  \leq C_\varphi\;\nLtwo{e_h}
+\nHtwo{\varphi}  \leq C_\varphi\;\nLtwo{e_h}
 \end{equation*}
 so we have from the interpolation inequality for $\varphi$
 \begin{equation}\label{eq:h1err_phih}
-\nHoneD{\varphi - \varphi_h}  \leq C_\varphi\;\sizeT\;\nLtwo{e_h}
+\nHone{\varphi - \varphi_h}  \leq C_\varphi\;\sizeT\;\nLtwo{e_h}
 \end{equation}
 
 \medskip
@@ -381,7 +381,7 @@ Thus we can subtract and add this latter to the previous expression:
 \end{equation*}
 First we use Cauchy--Schwarz and make the $\xHone$ norm of the approximation errors appear since we control them by Equation \eqref{eq:h1err_eh} and \eqref{eq:h1err_phih}:
 \begin{equation*}
-\nLtwo{e_h} \leq \nHoneD{\varphi - \varphi_h} \nHoneD{e_h}
+\nLtwo{e_h} \leq \nHone{\varphi - \varphi_h} \nHone{e_h}
 \end{equation*}
 
 \medskip
