@@ -1,25 +1,98 @@
 
-\chapter{Adaptive error control}
+\chapter{Adaptive error control}\label{chap:aec}
 
-In Section \ref{sec:error_analysis}. we derived \apriori error estimates which give a control of the discretization error for any approximate solution.
+In Section \ref{chap:ea}. we derived \apriori error estimates which give a control of the discretization error for any approximate solution.
 The order of convergence given by the exponent $O(\sizeT^\alpha)$ is an indication on ``how close'' to the continuous solution any approximate solution is expected to be.
 Provided that we are able to compute an approximate solution $\uh$, we want now to evaluate the ``quality'' of this solution in the sense of the residual of the equation: such an estimate is thus called \aposteriori as it gives a quality measure of a computed solution.
 
 \medskip
-\Question How can we evaluate the quality of a computed approximate solution in the sense of the residual of the equation ?
+\Question How can we evaluate the quality of an approximate solution computed on a given mesh to improve the accuracy?
 
-\section{\textit{A posteriori} error estimate}
+\section{\textit{A posteriori} estimates}
 
-Let $u$ and $\uh$ be respectively the solutions to Problem \eqref{pb:weak_poissonHone} and Problem \eqref{pb:poisson_p1}
-\begin{eqnarray*}
-\snHoneD{e_h}^2 &=& \intD \Grad e_h \xDot \Grad e_h \dx \\
-                &=& \intD \Grad e_h \xDot \Grad (e_h - \Projh{h} e_h)\dx \\
-                &=& \intD \Grad u \xDot  \Grad (e_h - \Projh{h} e_h)  \dx - \intD \Grad \uh \xDot \Grad (e_h - \Projh{h} e_h) \dx \\
-                &=& \intD f\; (e_h - \Projh{h} e_h)  \dx - \intD \Grad \uh \xDot \Grad (e_h - \Projh{h} e_h) \dx
-\end{eqnarray*}
+In Chapter
+
+
+
+\[
+\Inner{\Res{\uh}}{v} = L(v) - a(\uh,  v)
+\]
+
+\[
+\Inner{\Res{\uh}}{v} = a(u - \uh,  v)
+\]
+
+and the \textit{approximation error} $e_h = u - \uh$ belongs to $\xV$.
+
+
+\begin{enumerate}
+\item Coercivity:
+\begin{equation}\label{eq:adapt_coercivity}
+\alpha \norm{u - \uh}_{\xV}^2 \leq a(u - \uh,  u - \uh)
+\end{equation}
+
+
+\[
+a(u - \uh,  u - \uh) = \Inner{\Res{\uh}}{u -\uh}
+\]
+
+\begin{equation}\label{eq:adapt_lower}
+\alpha \norm{e_h}_{\xV} \leq \norm{\Res{\uh}}_{\xV'}
+\end{equation}
+
+
+\item Continuity:
+\begin{equation}\label{eq:adapt_continuity}
+a(u - \uh,  u - \uh) \leq M \norm{u - \uh}_{\xV}
+\end{equation}
+
+
+\[
+\norm{\Res{\uh}}_{\xV'} = \sup_{\substack{v\in\xV\\v\neq 0}} \dfrac{a(u - \uh, v)}{\norm{v}_\xV}
+\]
+
+\begin{equation}\label{eq:adapt_upper}
+\norm{\Res{\uh}}_{\xV'} \leq M \norm{e_h}_{\xV}
+\end{equation}
+
+
+\end{enumerate}
+
+Using only the coercivity \eqref{eq:adapt_coercivity} and the continuity \eqref{eq:adapt_continuity} of the bilinear form, it follows from relations \eqref{eq:adapt_lower} and \eqref{eq:adapt_upper} that estimating $\Res{\uh}$ is equivalent to estimating the \textit{approximation error} in the norm of $\xV$.
+Given that $\uh$ is know the quantity $\Res{\uh}$ is computable and can be used to derive \textit{a posteriori} error estimators.
+
+
+
+\begin{itemize}
+\item $h$-adaptivity
+\item $p$-adaptivity
+\item $r$-adaptivity
+\end{itemize}
+
+\section{Residual-based error estimator for Poisson}
+
+Let $u$ and $\uh$ be respectively the solutions to Problem \eqref{pb:weak_poissonHone} and the approximate Problem \eqref{pb:poisson_p1} by a Lagrange $\xPone$ discretization.
+Therefore the ideas of the previous section are applied with $\xV = \xHonec(\dom)$ and $\xVh$ the space of continuous piecewise linear functions vanishing on $\bound$.
+
+\medskip
+The objective of this section is to exhibit a control of the $\xHone$ seminorm of the error
+\begin{equation*}
+\snHoneD{e_h}^2 = \intD \Grad e_h \xDot \Grad e_h \dxx
+\end{equation*}
+in terms of the residual of the equation $\Res{\uh}$.
+
+\medskip
+By Galerkin orthogonality $a(e_h, \vh) = 0$ for $\vh \in \xVh$, in particular testing against $\vh = \Iop{h} e_h$ is possible so that
+\begin{equation*}
+\snHoneD{e_h}^2 =  = \intD \Grad e_h \xDot \Grad (e_h - \Iop{h} e_h)\dxx
+\end{equation*}
+
+%                &=& \intD \Grad u \xDot  \Grad (e_h - \Iop{h} e_h)  \dxx - \intD \Grad \uh \xDot \Grad (e_h - \Iop{h} e_h) \dxx \\
+%                &=& \intD f\; (e_h - \Iop{h} e_h)  \dxx - \intD \Grad \uh \xDot \Grad (e_h - \Iop{h} e_h) \dxx
+%\end{eqnarray*}
 To obtain the residual $\Res \uh$ we need to consider the equation element-wise, then integrating by part on any cell $K \in \meshT$, we obtain
 \begin{equation*}
-\int_K \Grad \uh \xDot \Grad (e_h - \Projh{h} e_h) \dx = \int_{\partial K} \Grad \uh \xDot \n\;(e_h - \Projh{h} e_h) \dx - \int_K \Delta \uh \; (e_h - \Projh{h} e_h) \dx
+\int_K \Grad \uh \xDot \Grad (e_h - \Iop{h} e_h) \dxx = \int_{\partial K} \Grad \uh \xDot \n\;(e_h - \Iop{h} e_h) \dxx - \int_K \Delta \uh \; (e_h - \Iop{h} e_h) \dxx
 \end{equation*}
 with
 \begin{equation*}
@@ -27,12 +100,12 @@ with
 \end{equation*}
 Summing again over the domain yields
 \begin{equation*}
-\snHoneD{e_h}^2 = \sum _{K\in\meshT}\left[\int_K \ResK{\uh}\; \Grad (e_h - \Projh{h} e_h) \dx + \int_{\partial K} \Grad \uh \xDot \n\;(e_h - \Projh{h} e_h) \dx \right]
+\snHoneD{e_h}^2 = \sum _{K\in\meshT}\left[\int_K \ResK{\uh}\; \Grad (e_h - \Iop{h} e_h) \dxx + \int_{\partial K} \Grad \uh \xDot \n\;(e_h - \Iop{h} e_h) \dxx \right]
 \end{equation*}
 noting that in the case of continuous elements the boundary term cancels.
 Using first the Cauchy--Schwarz inequality
 \begin{equation*}
-\snHoneD{e_h}^2 \leq \nLtwo{\Res{\uh}} \nLtwo{e_h - \Projh{h} e_h}
+\snHoneD{e_h}^2 \leq \nLtwo{\Res{\uh}} \nLtwo{e_h - \Iop{h} e_h}
 \end{equation*}
 then the interpolation inequality with constant $C_I$
 \begin{equation*}
@@ -57,7 +130,7 @@ Let us define $\opA\dual$, the adjoint operator of $\opA$ as:
 \begin{xmpl}[Matrix of $\xMatR{N}$]
 Let $\opA = \matA$ be a real square matrix of dimension $N\times N$ and $x,y \in \xR^N$:
 \begin{equation*}
-\Inner{\opA x}{y} = \Inner{\matA x}{y} = \Inner{x}{\matA^t y} = \Inner{x}{\opA\dual y}
+\Inner{\opA x}{y} = \Inner{\matA x}{y} = \Inner{x}{\matA\trans y} = \Inner{x}{\opA\dual y}
 \end{equation*}
 with $\Inner{\xDot}{\xDot}$ the scalar product of $\xR^N$, then $\opA\dual = \matA^t$.
 \end{xmpl}
@@ -144,7 +217,7 @@ $\rightarrow$ Terminate adaptive iterations, $\ell_{\mathrm max} = \ell$.
 
 \section{Exercises}
 
-\begin{xrcs}[Diffusion--Reaction problem on the unit interval]
+\begin{tmaxrcs}{Diffusion--Reaction problem on the unit interval}{7.1}
 
 Consider the following one-dimensional problem:
 \begin{equation*}
@@ -159,15 +232,15 @@ u(0) = u(1) = 0
 \item Write the dual problem for unknown $\eta$.
 \item Obtain the following estimate:
 \begin{equation*}
-\nLtwo{e_h} \leq \nLtwo{h^2 \Res \uh} \nLtwo{h^{-2} (\eta - \Projh{1}\eta)}
+\nLtwo{e_h} \leq \nLtwo{h^2 \Res \uh} \nLtwo{h^{-2} (\eta - \Lgrh{1}\eta)}
 \end{equation*}
-with the discretization error $e_h = u - \uh$, the equation residual $\Res \uh = f + \pdx\bigl(a\,\pdx \uh\bigr) - c\,\uh$ and the Lagrange $\xP^1$ intepolation operator $\Projh{1}$. First you should test the dual equation against $e_h$, then write the expression element-wise to be able to define the residual.
+with the discretization error $e_h = u - \uh$, the equation residual $\Res \uh = f + \pdx\bigl(a\,\pdx \uh\bigr) - c\,\uh$ and the Lagrange $\xPone$ interpolation operator $\Lgrh{1}$. First you should test the dual equation against $e_h$, then write the expression element-wise to be able to define the residual.
 \item Conclude that the \aposteriori error estimate holds
 \begin{eqnarray*}
 \nLtwo{e_h} \leq C_I\;\Stab\nLtwo{h^2\Res \uh}
 \end{eqnarray*}
 with $C_I$ the interpolation constant and $\Stab$ a stability factor that you will define.
 \end{enumerate}
-\end{xrcs}
+\end{tmaxrcs}
 
 
