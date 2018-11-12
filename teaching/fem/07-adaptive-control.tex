@@ -10,14 +10,18 @@ Provided that we are able to compute an approximate solution $\uh$, we want now 
 
 \section{\textit{A posteriori} estimates}
 
-In Chapter \ref{chap:ea} estimates of the 
-
+In Chapter \ref{chap:ea} error estimates
 \begin{equation*}
 \begin{array}{lcl}
-\snHone{v - \Iop{h} v} &\leq& C_1 \sizeT   \snHtwo{v} \\
-  \nLtwo{v - \Iop{h} v} &\leq& C_0 \sizeT^2 \snHtwo{v}
+\snHone{u - \Iop{h} u} &\leq& C_1 \sizeT   \snHtwo{u} \\
+ \nLtwo{u - \Iop{h} u} &\leq& C_0 \sizeT^2 \snHtwo{u}
 \end{array}
 \end{equation*}
+were established with the purpose of bounding the right-and side of Céa's inequality
+\begin{equation*}
+\nHone{u - \uh} &\leq& \nHone{u - v}
+\end{equation*}
+for $v\in\xVh$, which provides directly as such a control on the $\xHone$ norm of the approximation error $\eh = u - \uh$.
 
 
 \[
