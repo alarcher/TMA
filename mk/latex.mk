@@ -35,10 +35,10 @@ endif
 TEXSRC=$(wildcard *.tex)
 
 $(MAINPDF): $(MAINTEX) $(TEXSRC)
-	@$(ENV) $(TEX_ENV) $(PDFTEX_CMD) $<
-	@if test -f $(MAINBIB); then $(ENV) $(TEX_ENV) $(BIBTEX_CMD) $(<:%.tex=%); fi;
-	@$(ENV) $(TEX_ENV) $(PDFTEX_CMD) $<
-	@$(ENV) $(TEX_ENV) $(PDFTEX_CMD) $<
+	@($(ENV) $(TEX_ENV) $(PDFTEX_CMD) $< \
+	&& ([ ! -f "$(MAINBIB)"] || $(ENV) $(TEX_ENV) $(BIBTEX_CMD) $(<:%.tex=%)) \
+	&& $(ENV) $(TEX_ENV) $(PDFTEX_CMD) $< \
+	&& $(ENV) $(TEX_ENV) $(PDFTEX_CMD) $<) || rm $(MAINPDF)
 
 all: $(MAINPDF) $(TEXSRC)
 
