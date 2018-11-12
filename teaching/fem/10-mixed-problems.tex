@@ -49,11 +49,11 @@ and
 \end{equation*}
 Integrating by parts to report the derivatives on the tests functions:
 \begin{equation*}
-- \intD \Div\Tvisc\xDot\vv\dx = - \intD \Div(\Tvisc^t\xDot\vv)\dx + \intD \Tvisc:\Grad\vv\dx
+- \intD \Div\Tvisc\xDot\vv\dx = - \intD \Div(\Tvisc\trans\vv)\dx + \intD \Tvisc:\Grad\vv\dx
 \end{equation*}
 which uses the tensor identity, given under repeated indices form:
 \begin{equation*}
-\pd{j}(\Tvisc_ij)\vv_i = \pd{j}(\Tvisc_{ji}\vv_i) - \Tvisc_{ij}\pd{j}\vv_i
+\pd{j}(\Tvisc_{ij})\vv_i = \pd{j}(\Tvisc_{ji}\vv_i) - \Tvisc_{ij}\pd{j}\vv_i
 \end{equation*}
 Owing to relation
 \begin{equation*}
@@ -79,7 +79,7 @@ In the case of a Newtonian fluid the stress tensor reads
 \end{equation*}
 with the strain rate tensor
 \begin{equation*}
-\Strain(\bar\uu) = \dfrac{1}{2}(\Grad\bar\uu + \Grad^t\bar\uu)
+\Strain(\bar\uu) = \dfrac{1}{2}(\Grad\bar\uu + \Grad\trans\bar\uu)
 \end{equation*}
 which is symmetric.
 
@@ -242,7 +242,7 @@ b(\uuh,q_h) = \Inner{\tB_h\uu}{q_h}
 \end{equation*}
 
 \begin{thrm}[Well-posedness]
-If $\Psi_h \in \Ima(\tB_h)$ then Problem \eqref{pb:stokes_disc} admits solutions $(\uuh,p_h)\in\xVhd\times\xMzh$ such that $\uuh$ is unique and the pressure can be written as $p_h = \tilde p_h + \ker(\tB^t_h)$ with $\tilde p_h \in \ker(\tB^t_h)\ortho$ unique.
+If $\Psi_h \in \Ima(\tB_h)$ then Problem \eqref{pb:stokes_disc} admits solutions $(\uuh,p_h)\in\xVhd\times\xMzh$ such that $\uuh$ is unique and the pressure can be written as $p_h = \tilde p_h + \ker(\tB\trans_h)$ with $\tilde p_h \in \ker(\tB\trans_h)\ortho$ unique.
 \end{thrm}
 
 \begin{thrm}[Convergence -- \cite{JCL} page 21]
