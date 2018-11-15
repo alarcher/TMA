@@ -1,0 +1,138 @@
+
+\chapter{Tensor formul\ae}
+
+This short chapter is a reminder of tensor notations and identities that are useful for usual partial differential equations.
+
+\section{Operators}
+
+A tensor of order $p$ denotes an element of $\xR^{d_1\times\dots\times d_p}$, with $d_i$ dimension on the $i$-th axis: a zero-order tensor is a scalar, a first-order tensor is a vector, and a second-order tensor is a matrix.
+The following operators are defined for second order tensors.
+
+
+\subsection{Tensor product}
+(order $p + q$)
+\begin{equation}
+(\tP \Tens \tQ)_{ijkl} = \tP_{ij} \tQ_{kl} \: \ve_i \Tens \ve_j \Tens \ve_k \Tens \ve_l
+\end{equation}
+
+\subsection{Dot product (simple contraction)}
+(order $p + q -2$)
+\begin{equation}
+(\tP \cdot \tQ) = \Trace{p,p+1}{\tP \Tens \tQ}
+\end{equation}
+with $\Trace{p, p+1}{\cdot}$ the Trace operator with respect to indices $p$ and $p+1$.
+In index notation, it consists of a summation on indices $p$ and $p+1$ (contraction),
+\begin{equation}
+(\tP \cdot \tQ) = \sum_j \tP_{ij}\tQ_{jk}
+\end{equation}
+Since summation occurs on a pair of indices, the order of the resulting tensor is reduced by two.
+
+\subsection{Double-dot product (double contraction)}
+(order $p + q -4$)
+\begin{equation}
+(\tP : \tQ) = \Trace{p-1,p+1}{ \Trace{p,p+2}{\tP \Tens \tQ}}
+\end{equation}
+with two contractions in this case, corresponding in index notation to summations over two  pairs of indices,
+\begin{equation}
+(\tP : \tQ) = \sum_i\sum_j \tP_{ij}\tQ_{ij}
+\end{equation}
+so that the order of the resulting tensor is reduced by four.
+If $\tP = \tQ$ this corresponds to the Frobenius norm.
+
+\subsection{Gradient}
+
+The gradient of a scalar field is the first order tensor
+\begin{equation}
+\Grad f = \left[\pd{i} f\right]_i
+\end{equation}
+while the gradient of a vector field is the second order tensor
+\begin{equation}
+\Grad \vv = \left[\pd{j} \vv_i\right]_{ij}
+\end{equation}
+such that the derivative is applied to the last index.
+
+\subsection{Divergence}
+\begin{equation}
+\Div(\tT) = \nabla\tT : \tG = \Trace{p,p+1}{\nabla\tT}
+\end{equation}
+with $\tG$ the metric tensor, which entries are the scalar product of the chosen basis vectors.
+If the canonical basis is chosen, it is simply the identity matrix, therefore the divergence is simply the sum of diagonal entries of the gradient.
+
+\subsection{Curl (Rotational)}
+\begin{equation}
+\nabla\Vect\tT = -\nabla\tT : \tH
+\end{equation}
+with $\tH$ is the orientation tensor, which entries are the mixed product of the chosen basis vectors. The curl operator is also denoted as $\nabla\times$.
+
+\section{Identities}
+
+\subsection{First order tensors}
+
+\begin{itemize}
+\item Gradient of a vector field:
+\begin{equation}
+\nabla(f\vv) = f \nabla\vv + \vv\Tens\nabla f
+\end{equation}
+which corresponds to the expansion of the derivative of a product, as the index notation shows
+\begin{equation}
+\pd{j}(f\vv_i) = f \pd{j}\vv_i + \vv_i\pd{j} f
+\end{equation}
+
+\item Divergence of a vector field:
+\begin{equation}
+\Div(f\vv) = f \Div(\vv) + \vv\cdot\nabla f
+\end{equation}
+which corresponds to the expansion of the derivative of a product, as the index notation shows
+\begin{equation}
+\pd{i}(f\vv_i) = f \pd{i}\vv_i + \vv_i\pd{i} f
+\end{equation}
+
+\item Identity of the advection operator:
+\begin{equation}
+(\vv\cdot\nabla)\vv = \frac{1}{2} \nabla(\vv\cdot\vv) + (\nabla\Vect\vv)\Vect\vv
+\end{equation}
+
+\item Identity for the Laplace operator:
+\begin{equation}
+\Delta\vv = \nabla(\Div\vv) - \nabla\Vect(\nabla\Vect \vv)
+\end{equation}
+
+\item Divergence of a vector product:
+\begin{equation}
+\Div(\uu\Vect\vv) = \vv\cdot(\nabla\Vect\uu) - \uu\cdot(\nabla\Vect\vv)
+\end{equation}
+
+\item Curl of of vector product:
+\begin{equation}
+\nabla\Vect(\uu\Vect\vv) = (\Div\vv)\uu - (\Div\uu)\vv + (\vv\cdot\nabla)\uu - (\uu\cdot\nabla)\vv\
+\end{equation}
+\end{itemize}
+
+
+\subsection{Second order tensors}
+
+\begin{itemize}
+\item Dyadic/scalar mixed product:
+\begin{equation}
+(\uu\Tens\vv)\cdot\ww = (\vv\cdot\ww)\uu
+\end{equation}
+
+\item Gradient of a tensor field:
+\begin{equation}
+\nabla(\tT\cdot\vv) = \tT\cdot\nabla\vv + \vv\cdot\nabla\tT\T
+\end{equation}
+
+\item Divergence of a tensor field:
+\begin{equation}
+\Div(\vv\cdot\tT) = \vv\cdot\Div(\tT) + \tT : \nabla\vv
+\end{equation}
+which corresponds to the expansion of the derivative of a product, as the index notation shows
+\begin{equation}
+\pd{j}(\vv_i\tT_{ij}) = \vv_i\pd{j}\tT_{ij} + \tT_{ij}\pd{j}\vv_i
+\end{equation}
+
+\item Divergence of a dyadic product:
+\begin{equation}
+\Div(\uu\Tens\vv) = (\Div \vv)\uu + (\vv\cdot\nabla)\uu
+\end{equation}
+\end{itemize}
