@@ -1,0 +1,30 @@
+\begin{tikzpicture}[
+  block/.style={
+    draw=darkblue,
+    fill=cadet,
+    shape=rectangle,
+    rounded corners=1mm,
+    text height=1.5ex,
+    text depth=.25ex,
+  },
+  l1/.style={
+    minimum height=8mm,
+    minimum width=4cm,
+  },
+  ops/.style={
+    minimum height=8mm,
+    minimum width=4cm,
+    align=right,
+  },
+  inst/.style={
+    minimum height=28mm,
+    minimum width=16mm,
+  },
+  line/.style={
+    thick,
+    draw=darkblue,
+  }]
+  \node[block, l1] (CPU) {Processor};
+  \node[block, l1, fill=salmon, right=15mm of CPU] (MEM) {Memory};
+  \draw[line, <->] (CPU.east) -- (MEM.west);
+\end{tikzpicture}

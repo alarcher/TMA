@@ -1,0 +1,136 @@
+
+
+-----
+Shared Memory architecture:
+-> physical address space for all processors:  global shared address space 
+-> different solutions: SMP/UMA, DSM/NUMA
+-> cache coherency issue
+-> access to shared data needs protection (resource locking)
+
+Disadvantages: 
+-> lack of scalability CPU vs Memory (memory contention)
+-> complexity of design safe and efficient memory access
+
+-----
+Distributed Memory Multiprocessors:
+
+-> each processor has a private physical address space
+-> hardware send/receive messages to communicate between processors
+-> scalability of memory (add nodes)
+
+Disadvantages:
+-> need to implement data exchange between processors
+-> memory latency difference between local memory and remote memory
+-> fault tolerance
+
+-----
+Shared Memory Model vs Distributed Memory Model
+
+Programming model to take advantage of distributed memory architectures:
+
+Concept of Message Passing: definition of an object model to represent the execution of the programme
+
+- Encapsulation: the layer provides general facilities that can be used without knowledge of the implementation.
+
+- Distribution:
+  * synchronous: sender/receiver wait until data has been sent/received
+  * asynchronous: sender/receiver can proceed after sending/receiving is intiated 
+
+Remark: Today both models are combined to achieve scalability
+
+-----
+
+Single Programme Multiple Data (SPMD)
+-> single programme executed by all processors simultaneously
+-> the same or different instructions can be executed
+-> several data streams can come into play
+
+This is the most common case. 
+
+MPMD: multiple programmes can be combined to solve a problem.
+
+
+-----
+Parallelism
+
+Decompose the execution into several tasks according to the work to be done: Functional Parallelism
+
+Example: Multiple models
+
+
+Decomposition of the data provided or domain onto which the problem is posed: Data Parallelism
+
+Example: Mesh partitioning
+
+Different data distribution techniques available.
+
+-----
+
+Distributed memory architecture do not offer a shared address space
+
+-> a processor cannot get a memory reference from any location in the system
+-> a software layer is required to allow exchange of data between processors
+
+The Message Passing Interface (MPI) specifies how a library should provide such facilities.
+
+MPI is a \textbf{specification}, several implementations available:
+-> MPICH (Argonne National Laboratory)
+-> OpenMPI
+-> Vendor specific: Cray, Intel, etc \dots
+
+------
+History:
+
+-> 1991-1993: Effort to draft a specification: Workshop on Standards for Message Passing in a Distributed Memory Environment (1992) 
+-> 1994: MPI 1.0
+-> 1995: MPI 1.1
+-> 1996: MPI 2.0
+-> 2012: MPI 3.0
+-> 2015: MPI 3.1
+
+------
+Advantages
+
+-> Standard: MPI has become a \textit{de facto} standard supported by academic research and vendors
+-> Portable: 
+-> Optimization: vendors offer implementations optimized for their HPC architectures.
+-> Features: MPI 1.0 128 routines, MPI 2.0 333 routines, MPI-IO, extension to shared memory, memory locality, \dots
+-> Availability: several opensource implementation as well as vendors
+
+------
+
+Basic idea of Message Passing:
+
+send(address, length, destination, tag)
+
+address: memory location defining the begining of the buffer
+length: length in bytes of the buffer
+destination: receiving process rank
+tag: arbitrary identifier 
+
+
+recv(address, maxlength, source, tag, actlen)
+
+------
+
+buffer: is an array of values of a given data type,
+
+data structures may not be contiguous in memory so copy is required
+
+MPI defines several basic data types
+
+MPI allows creation of \textit{ad hoc} data types using MPI Derived Types:
+
+\begin{lstlisting}[style=c,morekeywords={MPI_Type_contiguous,MPI_Datatype}]
+int MPI_Type_contiguous (
+int count, // replication count
+MPI_Datatype oldtype, // old datatype
+MPI_Datatype * newtype ) // new datatype
+\end{lstlisting}
+
+
+
+ (\texttt{MPI_Type_commit()}, \texttt{MPI_Type_free()}).
+
+
+

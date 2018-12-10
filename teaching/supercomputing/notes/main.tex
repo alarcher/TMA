@@ -1,0 +1,140 @@
+\documentclass[a4paper]{tmanotes}
+
+
+% Paths
+\newcommand{\figs}{../figs}
+\newcommand{\data}{../data}
+
+% Fonts
+\usepackage{newpxtext,newpxmath}
+\renewcommand*\sfdefault{cmss}
+
+% Double hlines
+\usepackage{hhline}
+
+% Listings
+\usepackage{textcomp}
+\usepackage{listings}
+\lstset{
+  keywordstyle=\bfseries\color{orange},
+  stringstyle=\color{darkblue!80},
+  commentstyle=\color{darkblue!80},
+  showstringspaces=false,
+  basicstyle=\ttfamily,
+  upquote=true,
+}
+\lstdefinestyle{fortran}{
+  language=Fortran,
+  morekeywords={for},
+  deletekeywords={status},
+}
+\lstdefinestyle{c}{
+  language=C,
+  morekeywords={include},
+}
+\lstdefinestyle{shell}{
+  language=bash,
+}
+
+
+\newtheorem{ex}{Exercise}[chapter]
+
+
+% Tikz
+\usepackage{tikz}
+\usetikzlibrary{positioning,shapes,arrows,calc,intersections}
+
+
+% Make footnotes work inside tables
+\usepackage{footnote}
+\makesavenoteenv{tabular}
+\makesavenoteenv{table}
+
+% Numbering
+\makeatletter
+\AtBeginDocument{%
+  \let\c@lstlisting\c@figure
+  \let\c@table\c@figure
+}
+\makeatother
+
+
+% Units
+\usepackage[detect-weight=true, binary-units=true]{siunitx}
+\DeclareSIUnit\flop{Flops}
+
+\input{macros}
+
+\makeindex
+
+
+\begin{document}
+
+%===============================================================================
+\title{TMA4280 Supercomputing: Theory and Practice.}
+\author{Einar R{\o}nquist, Arne Morten Kvarving, Eivind Fonn}
+\bibliographystyle{plain}
+\date{}
+
+\maketitle
+
+\newpage
+
+\tableofcontents
+%===============================================================================
+
+%-------------------------------------------------------------------------------
+\newpage
+\input{00-introduction}
+
+
+%-------------------------------------------------------------------------------
+\newpage
+\input{01-single-processor}
+
+%-------------------------------------------------------------------------------
+\newpage
+\input{02-multi-processor}
+
+%-------------------------------------------------------------------------------
+\newpage
+\input{03-message-passing-model}
+
+%-------------------------------------------------------------------------------
+\newpage
+\input{04-share-memory-model}
+
+%-------------------------------------------------------------------------------
+\newpage
+\input{05-linear-algebra}
+
+%-------------------------------------------------------------------------------
+\newpage
+\input{06-poisson}
+
+%-------------------------------------------------------------------------------
+\newpage
+\input{07-finite-difference-method}
+
+%-------------------------------------------------------------------------------
+\newpage
+\input{08-fast-diagonalization}
+
+%-------------------------------------------------------------------------------
+\newpage
+\input{09-finite-element-method}
+
+%-------------------------------------------------------------------------------
+\newpage
+\input{10-linear-solvers}
+
+%-------------------------------------------------------------------------------
+\newpage
+\input{11-parallel-io}
+
+%===============================================================================
+\newpage
+\bibliography{main}
+
+\end{document}
+

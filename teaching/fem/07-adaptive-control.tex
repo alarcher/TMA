@@ -78,11 +78,11 @@ Using only the coercivity \eqref{eq:adapt_coercivity} and the continuity \eqref{
 Given that $\uh$ is know the quantity $\Res{\uh}$ is computable and can be used to derive \textit{a posteriori} error estimators.
 
 \medskip
-TBD
+Different strategies can be used for improving the accuracy:
 \begin{itemize}
-\item $h$-adaptivity
-\item $p$-adaptivity
-\item $r$-adaptivity
+\item $h$-adaptivity: cells with largest error indicators are refined, \ie divided into smaller cells so that the mesh size is decreased: the mesh topology is changed as new cells are inserted.
+\item $p$-adaptivity: polynomial order is increased on the cell so that the exponent becomes larger in the error estimate.
+\item $r$-adaptivity: points are moved to get smaller cells where error indicators are large: the mesh topology is left unchanged as the transformation is only geometric.
 \end{itemize}
 
 \section{Residual-based error estimator for Poisson}

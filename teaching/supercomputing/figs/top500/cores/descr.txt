@@ -1,0 +1,10 @@
+- Nov 2001: First dual-core cpu system
+- Nov 2006: 55% is single-core, 45% dual-core
+            First quad-core cpu system
+- Jun 2007: 81% is dual-core
+- Jun 2008: 57% is quad-core
+- Jun 2012: 47% is hexa-core
+- Nov 2013: 57% is octo-core
+- Jun 2016: 30% is dodeca-core
+- Nov 2016: Mixed 30% 12-core, 16% 8-core, 13% 10-core, 11% 16-core, 10% 6-core
+            Maximum number of cores per socket is

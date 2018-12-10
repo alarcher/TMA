@@ -1,0 +1,660 @@
+\input{preamble}
+
+%\newcommand{\xC}{\mathbb{C}}
+\newcommand{\xR}{\mathbb{R}}
+\newcommand{\xRd}{{\xR^d}}
+\newcommand{\xRN}{{\xR^N}}
+\newcommand{\xMNR}{{M_N(\xR)}}
+\newcommand{\bb}{{\boldsymbol b}}
+\newcommand{\ee}{{\boldsymbol e}}
+\newcommand{\ev}{{\boldsymbol \epsilon}}
+\newcommand{\rr}{{\boldsymbol r}}
+\newcommand{\xx}{{\boldsymbol x}}
+\newcommand{\hx}{\hat{\boldsymbol x}}
+\newcommand{\yy}{{\boldsymbol y}}
+\newcommand{\vv}{{\boldsymbol v}}
+\newcommand{\ww}{{\boldsymbol w}}
+\newcommand{\zz}{{\boldsymbol z}}
+\renewcommand{\mA}{{\mathrm A}}
+\newcommand{\mB}{{\mathrm B}}
+\newcommand{\mC}{{\mathrm C}}
+\newcommand{\mD}{{\mathrm D}}
+\newcommand{\mG}{{\mathrm G}}
+\newcommand{\mH}{{\mathrm H}}
+\renewcommand{\mL}{{\mathrm L}}
+\newcommand{\mLs}{{\mathrm L_0}}
+\newcommand{\mM}{{\mathrm M}}
+\newcommand{\mRs}{{\mathrm R_0}}
+\newcommand{\mR}{{\mathrm R}}
+\newcommand{\mP}{{\mathrm P}}
+\newcommand{\mQ}{{\mathrm Q}}
+\newcommand{\mU}{{\mathrm U}}
+\newcommand{\mId}{{\mathbf{Id}}}
+\newcommand{\mII}{{\mathbf{\mathbb{I}}}}
+\newcommand{\Seq}[1]{\bigl(#1\bigr)}
+\newcommand{\Cond}[1]{\mathcal{C}(#1)}
+\newcommand{\Order}[1]{\mathcal{O}\left(#1\right)}
+\newcommand{\norm}[1]{{\lVert #1 \rVert}}
+\newcommand{\norminf}[1]{\norm{#1}_{\infty}}
+
+\newcommand{\InnerK}[2]{{{\mathbf\langle}\;#1\:,\: #2 \;{\rangle}}}
+\newcommand{\Inner}[2]{{{\scriptstyle\mathbf{(}}\;#1\:,\: #2 \;{\scriptstyle\mathbf{)}}}}
+
+
+\title{Sparse systems with PETSc}
+\institute{NTNU, IMF}
+\date{April 13. 2018}
+%\author{Based on 2016v slides by Eivind Fonn}
+%\author{Aurélien Larcher}
+
+\maketitle
+
+\begin{frame}
+  \frametitle{Linear algebra packages}
+  \begin{itemize}
+  \item During the course BLAS and LAPACK were discussed for dense linear algebra.
+  \item Most engineering applications involve solving sparse linear systems.
+  \item For instance Partial Differential Equation discretizations  involve:
+  \begin{itemize}
+  \item discrete differential operators in the form of stencils (finite differences, finite volums)
+  \item discrete spaces with compactly supported basis functions (finite elements)
+  \end{itemize}
+  \item This locality of the discretization translates into the structure of the matrix.
+  \item Sparse linear algebra packages are available:
+    \begin{itemize}
+    \item MUMPS: MUltifrontal Massively Parallel sparse direct Solver,
+    \item UMFPACK: Unsymmetric MultiFrontal method,
+    \item SuperLU: Sparse, direct solver (comes in threaded and distributed
+      variants but no hybrid)
+    \item HYPRE: Sparse, iterative solvers and preconditioners
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Linear algebra packages}
+  Some linear algebra packages provide more then linear solvers, but contain other
+  tools that are helpful in scientific computing as well.
+  \begin{enumerate}
+\medskip
+  \item \textbf{PETSc}: Portable Extensible Toolkit for Scientific computing.
+\begin{center}
+\url{https://www.mcs.anl.gov/petsc/}
+\end{center}
+\medskip
+  \item \textbf{Trilinos}: Object-oriented software framework for the solution of large-scale, complex multi-physics engineering and scientific problems (can be used trough PETSc).
+\begin{center}
+\url{https://trilinos.org/}
+\end{center}
+  \end{enumerate}
+  
+
+\medskip
+Such frameworks offer generic interfaces which can be also used for external packages: it is interesting to implement them in your code to be able to use a common interface.
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{PETSc}
+  \begin{itemize}
+  \item PETSc (PET-see) is an open-source scientific computing library written
+    in C.
+  \item Written in C with an object-oriented design.
+  \item Interfaces for Fortran, Python, Java and Matlab available.
+  \item Great support for distributed programming: MPI, and GPUs through CUDA or OpenCL, as well as hybrid MPI-GPU parallelism. 
+  \end{itemize}
+
+\medskip
+  \begin{itemize}
+  \item Parallel vectors with synchronization of ghost entries.
+  \item Parallel matrices with different storage foramts and distributed implementations.
+  \item Linear solvers: direct and preconditioned iterative methods for sparse matrices (\href{list}{https://www.mcs.anl.gov/petsc/documentation/linearsolvertable.html}).
+  \item Parallel Newton-based nonlinear solvers.
+  \item Parallel timestepping (ODE) solvers.
+  \item Distributed arrays for finite difference methods. 
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{PETSc conventions}
+  \begin{itemize}
+  \item PETSc is a large library, so it needs conventions to keep it organized.
+  \item Methods and symbols have prefixes which relate to their category.
+  \vspace{2ex}
+    \begin{tabular}{ll}
+    \texttt{Vec} & Vectors \\
+    \texttt{Mat} & Matrices \\
+    \texttt{KSP} & Krylov solvers (CG, Bi-CGStab, GMRES, \dots)\\
+    \texttt{PC}  & Preconditioners (Jacobi, SOR, ILU, \dots)\\
+    \end{tabular}
+\medskip
+\item Extensive documentation:
+\begin{center}
+http://www.mcs.anl.gov/petsc/petsc-current/docs/manualpages/singleindex.html
+\end{center}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{PETSc Vectors}
+  \begin{itemize}
+  \item A vector is stored in an opaque data structure called a \texttt{Vec}:
+\begin{lstlisting}[style=c]
+// Look at petscvec.h
+typedef struct _p_Vec*         Vec;
+\end{lstlisting}
+  \item Vectors can have different types, such as
+    \begin{tabular}{ll}
+    seq     & Sequential \\
+    mpi     & Distributed \\
+    pthread & Threaded \\
+    cusp    & CUDA (Nividia GPU) format through \href{https://cusplibrary.github.io/}{CUSP}
+    \end{tabular}
+  \item The type and its implementation is hidden from the user: it is an
+    implementation detail.
+  \item There is \emph{no} direct data access: similar to MPI access to data through
+    functions.
+  \item This helps to abstract away implementation details for different
+    types.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{PETSc Vectors: first steps}
+
+Declaration of a vector: a pointer to the actual implemented type 
+\begin{lstlisting}[style=c]
+// PETSc Vec pointer
+Vec x;
+// Local size
+PetscInt n;
+\end{lstlisting}
+
+\medskip
+Creation of a sequential vector:
+\begin{lstlisting}[style=c]
+VecCreate(PETSC_COMM_SELF, &x);
+VecSetSizes(x, PETSC_DECIDE, n);
+VecSetFromOptions(x);
+\end{lstlisting}
+
+\medskip
+Creation of a MPI vector, the local size only is specified:
+\begin{lstlisting}[style=c]
+VecCreateMPI(PETSC_COMM_WORLD, n, PETSC_DETERMINE,
+             &x);
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{PETSc Vectors: first steps}
+
+\medskip
+Any operation is performed through functions:
+\begin{lstlisting}[style=c]
+// Set all entries to zero
+PetscScalar a = 0.0;
+VecSet(x, a);
+
+// Get global size
+PetscInt N;
+VecGetSize(x, &N);
+
+\end{lstlisting}
+
+PETSc provides function to display the content:
+\begin{lstlisting}[style=c]
+VecView(x, PETSC_VIEWER_STDOUT_WORLD);
+\end{lstlisting}
+
+PETSc object must be deallocated to reclaim the memory:
+\begin{lstlisting}[style=c]
+VecDestroy(&x);
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{PETSc Vectors: some predefined operations}
+\begin{lstlisting}[style=c]
+PetscScalar a; Vec x; Vec y; Vec w;
+
+VecScale(x, a);
+
+VecAXPY(x, a, y);
+
+VecDot(x, y, &a);
+
+VecPointwiseMult(w, x, y);
+
+VecMin(x, PETSC_NULL, &a);
+VecMax(x, PETSC_NULL, &a);
+
+VecNorm(x, NORM_2, &a);
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{PETSc Vectors: setting values}
+
+Two types of operations (example of encapsulation):
+\begin{enumerate}
+\item Insertion: only last value is retained
+\begin{lstlisting}[style=c]
+void PETScVector::set(const real* block, int m, 
+                      int* rows)
+{
+  dolfin_assert(x);
+  VecSetValues(x, m, rows, block, INSERT_VALUES);
+}
+\end{lstlisting}
+\item Addition: all values are summed
+\begin{lstlisting}[style=c]
+void PETScVector::add(const real* block, int m,
+                      int* rows)
+{
+  dolfin_assert(x);
+  VecSetValues(x, m, rows, block, ADD_VALUES);
+}
+\end{lstlisting}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{PETSc Vectors: ownership}
+
+Data ownership is the crucial aspect of distributed computing:
+\begin{itemize}
+\item a vector on a process \textit{owns} a contiguous list of entries stored in the local memory.
+\item the local size is the number of entries owned
+\item the offset is the index of the first entry
+\item the range is: $[offset, offset + local size [$
+\item PETSc provides a function to get the range:
+\begin{lstlisting}[style=c]
+int low, high;
+VecGetOwnershipRange(x, &low, &high);
+\end{lstlisting}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{PETSc Vectors: ghost entries}
+
+\begin{itemize}
+\item If the problem is solved in parallel on a mesh, each process is responsible for a partition.
+\item Example of a domain for the simulation of a Turbulent Jet in a cylinder.
+\item Degrees of freedom on the inter-process (interior) boundary are shared between processes.
+\item Only one owner, ghosted on other processes. 
+\end{itemize}
+
+\medskip
+Ghosted entries are managed with: \texttt{VecCreateGhost}
+
+\medskip
+First step is to get the ownership range:
+\begin{lstlisting}[style=c]
+int local_size, size, low, high;
+VecGetSize(x, &size);
+VecGetLocalSize(x, &local_size);
+VecGetOwnershipRange(x, &low, &high);
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{PETSc Vectors: ghost entries}
+
+Then build a list of indices \texttt{ghost\_indices} present on the process but outside the range.
+
+\medskip
+Ghost entries can then be specified:
+\begin{lstlisting}[style=c]
+VecCreateGhost(MPI::DOLFIN_COMM, local_size, size, 
+	       num_ghost_indices, &ghost_indices[0], &x);
+\end{lstlisting}
+
+\medskip
+Do not forget to synchronize the ghosts!
+\begin{lstlisting}[style=c]
+VecGhostUpdateBegin(x, INSERT_VALUES, SCATTER_FORWARD);
+VecGhostUpdateEnd(x, INSERT_VALUES, SCATTER_FORWARD);
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{PETSc Matrices}
+  \begin{itemize}
+  \item A matrix is stored in an opaque data structure called a \texttt{Mat}:
+\begin{lstlisting}[style=c]
+// Look at petscmat.h
+typedef struct _p_Mat*           Mat;
+\end{lstlisting}
+  \item Matrices can also have different types depending on structure,
+    \begin{tabular}{lll}
+MATDENSE  & "dense" & dense matrices \\
+MATAIJ    & "aij"   & sparse matrices \\
+MATBAIJ   & "baij"  & block sparse matrices \\
+MATSBAIJ  & "sbaij" & symmetric block sparse matrices
+    \end{tabular}
+  \item as well as specialized implementations (sequential, MPI, CUDA):
+  \begin{itemize}
+    \item seqdense: Sequential (normal) dense
+    \item seqaij: Sequential (normal) sparse
+    \item mpiaij: Distributed sparse
+    \item aijcusp: CUDA (Nvidia GPU) sparse
+  \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{PETSc Matrices}
+
+Example for a sequential matrix:
+\begin{lstlisting}[style=c]
+Mat A;
+PetscInt M;
+PetscInt N;
+
+// Distributed with 50 non-zero entries per-row
+MatCreateSeqAIJ(PETSC_COMM_SELF, M, N, 50, PETSC_NULL,
+                &A);
+\end{lstlisting}
+
+Example for an MPI matrix:
+\begin{lstlisting}[style=c]
+// Distributed with 120 non-zero entries per-row 
+// in DIAGONAL and OFF-DIAGONAL
+MatCreateAIJ(PETSC_COMM_WORLD, PETSC_DECIDE, 
+             PETSC_DECIDE, M, N, 120, PETSC_NULL,
+             120, PETSC_NULL, &A);
+
+\end{lstlisting}
+For distributed matrices, DIAGONAL and OFF-DIAGONAL block are the natural extension of vector range to two dimensions.
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Declare the sparsity pattern}
+  \begin{itemize}
+  \item Why is this important?
+  \item PETSc uses a popular sparse matrix data structure called
+    \emph{compressed row storage} (CRS).
+  \item Each nonzero element in the matrix is stored along with its column index
+    in a single, one-dimensional array.
+  \item Another array designates the start of each row.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Compressed row storage: example}
+  \[
+    \bm A = \begin{pmatrix}
+      1 & 0 & 0 & 2 \\ 0 & 0 & 4 & 0 \\ 0 & 5 & 0 & 6 \\ 7 & 0 & 0 & 0
+    \end{pmatrix}
+  \]
+  \begin{lstlisting}
+    vals = [1, 2, 4, 5, 6, 7]
+    cols = [0, 3, 2, 1, 3, 0]
+    rowptrs = [0, 2, 3, 5]
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Compressed row storage}
+  \begin{itemize}
+  \item The problem with CRS is that inserting a new nonzero element somewhere
+    in the matrix may involve a lot of data shifting.
+  \item Other sparse structures exist that are optimized for insertion but not
+    for matrix-vector operations.
+  \item Various workarounds exist, such as assembling the final CSR structure
+    after all elements have been set, or (in this case) pre-declare the sparsity
+    pattern before inserting values.
+  \item It is necessary to know how many nonzero elements are on each row. For
+    MPI applications, it is also good to know how many nonzero elements are off
+    or on the diagonal.
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{PETSc Matrices: specifying the sparsity pattern}
+
+To avoid overallocation of memory the structured should be initialized exactly for non-zero entries.
+
+\medskip
+Creation with specification of sparsity pattern:
+\begin{lstlisting}[style=c]
+// Specify non-zero entries for each row on DIAGONAL and OFF-DIAGONAL
+MatCreateAIJ(MPI::DOLFIN_COMM, 
+   M, N, PETSC_DETERMINE, PETSC_DETERMINE,
+   PETSC_DETERMINE, (PetscInt*) d_nzrow,
+   PETSC_DETERMINE, (PetscInt*) o_nzrow, &A);
+\end{lstlisting}
+
+
+\medskip
+This is a two-dimensional extension of the vector range + ghosts:
+\begin{enumerate}
+\item DIAGONAL: the block owned by the current process
+\item OFF-DIAGONAL: entries on columns outside the column range
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Poisson solver in PETSc}
+  \begin{itemize}
+  \item As is common with C libraries like this, much of our code will be
+    initialization.
+  \item PETSc has tools for finite difference methods, but we will avoid them.
+  \item We focus here only on the setup of the vector, the matrix and the
+    solution of the linear system.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Problem}
+  \begin{itemize}
+  \item Solve
+    \[
+      \mA \bm x = \bb, \qquad
+      \bb, \bm x \in \mathbb{R}^N, \qquad
+      \mA \in \xMNR
+    \]
+    where $\mA$ can be the system resulting from discretizing a Poisson problem
+    using finite differences.
+  \bigskip
+  \item We use standard notation for matrices and vectors, i.e.
+    \[
+      \begin{pmatrix}
+        a_{1,1} & a_{1,2} & \cdots & a_{1,N} \\
+        a_{2,1} & a_{2,2} & \cdots & a_{2,N} \\
+        \vdots  & \vdots  & \ddots & \vdots  \\
+        a_{N,1} & a_{N,2} & \cdots & a_{N,N}
+      \end{pmatrix}
+      \begin{pmatrix} x_1 \\ x_2 \\ \vdots \\ x_N \end{pmatrix} =
+      \begin{pmatrix} b_1 \\ b_2 \\ \vdots \\ b_N \end{pmatrix}
+    \]
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{Vector setup}
+  \begin{lstlisting}[style=c]
+  Vec b;
+
+  // Use PETSC_COMM_SELF to get a seq vector
+  VecCreate(PETSC_COMM_WORLD, &b);
+
+  // Local and global sizes
+  VecSetSizes(b, PETSC_DECIDE, m*m);
+
+  double hh = 1.0 / n / n;
+  for (size_t j = 0; j < m*m; j++)
+    VecSetValue(b, j, hh, INSERT_VALUES);
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Matrix setup}
+  \begin{lstlisting}[style=c, basicstyle=\ttfamily\scriptsize]
+  Mat A;
+  MatCreate(PETSC_COMM_WORLD, &A);
+  MatSetType(A, MATSEQAIJ);
+  MatSetSizes(A, PETSC_DECIDE, PETSC_DECIDE, m*m, m*m);
+
+  // Diagonal
+  for (size_t i = 0; i < m*m, i++)
+    MatSetValue(A, i, i, 4.0, INSERT_VALUES);
+
+  // L-R coupling
+  for (size_t i = 0; i < m*m - 1, i++) {
+    if (i % m != m-1)
+      MatSetValue(A, i, i+1, -1.0, INSERT_VALUES);
+    if (i % m)
+      MatSetValue(A, i, i-1, -1.0, INSERT_VALUES);
+  }
+
+  // U-D coupling
+  for (size_t i = m; i < m*m, i++) {
+    MatSetValue(A, i, i-m, -1.0, INSERT_VALUES);
+    MatSetValue(A, i-m, i, -1.0, INSERT_VALUES);
+  }
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Synchronization}
+  The vector and matrix must be \emph{assembled} before we can use them. This
+  might involve communication.
+  \begin{lstlisting}[style=c]
+    VecAssemblyBegin(b);
+    VecAssemblyEnd(b);
+    MatAssemblyBegin(A, MAT_FINAL_ASSEMBLY);
+    MatAssemblyEnd(A, MAT_FINAL_ASSEMBLY);
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Solver setup}
+  \begin{lstlisting}[style=c]
+  KSP sol;
+  KSPCreate(PETSC_COMM_WORLD, &sol);
+
+  KSPSetType(ksp, "cg");
+  KSPSetTolerances(ksp, 1e-10, 1e-10, 1e6, 10000);
+  KSPSetOperators(ksp, A, A);
+
+  PC pc;
+  KSPGetPC(ksp, &pc);
+  PCSetType(pc, "ilu");
+  PCSetFromOptions(pc);
+  PCSetUp(pc);
+
+  KSPSetFromOptions(ksp);
+  KSPSetUp(ksp);
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Solving}
+  \begin{itemize}
+  \item To solve,
+    \begin{lstlisting}[style=c]
+  Vec x;
+  VecDuplicate(b, &x);
+  KSPSolve(ksp, b, x);
+    \end{lstlisting}
+  \item You will probably find that the solver performs rather poorly, both in
+    serial and parallel.
+  \item Reasons for this include
+    \begin{enumerate}
+    \item We fill the vector element by element,
+    \item We fill the matrix element by element,
+    \item We haven't declared the sparsity pattern of the matrix, and
+    \item All processes fill all elements.
+    \end{enumerate}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Fill the whole vector at once}
+  \begin{lstlisting}[style=c]
+  PetscInt low, high;
+  VecGetOwnershipRange(b, &low, &high);
+
+  PetscInt indices[high-low];
+  double vals[high-low];
+  for (size_t i = 0; i < high - 1; i++) {
+    inds[i] = low + i;
+    vals[i] = hh;
+  }
+  VecSetValues(b, high-low, inds, vals, INSERT_VALUES);
+  free(inds); free(vals);
+  \end{lstlisting}
+  Similar but more involved for the matrix.
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{Declare the sparsity pattern}
+  \begin{lstlisting}[style=c, basicstyle=\ttfamily\scriptsize]
+    PetscInt first, last;
+    MatGetOwnershipRange(A, &first, &last);
+    PetscInt d_nz = (PetscInt *)
+      malloc((last - first) * sizeof(PetscInt));
+    PetscInt o_nz = (PetscInt *)
+      malloc((last - first) * sizeof(PetscInt));
+
+    for (size_t i = first; i < last; i++) {
+      d_nz[i - first] = 5;
+      o_nz[i - first] = 5;
+    }
+    MatMPIAIJSetPreallocation(
+      A, PETSC_DEFAULT, d_nz, PETSC_DEFAULT, o_nz
+    );
+  \end{lstlisting}
+  Here we have slightly overallocated for the sake of simplicity.
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Fully declare the sparsity pattern}
+  \begin{itemize}
+  \item We can also pin the sparsity pattern completely.
+    \begin{lstlisting}[style=c, basicstyle=\ttfamily\scriptsize]
+PetscInt d_nz = (PetscInt *) malloc(m*m * sizeof(PetscInt));
+int total = 0;
+// count number of nonzeros per row -> d_nz and total
+
+MatSeqAIJSetPreallocation(A, PETSC_DEFAULT, d_nz);
+
+PetscInt col = (PetscInt *) malloc(total * sizeof(PetscInt));
+// compute the actual column indices
+MatSeqAIJSetColumnIndices(A, col);
+    \end{lstlisting}
+  \item This way the matrix format will never change when adding values, which
+    allows for multi-threaded assembly.
+  \item Unfortunately it doesn't work in hybrid mode. (There is no
+    \texttt{MatMPIAIJSetColumnIndices}.)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Fill only your own elements}
+  \begin{itemize}
+  \item We can use \texttt{VecGetOwnershipRange} and
+    \texttt{MatGetOwnershipRange} to get the global indices that are assigned to
+    our own process.
+  \item Then, each process can set just those indices.
+  \item Note that in PETSc, a process owns whole \emph{rows} of the matrix, not
+    columns as we have been (often) using in this course.
+  \end{itemize}
+\end{frame}
+
+\input{postamble}

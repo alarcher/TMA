@@ -1,0 +1,461 @@
+\input{preamble}
+
+\title{Supercomputing environment}
+\institute{NTNU, IMF}
+\date{February 21. 2018}
+%\author{Aurélien Larcher}
+
+\maketitle
+
+%------------------------------------------------------------------------------
+\begin{frame}
+  \frametitle{Supercomputing environment}
+  \begin{itemize}
+  \item Supercomputers use UNIX-type operating systems.
+  \item Predominantly Linux.
+  \item Using a shell interpreter is the only way to interact with the system.
+  \end{itemize}
+
+\bigskip
+Documentation and tutorials are usually offered on the System Administration group's website: \url{https://www.hpc.ntnu.no/display/hpc/User+Guide}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Login}
+  \begin{itemize}
+  \item Non-graphical interaction with the supercomputer.
+  \item Two kinds of nodes: login/interactive nodes and compute nodes.
+  \item Login is handled through \emph{Secure SHell} (SSH).
+  \item On Linux/UNIX/MacOS: pre-installed OpenSSH.
+  \item On Windows: third-party client PuTTy.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Login}
+
+Three ingredients:
+  \begin{itemize}
+  \item Username: NTNU login name.
+  \item Host: \texttt{training.hpc.ntnu.no}.
+  \item Credential: a password or an authentication key.
+  \end{itemize}
+
+\bigskip
+\begin{lstlisting}[style=shell]
+ssh username@training.hpc.ntnu.no
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Login}
+\tiny{
+\begin{lstlisting}[style=shell]
+Last login: Wed Feb 21 16:24:19 2018 from 129.241.15.225
+
+ /$$$$$$$$           /$$                       /$$       /$$$$$$       /$$                    
+| $$_____/          |__/                      /$$/      |_  $$_/      | $$                    
+| $$        /$$$$$$  /$$  /$$$$$$$           /$$/         | $$    /$$$$$$$ /$$   /$$ /$$$$$$$ 
+| $$$$$    /$$__  $$| $$ /$$_____/          /$$/          | $$   /$$__  $$| $$  | $$| $$__  $$
+| $$__/   | $$  \ $$| $$| $$               /$$/           | $$  | $$  | $$| $$  | $$| $$  \ $$
+| $$      | $$  | $$| $$| $$              /$$/            | $$  | $$  | $$| $$  | $$| $$  | $$
+| $$$$$$$$| $$$$$$$/| $$|  $$$$$$$       /$$/            /$$$$$$|  $$$$$$$|  $$$$$$/| $$  | $$
+|________/| $$____/ |__/ \_______/      |__/            |______/ \_______/ \______/ |__/  |__/
+          | $$                                                                                
+          | $$                                                                                
+          |__/                      
+
+
+To run jobs you need to generate and add public keys to authorized file:
+NB!
+NB! this will overwrite you existing keypair
+NB!
+
+# ssh-keygen -b 2048 -f $HOME/.ssh/id_rsa -t rsa -q -N ""
+# cat $HOME/.ssh/id_rsa.pub >> $HOME/.ssh/authorized_keys
+
+to list available modules software:
+# module spider
+
+Starting 6th of february, 2018:
+Courses lectured over several afternoons will give a introduction to parallel programming.
+Registration: Send an e-mail to: adm@hpc.ntnu.no
+https://www.hpc.ntnu.no/display/hpc/Introduction+to+parallel+programming
+
+To get help and support, please send email to:  help@hpc.ntnu.no
+Or check our web page: http://www.hpc.ntnu.no/
+
+Disk quota are now enabled on idun, to see your quota, command: dusage 
+(or quota  , see 'man quota')
+
+Be Nice!
+\end{lstlisting}
+}
+\end{frame}
+
+\begin{frame}
+  \frametitle{File transfer}
+  \begin{itemize}
+  \item File transfers is performed using \emph{Secure Copy} (\texttt{scp}).
+  \item On Linux/UNIX/MacOS: pre-installed OpenSSH.
+  \item On Window: third-party client \emph{WinSCP}.
+  \end{itemize}
+
+\bigskip
+Advice: for source code and result files in text format use a revision control system like GIT.
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Authentication with SSH key}
+  \begin{itemize}
+  \item Avoid typing your password, use key authentication.
+  \item Type only return if you want an empty passphrase.
+  \item Generate an SSH key on the \textbf{local}:
+\begin{lstlisting}[style=shell]
+ssh-keygen
+\end{lstlisting}
+  \item Copy the content of \textbf{public} key \texttt{id\_rsa.pub} to the \textbf{remote} host file \texttt{scp}
+\tiny{
+\begin{lstlisting}[style=shell]
+ scp ~/.ssh/id_rsa.pub username@training.hpc.ntnu.no:~/.ssh/authorized_keys
+\end{lstlisting}
+}
+  \end{itemize}
+
+\bigskip
+Tutorial:
+
+\medskip
+\small{
+\url{https://debian-administration.org/article/530/SSH_with_authentication_key_instead_of_password}
+}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Editing files}
+
+For such small project, only a good text editor is required:
+  \begin{itemize}
+  \item Emacs (use locally if you can)
+  \item Vim (handy for using remotely, a bit of a learning curve)
+  \item Nano (simpler than Vim)
+  \item Gedit (nice graphical editor)
+  \item Kate (same, not installed on Lille)
+  \item Notepad++ (good for Windows users, not installed on Lille)
+  \item \ldots
+  \end{itemize}
+
+\medskip
+In practice, non-graphical editors are preferred since working on a login node requires using the terminal: most people use Vim, Emacs, or Nano.
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Graphical display (X11 forwarding)}
+  If you want to run graphical programs on Lille you have to tunnel the display
+  through ssh. This is called \emph{X forwarding}.
+  \begin{itemize}
+  \item In Linux, it's quite easy:
+\begin{lstlisting}[style=shell]
+ssh -X username@training.hpc.ntnu.no
+\end{lstlisting}
+  Or in your \texttt{\textasciitilde/.ssh/config}:
+\begin{lstlisting}[style=shell]
+ForwardX11 Yes
+\end{lstlisting}
+    \item In OSX, you have to start \texttt{X11.app}, then do the same.
+    \item In Windows, you can use \emph{X-Win32}, which is available on progdist.
+  \end{itemize}
+
+This is usually not required and puts unnecessarily load on the login nodes.
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Modules}
+  As people sharing a supercomputer have different needs, the tools cannot be all installed in the default system directories.
+  Software is offered through a \emph{modules} system. They will not be available to you until you load the module in question.
+  \begin{itemize}
+  \item List all available modules:
+\begin{lstlisting}[style=shell]
+module spider
+\end{lstlisting}
+  \item List available modules:
+\begin{lstlisting}[style=shell]
+module avail
+\end{lstlisting}
+  \item Load a module:
+\begin{lstlisting}[style=shell]
+module load gcc
+\end{lstlisting}
+  \item Load a module with a specific version:
+\begin{lstlisting}[style=shell]
+module load gcc/6.3.0
+module load openmpi/2.0.1
+\end{lstlisting}
+  \item List loaded modules:
+\begin{lstlisting}[style=shell]
+module list
+\end{lstlisting}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Modules}
+Some relevant modules for this course:
+\begin{itemize}
+  \item \texttt{gcc/6.3.0}: GCC compilers (\texttt{gcc}, \texttt{g++} and
+    \texttt{gfortran}).
+  \item \texttt{openmpi/2.0.1}: OpenMPI implementation of MPI (\emph{Message Passing Toolkit}).
+  \item \texttt{openblas/0.2.19}: BLAS library.
+\end{itemize}
+
+\medskip
+Note that if you use CMake to build your programs, you may need to pass the compiler you want to use:
+\begin{lstlisting}[style=shell]
+mkdir build
+cd build
+CXX=g++ CC=gcc FC=gfortran cmake ..
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Modules}
+
+\tiny{
+\begin{lstlisting}[style=shell]
+[aurelila@lille-login2 ~]$ module avail
+
+------------------------------- /share/apps/modules/all/Core --------------------------------
+   EasyBuild/3.3.0        Go/1.8.1             foss/2017a                      (D)
+   FLUENT/18.0            Java/1.8.0_92        icc/2017.1.132-GCC-6.3.0-2.27
+   FLUENT/18.2     (D)    MATLAB/2016b         ifort/2017.1.132-GCC-6.3.0-2.27
+   GCC/4.9.3-2.25         MATLAB/2017a  (D)    intel/2017a
+   GCC/5.4.0-2.26         foss/2016a
+   GCC/6.3.0-2.27  (D)    foss/2016b
+
+------------------------------- /share/apps/modulefiles/Core --------------------------------
+   easybuild/2.9.0    gcc/6.2.0        matlab/R2016b
+   gcc/4.9.4          gcc/6.3.0 (D)    python/2.7.3
+
+  Where:
+   D:  Default Module
+
+Use "module spider" to find all possible modules.
+Use "module keyword key1 key2 ..." to search for all possible modules matching any of the
+"keys".
+\end{lstlisting}
+}
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Modules}
+
+Modules have dependencies: for example openmpi cannot be loaded unless a compiler has been loaded already:
+{\tiny
+\begin{lstlisting}[style=shell]
+[aurelila@lille-login2 ~]$ module load openmpi
+Lmod has detected the following error:  These module(s) exist but cannot be
+loaded as requested: "openmpi"
+
+   Try: "module spider openmpi" to see how to load the module(s).
+
+\end{lstlisting}
+}
+
+Load gcc first:
+{\small
+\begin{lstlisting}[style=shell]
+[aurelila@lille-login2 ~]$ module load gcc openmpi
+\end{lstlisting}
+}
+
+\medskip
+You can add this line in your shell profile or write a script to do it.
+
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Batch scheduler/Queuing system}
+
+To schedule jobs run by users, a queueing system is installed on supercomputers:
+\begin{itemize}
+\item each job submitted is appended to the queue with a given priority,
+\item then launched when reaching the top of the queue (\texttt{workq} on Lille),
+\item status (success/failure) is reported accordingly,
+\item computational time n core.hour is charged to the project (maximum resource is 20 processes on 2 nodes).
+\end{itemize}
+
+\bigskip
+A simple job:
+{\small
+\begin{lstlisting}[style=shell]
+echo "sleep 30;echo hello world"|qsub -q training \
+  -W group_list=itea_lille-tma4280 \
+ -lselect=2:ncpus=20:mpiprocs=20
+\end{lstlisting}
+}
+If the queue you need to use has another name, substitute the \texttt{training} argument.
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Batch scheduler/Queuing system}
+
+The status of the training queue can be inspected:
+{\tiny
+\begin{lstlisting}[style=shell]
+[aurelila@lille-login2 ~]$ qstat -Q training
+Queue              Max   Tot Ena Str   Que   Run   Hld   Wat   Trn   Ext Type
+---------------- ----- ----- --- --- ----- ----- ----- ----- ----- ----- ----
+training             0     0 yes yes     0     0     0     0     0     0 Exec
+\end{lstlisting}
+}
+with \texttt{training} the name of requested queue for example.
+
+\medskip
+The status of jobs for a given username can be displayed:
+\begin{lstlisting}[style=shell]
+[aurelila@lille-login2 ~]$ qstat -u username
+\end{lstlisting}
+
+
+
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Running jobs on Lille}
+  After compiling your program, you have to write a \emph{job script}. Example
+  (the \emph{pi} program):
+\begin{lstlisting}[style=shell]
+  #!/bin/bash
+
+  #PBS -N pi
+  #PBS -A itea_lille-tma4280
+  #PBS -W group_list=itea_lille-tma4280
+  #PBS -l walltime=00:01:00
+  #PBS -l select=2:ncpus=20:mpiprocs=16
+
+  cd $PBS_O_WORKDIR
+  module load openmpi
+  mpiexec ./pi 1000000
+\end{lstlisting}
+%$
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Running jobs on Lille}
+\begin{lstlisting}[style=shell]
+  #PBS -N pi
+\end{lstlisting}
+  My job is called ``pi''.
+\begin{lstlisting}[style=shell]
+  #PBS -A itea_lille-tma4280
+\end{lstlisting}
+  The time spent executing this job should be charged to \texttt{itea\_lille-tma4280}.
+\begin{lstlisting}[style=shell]
+  #PBS -l walltime=00:01:00
+\end{lstlisting}
+  The walltime limit for this job is one minute.
+\begin{lstlisting}[style=shell]
+  #PBS -l select=2:ncpus=20:mpiprocs=16
+\end{lstlisting}
+  I want two units of 20 CPUs each (two nodes, that is) and I want 16 processes
+  on each of them (32 in total). On Lille, \texttt{ncpus} should \emph{always}
+  be equal to 20.
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Running jobs on Lille}
+\begin{lstlisting}[style=shell]
+  cd $PBS_O_WORKDIR
+\end{lstlisting}
+%$
+  Ensure that we are in the correct directory. This should always be in your job
+  script.
+\begin{lstlisting}[style=shell]
+  module load openmpi
+\end{lstlisting}
+  Make sure the \texttt{openmpi} module is loaded so that the \texttt{mpiexec}
+  command is available to run MPI programs.
+\begin{lstlisting}[style=shell]
+  mpiexec ./pi 1000000
+\end{lstlisting}
+  Run the program.
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Running jobs on Lille}
+  Submit a job using \texttt{qsub}:
+\begin{lstlisting}[style=shell]
+  qsub job.sh
+  5723717.service2
+\end{lstlisting}
+  \texttt{qsub} will reply with a job ID number. You can ask for the status of
+  your job with
+\begin{lstlisting}[style=shell]
+  qstat -f 5723717.service2
+\end{lstlisting}
+  or see a list of all jobs running and queued
+\begin{lstlisting}[style=shell]
+  qstat
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Running jobs on Lille}
+  When the program has completed, the accumulated output will be written to
+  files in the same folder you launched it from.
+\begin{lstlisting}[style=shell]
+  ls
+  job.sh  pi  pi.c  pi.e5723717  pi.o5723717
+\end{lstlisting}
+  The \texttt{e}-file contains stderr (empty?) and the \texttt{o}-file contains
+  output from stdout (the most interesting one).
+\begin{lstlisting}[style=shell,basicstyle=\ttfamily\footnotesize]
+  cat pi.o5723717
+  Agent pid 21651
+  pi=3.141593e+00, error=8.437695e-14, duration=2.177000e-03
+  Start Epilogue v3.0.1 Wed Jan 27 14:18:27 CET 2016
+  clean up
+  End Epilogue v3.0.1 Wed Jan 27 14:18:28 CET 2016
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Other PBS options}
+\begin{lstlisting}[style=shell]
+  #PBS -o stdout
+  #PBS -e stderr
+\end{lstlisting}
+I want my output files to have more sensible names.
+\begin{lstlisting}[style=shell]
+  #PBS -m abe
+\end{lstlisting}
+I want an e-mail notification when the job starts (\texttt{b}), ends
+(\texttt{e}) or if it aborts (\texttt{a}).
+\begin{lstlisting}[style=shell]
+  #PBS -M some@where.com
+\end{lstlisting}
+\ldots and this is where that e-mail should be sent to.
+\begin{lstlisting}[style=shell]
+  #PBS -l ...:ompthreads=16
+\end{lstlisting}
+for 16 OpenMP threads per process.
+
+\medskip
+See \url{https://www.hpc.ntnu.no/display/hpc/PBS+Professional}
+\end{frame}
+
+\begin{frame}
+  \frametitle{More information}
+  \begin{center}
+    The NTNU HPC Wiki has a very good user guide. \\~\\
+    \url{https://www.hpc.ntnu.no/display/hpc/User+Guide}
+  \end{center}
+\end{frame}
+
+\input{postamble}

@@ -1,0 +1,13 @@
+LINPACK
+
+http://www.netlib.org/utk/people/JackDongarra/faq-linpack.html
+
+The Linpack Benchmark is a measure of a computer’s floating-point rate of execution. It is determined by running a computer program that solves a dense system of linear equations. Over the years the characteristics of the benchmark has changed a bit. In fact, there are three benchmarks included in the Linpack Benchmark report.
+
+What is the theoretical peak performance?
+
+The theoretical peak is based not on an actual performance from a benchmark run, but on a paper computation to determine the theoretical peak rate of execution of floating point operations for the machine. This is the number manufacturers often cite; it represents an upper bound on performance. That is, the manufacturer guarantees that programs will not exceed this rate-sort of a "speed of light" for a given computer.  The theoretical peak performance is determined by counting the number of floating-point additions and multiplications (in full precision) that can be completed during a period of time, usually the cycle time of the machine. For example, an Intel Itanium 2 at 1.5 GHz can complete 4 floating point operations per cycle or a theoretical peak performance of 6 GFlop/s.
+
+Is Linpack the most efficient way to solve systems of equations?
+
+Linpack is not the most efficient software for solving matrix problems. This is mainly due to the way the algorithm and resulting software accesses memory.  The memory access patterns of the algorithm has disregard for the multi-layered memory hierarchies of RISC architecture and vector computers, thereby spending too much time moving data instead of doing useful floating-point operations. LAPACK addresses this problem by reorganizing the algorithms to use block matrix operations, such as matrix multiplication in the innermost loops. For each computer architecture block operations can be optimized to account for memory hierarchies, providing a transportable way to achieve high efficiency on diverse modern machines. We use the term “Transportable” instead of “portable” because, for fastest possible performance, LAPACK requires that highly optimized block matrix operations be already implemented on each machine. These operations are performed by the Level 3 BLAS in most cases.

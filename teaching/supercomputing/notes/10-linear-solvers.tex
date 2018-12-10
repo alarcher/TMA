@@ -1,0 +1,504 @@
+
+\newcommand{\xC}{\mathbb{C}}
+\newcommand{\xR}{\mathbb{R}}
+\newcommand{\xRd}{{\xR^d}}
+\newcommand{\xRN}{{\xR^N}}
+\newcommand{\xMNR}{{M_N(\xR)}}
+\newcommand{\bb}{{\boldsymbol b}}
+\newcommand{\ee}{{\boldsymbol e}}
+\newcommand{\ev}{{\boldsymbol \epsilon}}
+\newcommand{\rr}{{\boldsymbol r}}
+\newcommand{\xx}{{\boldsymbol x}}
+\newcommand{\hx}{\hat{\boldsymbol x}}
+\newcommand{\yy}{{\boldsymbol y}}
+\newcommand{\ww}{{\boldsymbol w}}
+\newcommand{\zz}{{\boldsymbol z}}
+\newcommand{\mA}{{\mathrm A}}
+\newcommand{\mB}{{\mathrm B}}
+\newcommand{\mC}{{\mathrm C}}
+\newcommand{\mD}{{\mathrm D}}
+\newcommand{\mG}{{\mathrm G}}
+\newcommand{\mH}{{\mathrm H}}
+\newcommand{\mJ}{{\mathrm J}}
+\newcommand{\mL}{{\mathrm L}}
+\newcommand{\mLs}{{\mathrm L_0}}
+\newcommand{\mM}{{\mathrm M}}
+\newcommand{\mRs}{{\mathrm R_0}}
+\newcommand{\mR}{{\mathrm R}}
+\newcommand{\mP}{{\mathrm P}}
+\newcommand{\mQ}{{\mathrm Q}}
+\newcommand{\mU}{{\mathrm U}}
+\newcommand{\mId}{{\mathbf{Id}}}
+\newcommand{\mII}{{\mathbf{\mathbb{I}}}}
+\newcommand{\Seq}[1]{\bigl(#1\bigr)}
+\newcommand{\Cond}[1]{\mathcal{C}(#1)}
+\newcommand{\Order}[1]{\mathcal{O}\left(#1\right)}
+\newcommand{\norm}[1]{{\lVert #1 \rVert}}
+\newcommand{\norminf}[1]{\norm{#1}_{\infty}}
+
+\newcommand{\InnerK}[2]{{{\mathbf\langle}\;#1\:,\: #2 \;{\rangle}}}
+\newcommand{\Inner}[2]{{{\scriptstyle\mathbf{(}}\;#1\:,\: #2 \;{\scriptstyle\mathbf{)}}}}
+
+\newcommand{\argmin}[1]{\mathop{\underset{#1}{\mathrm{argmin}}}\:}
+
+\chapter{Linear Solvers}
+
+\section{Direct methods}
+
+\section{Iterative methods}
+
+As seen in the previous lecture, direct methods can theoretically compute exact solutions $\xx\xRN$ to linear systems in the form of:
+\[
+\mA \xx = \bb
+\]
+with matrix with real coefficients $\mA\in\xMNR$ and given data $\bb\in\xRN$, in a determined finite number of steps.
+
+As computing the inverse of the matrix is unrealistic, several methods were introduced based on factorizations of the type $\mA = \mP\;\mQ$ where $\mP$ and $\mQ$ have a structure simplifying the resolution of the system: diagonal, banded, triangular.
+
+Methods like $\mL\mU$, Cholevski take advantage of the existence of a decomposition involving triangular matrices while $\mQ\mR$ for example, involves the construcion of an orthogonal basis.
+All methods prove to be quite expensive, hard to parallelize due to the sequential nature of the algorithm and prone to error propagation.
+
+Iterative methods have been developed for:
+\begin{itemize}
+\item solving very large linear systems with direct methods is in practice not possible due to the complexity in term of computational operations and data,
+\item taking advantage of sparse system for which the structure of the matrix can result in dramatic speed-up (this is the case for numerical schemes for PDEs),
+\item using the fact that some systems like PDEs discretizations are already formulated in an iterative fashion.
+\end{itemize}
+
+\medskip
+In this section, we discuss briefly the computational properties of iterative methods for solving linear systems.
+Computing the exact solution is not a requirement anymore but instead the algorithm is supposed to converge asymptotically to the exact solution: the algorithm is stopped when the approximate solution is deemed \textit{close enough} to the exact solution in a sense to be defined.
+A parameter used as stopping criterion triggers the completion of the algorithm.
+
+\medskip
+The general idea of these methods is to introduce a splitting of the form:
+\[
+\mA = \mG - \mH
+\]
+such the solution $\xx$ satisfies:
+\[
+\mG \xx = \bb + \mH \xx
+\]
+
+Similarly to fixed-point methods we can define a sequence of approximate solutions $\Seq{\xx^k}$ satisfying relations of the form:
+\[
+\mG \hx^{k+1} = \bb + \mH \hx^{k}
+\]
+with $\mG$ invertible.
+
+The matrix viewed as a linear mapping in $\xRN$, the counterpart of such approaches is given by the Brouwer Theorem in finite dimension, where a continuous mapping $f : \Omega \rightarrow \Omega$ with $\Omega$ compact of $\xRN$ admits a fixed-point $\xx^\star$ satisfying $f(\xx^\star) = \xx^\star$ and is contracting.
+
+\medskip
+Methods introduced depend on the iteration defined by the splitting and call for several questions regarding the computational aspects:
+\begin{enumerate}
+\item How can the convergence be ensure?
+\item How fast is the convergence?
+\item How expensive is each iteration?
+\item How does the algorithm behave with respect to numerical error?
+\end{enumerate}
+
+\medskip
+The question of the convergence is addressed by proving an estimate on error vectors in terms of iteration error $\hat{\ev}^k = \hx^{k+1}-\hx^{k}$ or global error: $\ev^k = \hx^{k}-\xx$. The convergence rate $\alpha$ means that $C > 0$, $\lvert\ev^{k+1}\rvert \leq C \lvert\ev^{k}\rvert^\alpha$.
+
+\medskip
+For example, substituting $\hx^{k+1} = \mG^{-1}\bb + \mG^{-1}\mH \hx^{k}$ in $\hat{\ev}^k = \hx^{k+1}-\hx^{k}$ gives a relation between successive iteration errors:
+\[
+\hat{\ev}^{k} = \mG^{-1}\mH\;\hat{\ev}^{k-1}
+\]
+with $\mM = \mG^{-1}\mH$ the iteration matrix, and recursively $\hat{\ev}^{k} = (\mG^{-1}\mH)^{k+1}\hat{\ev}^{0}$.
+Convergence is then conditioned to the existence of a contraction factor $K < 1$ such that $\norminf{\hat{\ev}^{k}} \leq K\;\norminf{\hat{\ev}^{k-1}}$ ensuring decrease of the error.
+
+\medskip
+In terms of the matrix $\mM$, this translate for the spectral radius $\rho(\mM)$ as $\rho(\mM) < 1$ since in that case $\lim_{k\rightarrow\infty} M^k \hat{\ev}^{0} = 0_{\xRN}$.
+The smaller the spectral radius, the faster the convergence.
+
+\medskip
+Each method is described briefly and qualitatively with just the necessary ingredients to discuss practical implementations.
+
+\section{Relaxation methods}
+
+Consider the relations for each row $i=1,\dots,N$:
+\begin{equation}
+\xx_i = \frac{1}{a_{ii}}\Bigl( b_i - \sum_{i\neq j} a_{ij} \xx_j \Bigr)
+\end{equation}
+
+Let us introduce two methods based on constructing sequences of approximate solutions $\Seq{\hx^k}$, $k\geq1$ given an initial guess $\hx^0 \in \xRN$ and then associated relaxation methods.
+
+\section{Jacobi, methods of simultaneous displacements}
+
+\begin{equation}
+\hx^{k+1}_i = \frac{1}{a_{ii}}\Bigl( b_i - \sum_{i\neq j} a_{ij} \hx^{k}_j \Bigr)
+\end{equation}
+
+\medskip
+\textbf{Convergence:} the global error $\ev^k$ is controlled by
+\begin{equation*}
+\norm{\ev^{k+1}} \leq \sum_{i\neq j} \Bigl\lvert\frac{a_{ij}}{a_{ii}}\Bigr\rvert\;\norm{\ev^{k}} \leq K^k \; \norm{\ev^{1}}
+\end{equation*}
+It is then enough if the matrix is strictly diagonally dominant.
+Expressing the iteration error gives directly that $\mM = \mG^{-1}\mH$ such that $\rho(\mM)< 1$.
+
+\medskip
+\textbf{Algorithm:} the splitting is
+\[
+\mA = \mD - \mH
+\]
+with $\mD = \mathrm{diag}(A)$, thus
+\[
+\hx^{k+1} = \mD^{-1}(\bb + \mH \hx^{k})
+\]
+
+\medskip
+\textbf{Implementation:}
+\begin{enumerate}
+\item Parallelization component by component is possible since there is only dependency on $\hx^{k}$.
+\item Memory requirement for storing both $\hx^{k+1}$ and $\hx^{k}$ at each iteration.
+\end{enumerate}
+
+\section{Gauss--Seidel, methods of sucessive displacements}
+
+In Jacobi iterations, notice that sequential ordered computation of terms
+\begin{equation}
+\hx^{k+1}_i = \frac{1}{a_{ii}}\Bigl( b_i - \sum_{i\neq j} a_{ij} \hx^{k}_j \Bigr)
+\end{equation}
+involves components $\hx^{k}_j$ which are also computed for $\hx^{k+1}$ if $j < i$.
+\begin{equation}
+\hx^{k+1}_i = \frac{1}{a_{ii}}\Bigl( b_i - \sum_{i < j} a_{ij} \hx^{k+1}_j - \sum_{i > j} a_{ij} \hx^{k}_j \Bigr)
+\end{equation}
+
+\medskip
+\textbf{Algorithm:} the splitting is
+\[
+\mA = \mL - \mRs
+\]
+with $\mL = \mD + \mLs$ lower-triangular matrix and $\mRs$ strict upper-triangular matrix, thus
+\[
+\hx^{k+1} = \mD^{-1}(\bb - \mLs \hx^{k+1} + \mRs \hx^{k})
+\]
+or
+\[
+\mL\;\hx^{k+1} = \mD^{-1}(\bb + \mRs \hx^{k})
+\]
+Recast under the usual form:
+\[
+\hx^{k+1} = \mL^{-1}(\bb + \mRs \hx^{k})
+\]
+and the iteration matrix is $\bar \mM = \mL^{-1}\mRs$.
+
+\medskip
+\textbf{Convergence:} the global error $\ev^k$ is controlled by
+\begin{equation*}
+\norm{\ev^{k+1}} \leq \frac{\displaystyle\sum_{i > j} \Bigl\lvert\frac{a_{ij}}{a_{ii}}\Bigr\rvert}{1 - \displaystyle\sum_{i < j} \Bigl\lvert\frac{a_{ij}}{a_{ii}}\Bigr\rvert}\;\norm{\ev^{k}} \leq \bar{K}^k \; \norm{\ev^{1}}
+\end{equation*}
+If the Jacobi contraction factor $K < 1$ then $\bar{K} < 1$.
+Expressing the iteration error gives directly that $\bar\mM = \mL^{-1}\mRs$ such that $\rho(\bar\mM)< 1$.
+
+
+\medskip
+\textbf{Implementation:}
+\begin{enumerate}
+\item Parallelization component by component is not possible easily since there is serialization for each row $i$ due to the dependency on $\hx_j^{k+1}$, $j < i$.
+\item Memory requirement is only for storing one vector of $\xRN$ at each iteration.
+\end{enumerate}
+
+
+\section{Relaxation of Jacobi and Gauss-Seidel}
+
+Relaxation methods consists of adding a linear combination of the approximate solution at the previous iteration to minimize the spectral radius for convergence, using the relaxation parameter $\gamma \in (0,1)$.
+
+\medskip
+\begin{enumerate}
+\item Jacobi Over-Relaxation (JOR):
+\begin{equation}
+\hx^{k+1}_i = (1 - \gamma)\;\hx^{k}_i + \gamma \frac{1}{a_{ii}}\Bigl( b_i - \sum_{i\neq j} a_{ij} \hx^{k}_j \Bigr)
+\end{equation}
+which reads in matricial form
+\[
+\hx^{k+1} = \mM_\gamma \hx^{k} + \gamma\mD^{-1}\;\bb
+\]
+with $\mM_\gamma = (1-\gamma)\mII + \gamma\mD^{-1} \mH$
+
+\medskip
+\item Successive Over-Relaxation (SOR):
+\begin{equation}
+\hx^{k+1}_i = (1-\gamma)\;\hx^{k}_i + \gamma \frac{1}{a_{ii}}\Bigl( b_i - \sum_{i < j} a_{ij} \hx^{k+1}_j - \sum_{i > j} a_{ij} \hx^{k}_j \Bigr)
+\end{equation}
+which reads in matricial form
+\[
+\hx^{k+1} = \mM_\gamma \hx^{k} + \gamma\mC\;\bb
+\]
+with $\mM_\gamma = (1 + \gamma\mD^{-1}\mLs^{-1} )^{-1} \bigl[(1-\gamma)\mII + \gamma\mD^{-1} \mRs \bigr]$ and $\mC = (1 + \gamma\mD^{-1}\mLs^{-1} )^{-1} \mD^{-1}$
+\end{enumerate}
+
+\medskip
+The relaxation parameter $\gamma$ cannot be known \textit{a priori} and is usually determined by heuristics.
+
+\section{Parallelization of Gauss--Seidel}
+
+Overcoming the serialization in Gauss--Seidel is possible if the matrix is sparse.
+Taking advantage of the fact that components does not all possess connectivities with each other: such dependencies can be built from the sparsity pattern then decoupled graphs identified:
+\begin{enumerate}
+\item Component Dependency-Graph: generate a graph to reorder entries such that dependencies are avoided.
+\item Red--Black coloring: special case for two-dimensional problems.
+\end{enumerate}
+
+
+
+\section{Krylov-subspace methods}
+
+The idea of these methods is that the solution is decomposed on a sequence of orthogonal subspaces.
+
+If $\mA$ is symmetric definite positive it induces the corresponding scalar product:
+\[
+\InnerK{\xx}{\yy}_A = \Inner{\mA \xx}{\yy} = \yy^T\mA\xx
+\]
+with $\Inner{\mA \cdot}{\cdot}$ canonical scalar product in $\xRN$.
+The vectors $(\ee_1, \dots, \ee_N)$ are said $\mA$-conjugate if $\ee_j^T\mA\ee_i = 0$ for $i\neq j$: they are orthogonal for the scalar-product induced by $\mA$.
+
+\section{Principle of descent methods: Steepest Gradient }
+
+Minimisation of the residual:
+\begin{equation*}
+\xx^\star = \argmin{\xx}\mJ(\xx) : \mJ(\xx) = \frac{1}{2}\InnerK{\xx}{\xx}_A - \Inner{\bb}{\xx}
+\end{equation*}
+
+Construct a sequence of solutions to approximate minimization problems, given $\hx^k$:
+\[
+\mJ(\hx^{k+1}) \leq \mJ(\hx^k)
+\]
+where $\hx^{k+1} = \hx^{k} + \alpha_{k+1} \ee^{k+1}$, with $\alpha_{k+1}$ a descent factor and $\ee_{k+1}$ a direction.
+
+\medskip
+For the Steepest Gradient:
+\begin{enumerate}
+\item take the direction given by $-\nabla\mJ(\hx^k) = \bb - \mA \hx^k$ which is the residual $\rr_k = \bb - \mA\hx^k$, thus $\hx^{k+1} = \hx^{k} + \alpha_{k+1} \rr_k$.
+\item choose the descent factor $\alpha^{k+1}$ minimizing the functional $\mJ(\hx^{k} + \alpha_{k+1} \rr_k)$:
+\[
+\alpha_{k+1} = \frac{\rr_k^T\bb}{\rr_k^T\mA\rr_k}
+\]
+\end{enumerate}
+
+\medskip
+The speed of convergence is bounded by $\Order{1- \Cond{\mA}^{-1}}$ with $\Cond{\mA}$ the condition number of $\mA$.
+The gradient direction may not be optimal, Conjugate Gradient methods improve the choice of $\Seq{\ee_k}$.
+
+\section{Conjugate Gradient}
+
+The Conjugate Gradient (CG) is a Krylov-subspace algorithm for symmetric positive definite matrices.
+
+\medskip
+Given $\hx^0$, $\Seq{\hx^k}$ is a sequence of solutions to approximate $k$-dimensional minimisation problems.
+
+\medskip
+For the Conjugate Gradient:
+\begin{enumerate}
+\item take the direction $\ee_{k+1}$ such that $\bigl(\ee_1, \dots, \ee_{k}, \ee_{k+1}\bigr)$ is $A$-conjugate, thus $\hx^{k+1} = \hx^{k} + \alpha_{k+1} \ee_{k+1}$.
+\item choose the descent factor $\alpha^{k+1}$ minimizing the functional $\mJ(\hx^{k} + \alpha_{k+1} \ee_k)$, which is defined by
+\[
+\alpha_j = \frac{\ee^T_j\rr_{k-1}}{\ee^T_j\mA\ee_j}
+\]
+and with $\ee^T_j\rr_{k-1} \neq 0$ (unless the exact solution is reached).
+\end{enumerate}
+
+\medskip
+The construction of $\bigl(\ee_1, \dots, \ee_{k+1}\bigr)$ is done by orthogonalization of residuals by Gram--Schmidt:
+\[
+\ee_{k+1} = \rr_k - \frac{\ee^T_k\mA\rr_{k-1}}{\ee^T_k\mA\ee_k}\ee_k
+\]
+so that $\rr_{k+1} = \bb - \mA\hx^{k+1} = \rr^k - \alpha_{k+1}\mA\ee_{k+1}$
+
+\medskip
+After $N$ steps, the $A$-conjugate basis of $\xRN$ is done and the exact solution is reached:
+\[
+ \xx = \sum_{j=1}^N \alpha_j \ee_j
+\]
+
+\medskip
+For any $k$, the speed of convergence is bounded by
+\[
+\Order{ \frac{ 1-\sqrt{\Cond{\mA}} } { 1+\sqrt{\Cond{\mA}} } }^{2k}
+\]
+in the norm induced by $A$, with $\Cond{\mA}$ the conditioning of $\mA$.
+
+\medskip
+The Conjugate Gradient can therefore be seen as a direct methods but in practice:
+\begin{itemize}
+\item the iterative computation of the $A$-conjugate basis suffers from the same issue of numerical error propagation as the $\mQ\mR$ factorization leading to a loss of orthogonality,
+\item the convergence is slow, which makes it unrealistic to compute the exact solution for large systems,
+\end{itemize}
+so it is used as an iterative method.
+
+\medskip
+Example algorithm on first steps:
+\begin{enumerate}
+\item Given $\hx^0 = 0$, set $\rr_0 = \bb - \mA \hx^0$ and $\ee_1 = \rr_0$,
+\item Take $\hx_1 = \alpha_1 \ee_1$, then $\alpha_1\ee_1^T \mA \ee_1 = \ee_1^T \bb$, thus
+\[
+\alpha_1 = \frac{\rr^T_0\bb}{\rr^T_0\mA\rr_0}
+\]
+\item Compute the residual:
+\[
+\rr_1 = \bb - \mA \hx^1
+\]
+\item Compute the direction:
+\[
+\ee_{2} = \rr_1 - \frac{\ee^T_1\mA\rr_{0}}{\ee^T_1\mA\ee_1}\ee_1
+\]
+\item Compute the factor:
+\[
+\alpha_2 = \frac{\ee^T_2\bb}{\ee^T_2\mA\ee_2}
+\]
+\item Update the solution:
+\[
+\hx^2 = \hx^1 + \alpha_2 \ee_2
+\]
+\item \dots
+\end{enumerate}
+
+\medskip
+The algorithm iteration reads:
+\begin{enumerate}
+\item Compute the residual:
+\[
+\rr_k = \bb - \mA \hx^{k}
+\]
+\item Compute the direction:
+\[
+\ee_{k+1} = \rr_k - \frac{\ee^T_{k}\mA\rr_{k-1}}{\ee^T_k\mA\ee_k}
+\]
+\item Compute the factor:
+\[
+\alpha_{k+1} = \frac{\ee^T_{k+1}\bb}{\ee^T_{k+1}\mA\ee_{k+1}}
+\]
+\item Update the solution:
+\[
+\hx^{k+1} = \hx^k + \alpha_{k+1} \ee_{k+1}
+\]\end{enumerate}
+which requires two matrix-vector multiplications per loop, $\mA\hx^{k}$ then $\mA\ee_{k+1}$
+Using $\rr_{k+1} = \rr^k - \alpha_{k+1}\mA\ee_{k+1}$ saves one matrix-vector multiplication.
+
+
+\medskip
+While the residual norm $\varrho_k = \norm{\rr_k}^2_2$ is big:
+\begin{enumerate}
+\item Compute the projection:
+\[
+\beta_k = \frac{\varrho_k}{\varrho_{k-1}}
+\]
+\item Compute the direction:
+\[
+\ee_{k+1} = \rr_k + \beta_k\ee_k
+\]
+\item Compute the factor:
+\[
+\ww = \mA\ee_{k+1};\quad \alpha_{k+1} = \frac{\varrho_k}{\ee^T_{k+1}\ww}
+\]
+\item Update the solution:
+\[
+\hx^{k+1} = \hx^k + \alpha_{k+1} \ee_{k+1}
+\]
+\item Update the residual:
+\[
+\rr^{k+1} = \rr^k - \alpha_{k+1} \ww
+\]
+\end{enumerate}
+
+\section{Preconditioners}
+
+While seeing the Conjugate Gradient as a pure iterative method relieves from concerns regarding orthogonality loss, the convergence is still slow as soon as the condition number of the matrix is bad.
+
+\medskip
+Preconditioning the system consists in finding a non-singular symmetric matrix $\mC$ such that $\tilde \mA = \mC^{-1}\mA\mC^{-1}$ and the conjugate gradient is applied to
+\[
+\tilde\mA \tilde\xx = \tilde\bb
+\]
+with $\tilde\xx = \mC^{-1}\xx$ and $\tilde\bb = \mC^{-1}\bb$.
+
+\medskip
+With:
+\begin{itemize}
+\item $\mM = \mC^2$
+\item $\ee_k = \mC^{-1}\tilde\ee_k$
+\item $\hx_k = \mC^{-1}\tilde\hx_k$
+\item $\zz_k = \mC^{-1}\tilde\rr_k$
+\item $\rr_k = \mC\tilde\rr_k = \bb - \mA\hx_k$
+\end{itemize}
+and $\mM$ is a symmetric positive definite matrix called the preconditioner.
+
+\medskip
+While the residual norm $\varrho_k = \norm{\rr_k}^2_2$ is big:
+\begin{enumerate}
+
+\item Solve:
+\[
+\mM\zz_{k} = \rr_k
+\]
+\item Compute the projection:
+\[
+\beta_k = \frac{\zz_{k}^T\rr_k}{\zz_{k-1}^T\rr_{k-1}}
+\]
+\item Compute the direction:
+\[
+\ee_{k+1} = \zz_k + \beta_k\ee_k
+\]
+\item Compute the factor:
+\[
+\alpha_{k+1} = \frac{\zz_{k}^T\rr_k}{\ee^T_{k+1}\mA\ee_{k+1}}
+\]
+\item Update the solution:
+\[
+\hx^{k+1} = \hx^k + \alpha_{k+1} \ee_{k+1}
+\]
+\item Update the residual:
+\[
+\rr^{k+1} = \rr^k - \alpha_{k+1} \ww
+\]
+\end{enumerate}
+
+\medskip
+The linear system $\mM\zz_{k} = \rr_k$ should be easy to solve and can lead to fast convergence, typically $\Order(\sqrt{N})$.
+Since
+\[
+\mM\zz_{k} = \bb - \mA\hx_k
+\]
+Then an iterative relation appears:
+\[
+\hx_{k+1} = \mM^{-1}\bigl(\bb - \mA\hx_k\bigr)
+\]
+therefore iterative methods like Jacobi, Gauss-Seidel and relaxation methods can be used.
+
+\section{Power method}
+
+This method is used for finding the dominant eigenvalues of a matrix $\mA \in \xMNR$ of $N$ eigenvectors $\Seq{\vv_i}$ with associated eigenvalues $\Seq{\lambda_i}$ ordered in decreasing module.
+The eigenvalues are either real or conjugate complex pairs.
+
+\medskip
+Given a random vector $\xx^0$, construct a sequence of vectors $\Seq{\hx^k}$ such that
+\[
+\hx^{k+1} = \mA \hx^k
+\]
+then $\forall k \geq 0$
+\[
+\hx^k = \sum_{i=0}^{N-1} \lambda_i^k \xi_i \vv_i
+\]
+for some coefficients $\Seq{\vv_i}$.
+
+\medskip
+Assume that $\lambda_0$ is a dominant real eigenvalue and $\xi_0 \neq 0$, then
+\[
+\hx^k = \lambda_0^k \bigl(\xi_0 \vv_0 + \rr_k \bigr)
+\]
+with the residual $\rr_k$ defined as
+\[
+\rr_k = \lambda_0^{-k} \sum_{i=1}^{N-1} \lambda_i^k \xi_i \vv_i
+\]
+and $\lim_{k\rightarrow\infty} \rr_k = O_{\xRN}$.
+To the limit $\hx_{k+1} \approx \lambda_0 \hx^k \approx \lambda_0\xi_0\vv0$ almost parallel to the first eigenvector.
+
+\medskip
+\begin{itemize}
+\item This method is fast to compute the spectral radius for the Jacobi method and relaxation parameters.
+\item The convergence is geometric and the speed depends on the ratio $\lvert \lambda_1 / \lambda_0\rvert$.
+\item If the matrix is symmetric, the convergence speed can be doubled.
+\item If $\lambda_0$ is very large or very small then taking high powers lead to numerical issues, the algorithm requires a normalization.
+\end{itemize}

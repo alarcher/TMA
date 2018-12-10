@@ -1,0 +1,202 @@
+The system is: SunOS - 5.11 - i386
+Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+Compiler: /usr/bin/cc 
+Build flags: 
+Id flags: 
+
+The output was:
+0
+
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.out"
+
+The C compiler identification is SunPro, found in "/home/alarcher/TMA4280/code/blas/CMakeFiles/3.5.2/CompilerIdC/a.out"
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+Compiler: /usr/bin/CC 
+Build flags: 
+Id flags: 
+
+The output was:
+0
+
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.out"
+
+The CXX compiler identification is SunPro, found in "/home/alarcher/TMA4280/code/blas/CMakeFiles/3.5.2/CompilerIdCXX/a.out"
+
+Determining if the C compiler works passed with the following output:
+Change Dir: /home/alarcher/TMA4280/code/blas/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_b7bec/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_b7bec.dir/build.make CMakeFiles/cmTC_b7bec.dir/build
+gmake[1] : on entre dans le répertoire « /home/alarcher/TMA4280/code/blas/CMakeFiles/CMakeTmp »
+Building C object CMakeFiles/cmTC_b7bec.dir/testCCompiler.c.o
+/usr/bin/cc     -o CMakeFiles/cmTC_b7bec.dir/testCCompiler.c.o   -c /home/alarcher/TMA4280/code/blas/CMakeFiles/CMakeTmp/testCCompiler.c
+Linking C executable cmTC_b7bec
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b7bec.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTC_b7bec.dir/testCCompiler.c.o  -o cmTC_b7bec  
+gmake[1] : on quitte le répertoire « /home/alarcher/TMA4280/code/blas/CMakeFiles/CMakeTmp »
+
+
+Detecting C compiler ABI info compiled with the following output:
+Change Dir: /home/alarcher/TMA4280/code/blas/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_a7930/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_a7930.dir/build.make CMakeFiles/cmTC_a7930.dir/build
+gmake[1] : on entre dans le répertoire « /home/alarcher/TMA4280/code/blas/CMakeFiles/CMakeTmp »
+Building C object CMakeFiles/cmTC_a7930.dir/CMakeCCompilerABI.c.o
+/usr/bin/cc     -o CMakeFiles/cmTC_a7930.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.5/Modules/CMakeCCompilerABI.c
+Linking C executable cmTC_a7930
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a7930.dir/link.txt --verbose=1
+/usr/bin/cc      -# CMakeFiles/cmTC_a7930.dir/CMakeCCompilerABI.c.o  -o cmTC_a7930   
+### cc: Note: NLSPATH = /opt/sunstudio12.1/prod/bin/../lib/locale/%L/LC_MESSAGES/%N.cat:/opt/sunstudio12.1/prod/bin/../../lib/locale/%L/LC_MESSAGES/%N.cat
+###     command line files and options (expanded):
+### -# CMakeFiles/cmTC_a7930.dir/CMakeCCompilerABI.c.o -ocmTC_a7930
+### cc: Note: LD_LIBRARY_PATH = /usr/lib/amd64/mpich/gcc/lib
+### cc: Note: LD_RUN_PATH     = (null)
+### cc: Note: LD_OPTIONS      = (null)
+ln -s /opt/sunstudio12.1/prod/lib /tmp/lib_link.1483706189.16250.01
+/usr/ccs/bin/ld -zld32=-S/tmp/lib_link.1483706189.16250.01/libldstab_ws.so -zld32=-S/tmp/lib_link.1483706189.16250.01/libld_annotate.so /opt/sunstudio12.1/prod/lib/crti.o /opt/sunstudio12.1/prod/lib/crt1.o /opt/sunstudio12.1/prod/lib/values-xa.o CMakeFiles/cmTC_a7930.dir/CMakeCCompilerABI.c.o -o cmTC_a7930 -Y "P,/opt/sunstudio12.1/prod/lib:/usr/ccs/lib:/lib:/usr/lib" -Qy -lc /opt/sunstudio12.1/prod/lib/crtn.o
+gmake[1] : on quitte le répertoire « /home/alarcher/TMA4280/code/blas/CMakeFiles/CMakeTmp »
+
+
+Parsed C implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /home/alarcher/TMA4280/code/blas/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command:"/usr/bin/gmake" "cmTC_a7930/fast"]
+  ignore line: [/usr/bin/gmake -f CMakeFiles/cmTC_a7930.dir/build.make CMakeFiles/cmTC_a7930.dir/build]
+  ignore line: [gmake[1] : on entre dans le répertoire « /home/alarcher/TMA4280/code/blas/CMakeFiles/CMakeTmp »]
+  ignore line: [Building C object CMakeFiles/cmTC_a7930.dir/CMakeCCompilerABI.c.o]
+  ignore line: [/usr/bin/cc     -o CMakeFiles/cmTC_a7930.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.5/Modules/CMakeCCompilerABI.c]
+  ignore line: [Linking C executable cmTC_a7930]
+  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a7930.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/cc      -# CMakeFiles/cmTC_a7930.dir/CMakeCCompilerABI.c.o  -o cmTC_a7930   ]
+  ignore line: [### cc: Note: NLSPATH = /opt/sunstudio12.1/prod/bin/../lib/locale/%L/LC_MESSAGES/%N.cat:/opt/sunstudio12.1/prod/bin/../../lib/locale/%L/LC_MESSAGES/%N.cat]
+  ignore line: [###     command line files and options (expanded):]
+  ignore line: [### -# CMakeFiles/cmTC_a7930.dir/CMakeCCompilerABI.c.o -ocmTC_a7930]
+  ignore line: [### cc: Note: LD_LIBRARY_PATH = /usr/lib/amd64/mpich/gcc/lib]
+  ignore line: [### cc: Note: LD_RUN_PATH     = (null)]
+  ignore line: [### cc: Note: LD_OPTIONS      = (null)]
+  ignore line: [ln -s /opt/sunstudio12.1/prod/lib /tmp/lib_link.1483706189.16250.01]
+  link line: [/usr/ccs/bin/ld -zld32=-S/tmp/lib_link.1483706189.16250.01/libldstab_ws.so -zld32=-S/tmp/lib_link.1483706189.16250.01/libld_annotate.so /opt/sunstudio12.1/prod/lib/crti.o /opt/sunstudio12.1/prod/lib/crt1.o /opt/sunstudio12.1/prod/lib/values-xa.o CMakeFiles/cmTC_a7930.dir/CMakeCCompilerABI.c.o -o cmTC_a7930 -Y "P,/opt/sunstudio12.1/prod/lib:/usr/ccs/lib:/lib:/usr/lib" -Qy -lc /opt/sunstudio12.1/prod/lib/crtn.o]
+    arg [/usr/ccs/bin/ld] ==> ignore
+    arg [-zld32=-S/tmp/lib_link.1483706189.16250.01/libldstab_ws.so] ==> ignore
+    arg [-zld32=-S/tmp/lib_link.1483706189.16250.01/libld_annotate.so] ==> ignore
+    arg [/opt/sunstudio12.1/prod/lib/crti.o] ==> ignore
+    arg [/opt/sunstudio12.1/prod/lib/crt1.o] ==> ignore
+    arg [/opt/sunstudio12.1/prod/lib/values-xa.o] ==> ignore
+    arg [CMakeFiles/cmTC_a7930.dir/CMakeCCompilerABI.c.o] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTC_a7930] ==> ignore
+    arg [-YP,/opt/sunstudio12.1/prod/lib:/usr/ccs/lib:/lib:/usr/lib] ==> dirs [/opt/sunstudio12.1/prod/lib;/usr/ccs/lib;/lib;/usr/lib]
+    arg [-Qy] ==> ignore
+    arg [-lc] ==> lib [c]
+    arg [/opt/sunstudio12.1/prod/lib/crtn.o] ==> ignore
+  collapse library dir [/opt/sunstudio12.1/prod/lib] ==> [/opt/sunstudio12.1/prod/lib]
+  collapse library dir [/usr/ccs/lib] ==> [/usr/ccs/lib]
+  collapse library dir [/lib] ==> [/lib]
+  collapse library dir [/usr/lib] ==> [/usr/lib]
+  implicit libs: [c]
+  implicit dirs: [/opt/sunstudio12.1/prod/lib;/usr/ccs/lib;/lib;/usr/lib]
+  implicit fwks: []
+
+
+Determining if the CXX compiler works passed with the following output:
+Change Dir: /home/alarcher/TMA4280/code/blas/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_595b8/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_595b8.dir/build.make CMakeFiles/cmTC_595b8.dir/build
+gmake[1] : on entre dans le répertoire « /home/alarcher/TMA4280/code/blas/CMakeFiles/CMakeTmp »
+Building CXX object CMakeFiles/cmTC_595b8.dir/testCXXCompiler.cxx.o
+/usr/bin/CC      -o CMakeFiles/cmTC_595b8.dir/testCXXCompiler.cxx.o -c /home/alarcher/TMA4280/code/blas/CMakeFiles/CMakeTmp/testCXXCompiler.cxx
+Linking CXX executable cmTC_595b8
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_595b8.dir/link.txt --verbose=1
+/usr/bin/CC        CMakeFiles/cmTC_595b8.dir/testCXXCompiler.cxx.o  -o cmTC_595b8  
+gmake[1] : on quitte le répertoire « /home/alarcher/TMA4280/code/blas/CMakeFiles/CMakeTmp »
+
+
+Detecting CXX compiler ABI info compiled with the following output:
+Change Dir: /home/alarcher/TMA4280/code/blas/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_76261/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_76261.dir/build.make CMakeFiles/cmTC_76261.dir/build
+gmake[1] : on entre dans le répertoire « /home/alarcher/TMA4280/code/blas/CMakeFiles/CMakeTmp »
+Building CXX object CMakeFiles/cmTC_76261.dir/CMakeCXXCompilerABI.cpp.o
+/usr/bin/CC      -o CMakeFiles/cmTC_76261.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.5/Modules/CMakeCXXCompilerABI.cpp
+Linking CXX executable cmTC_76261
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_76261.dir/link.txt --verbose=1
+/usr/bin/CC       -v CMakeFiles/cmTC_76261.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_76261   
+###     command line files and options (expanded):
+### -v CMakeFiles/cmTC_76261.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_76261 
+### CC: Note: NLSPATH = /opt/sunstudio12.1/prod/bin/../lib/locale/%L/LC_MESSAGES/%N.cat:/opt/sunstudio12.1/prod/bin/../../lib/locale/%L/LC_MESSAGES/%N.cat
+### CC: Note: LD_LIBRARY_PATH = /usr/lib/amd64/mpich/gcc/lib
+### CC: Note: LD_RUN_PATH     = (null)
+### CC: Note: LD_OPTIONS = (null)
+ln -s /opt/sunstudio12.1/prod/lib /tmp/lib_link.1483706190.16279
+ln -s /opt/sunstudio12.1/prod/lib /tmp/lib_base_link.1483706190.16279
+/usr/ccs/bin/ld -u __1cH__CimplKcplus_init6F_v_ -zld32=-S/tmp/lib_base_link.1483706190.16279/libldstab_ws.so -zld64=-S/tmp/lib_base_link.1483706190.16279/amd64/libldstab_ws.so -zld32=-S/tmp/lib_base_link.1483706190.16279/libCCexcept.so.1 -zld32=-S/tmp/lib_base_link.1483706190.16279/libld_annotate.so -zld64=-S/tmp/lib_base_link.1483706190.16279/amd64/libld_annotate.so -R/opt/sunstudio12.1/lib/rw7:/opt/sunstudio12.1/lib:/usr/ccs/lib:/lib:/usr/lib -o cmTC_76261 /opt/sunstudio12.1/prod/lib/crti.o /opt/sunstudio12.1/prod/lib/CCrti.o /opt/sunstudio12.1/prod/lib/crt1.o /opt/sunstudio12.1/prod/lib/values-xa.o -Y P,/opt/sunstudio12.1/lib/rw7:/opt/sunstudio12.1/lib:/opt/sunstudio12.1/prod/lib/rw7:/opt/sunstudio12.1/prod/lib:/usr/ccs/lib:/lib:/usr/lib CMakeFiles/cmTC_76261.dir/CMakeCXXCompilerABI.cpp.o -lCstd -lCrun -lm -lc /opt/sunstudio12.1/prod/lib/CCrtn.o /opt/sunstudio12.1/prod/lib/crtn.o >&/tmp/ld.16279.0.err
+rm /tmp/lib_link.1483706190.16279
+rm /tmp/lib_base_link.1483706190.16279
+rm /tmp/ld.16279.0.err
+gmake[1] : on quitte le répertoire « /home/alarcher/TMA4280/code/blas/CMakeFiles/CMakeTmp »
+
+
+Parsed CXX implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /home/alarcher/TMA4280/code/blas/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command:"/usr/bin/gmake" "cmTC_76261/fast"]
+  ignore line: [/usr/bin/gmake -f CMakeFiles/cmTC_76261.dir/build.make CMakeFiles/cmTC_76261.dir/build]
+  ignore line: [gmake[1] : on entre dans le répertoire « /home/alarcher/TMA4280/code/blas/CMakeFiles/CMakeTmp »]
+  ignore line: [Building CXX object CMakeFiles/cmTC_76261.dir/CMakeCXXCompilerABI.cpp.o]
+  ignore line: [/usr/bin/CC      -o CMakeFiles/cmTC_76261.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.5/Modules/CMakeCXXCompilerABI.cpp]
+  ignore line: [Linking CXX executable cmTC_76261]
+  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_76261.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/CC       -v CMakeFiles/cmTC_76261.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_76261   ]
+  ignore line: [###     command line files and options (expanded):]
+  ignore line: [### -v CMakeFiles/cmTC_76261.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_76261 ]
+  ignore line: [### CC: Note: NLSPATH = /opt/sunstudio12.1/prod/bin/../lib/locale/%L/LC_MESSAGES/%N.cat:/opt/sunstudio12.1/prod/bin/../../lib/locale/%L/LC_MESSAGES/%N.cat]
+  ignore line: [### CC: Note: LD_LIBRARY_PATH = /usr/lib/amd64/mpich/gcc/lib]
+  ignore line: [### CC: Note: LD_RUN_PATH     = (null)]
+  ignore line: [### CC: Note: LD_OPTIONS = (null)]
+  ignore line: [ln -s /opt/sunstudio12.1/prod/lib /tmp/lib_link.1483706190.16279]
+  ignore line: [ln -s /opt/sunstudio12.1/prod/lib /tmp/lib_base_link.1483706190.16279]
+  link line: [/usr/ccs/bin/ld -u __1cH__CimplKcplus_init6F_v_ -zld32=-S/tmp/lib_base_link.1483706190.16279/libldstab_ws.so -zld64=-S/tmp/lib_base_link.1483706190.16279/amd64/libldstab_ws.so -zld32=-S/tmp/lib_base_link.1483706190.16279/libCCexcept.so.1 -zld32=-S/tmp/lib_base_link.1483706190.16279/libld_annotate.so -zld64=-S/tmp/lib_base_link.1483706190.16279/amd64/libld_annotate.so -R/opt/sunstudio12.1/lib/rw7:/opt/sunstudio12.1/lib:/usr/ccs/lib:/lib:/usr/lib -o cmTC_76261 /opt/sunstudio12.1/prod/lib/crti.o /opt/sunstudio12.1/prod/lib/CCrti.o /opt/sunstudio12.1/prod/lib/crt1.o /opt/sunstudio12.1/prod/lib/values-xa.o -Y P,/opt/sunstudio12.1/lib/rw7:/opt/sunstudio12.1/lib:/opt/sunstudio12.1/prod/lib/rw7:/opt/sunstudio12.1/prod/lib:/usr/ccs/lib:/lib:/usr/lib CMakeFiles/cmTC_76261.dir/CMakeCXXCompilerABI.cpp.o -lCstd -lCrun -lm -lc /opt/sunstudio12.1/prod/lib/CCrtn.o /opt/sunstudio12.1/prod/lib/crtn.o >&/tmp/ld.16279.0.err]
+    arg [/usr/ccs/bin/ld] ==> ignore
+    arg [-u] ==> ignore
+    arg [__1cH__CimplKcplus_init6F_v_] ==> ignore
+    arg [-zld32=-S/tmp/lib_base_link.1483706190.16279/libldstab_ws.so] ==> ignore
+    arg [-zld64=-S/tmp/lib_base_link.1483706190.16279/amd64/libldstab_ws.so] ==> ignore
+    arg [-zld32=-S/tmp/lib_base_link.1483706190.16279/libCCexcept.so.1] ==> ignore
+    arg [-zld32=-S/tmp/lib_base_link.1483706190.16279/libld_annotate.so] ==> ignore
+    arg [-zld64=-S/tmp/lib_base_link.1483706190.16279/amd64/libld_annotate.so] ==> ignore
+    arg [-R/opt/sunstudio12.1/lib/rw7:/opt/sunstudio12.1/lib:/usr/ccs/lib:/lib:/usr/lib] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTC_76261] ==> ignore
+    arg [/opt/sunstudio12.1/prod/lib/crti.o] ==> ignore
+    arg [/opt/sunstudio12.1/prod/lib/CCrti.o] ==> ignore
+    arg [/opt/sunstudio12.1/prod/lib/crt1.o] ==> ignore
+    arg [/opt/sunstudio12.1/prod/lib/values-xa.o] ==> ignore
+    arg [-YP,/opt/sunstudio12.1/lib/rw7:/opt/sunstudio12.1/lib:/opt/sunstudio12.1/prod/lib/rw7:/opt/sunstudio12.1/prod/lib:/usr/ccs/lib:/lib:/usr/lib] ==> dirs [/opt/sunstudio12.1/lib/rw7;/opt/sunstudio12.1/lib;/opt/sunstudio12.1/prod/lib/rw7;/opt/sunstudio12.1/prod/lib;/usr/ccs/lib;/lib;/usr/lib]
+    arg [CMakeFiles/cmTC_76261.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+    arg [-lCstd] ==> lib [Cstd]
+    arg [-lCrun] ==> lib [Crun]
+    arg [-lm] ==> lib [m]
+    arg [-lc] ==> lib [c]
+    arg [/opt/sunstudio12.1/prod/lib/CCrtn.o] ==> ignore
+    arg [/opt/sunstudio12.1/prod/lib/crtn.o] ==> ignore
+    arg [>&/tmp/ld.16279.0.err] ==> ignore
+  collapse library dir [/opt/sunstudio12.1/lib/rw7] ==> [/opt/sunstudio12.1/lib/rw7]
+  collapse library dir [/opt/sunstudio12.1/lib] ==> [/opt/sunstudio12.1/lib]
+  collapse library dir [/opt/sunstudio12.1/prod/lib/rw7] ==> [/opt/sunstudio12.1/prod/lib/rw7]
+  collapse library dir [/opt/sunstudio12.1/prod/lib] ==> [/opt/sunstudio12.1/prod/lib]
+  collapse library dir [/usr/ccs/lib] ==> [/usr/ccs/lib]
+  collapse library dir [/lib] ==> [/lib]
+  collapse library dir [/usr/lib] ==> [/usr/lib]
+  implicit libs: [Cstd;Crun;m;c]
+  implicit dirs: [/opt/sunstudio12.1/lib/rw7;/opt/sunstudio12.1/lib;/opt/sunstudio12.1/prod/lib/rw7;/opt/sunstudio12.1/prod/lib;/usr/ccs/lib;/lib;/usr/lib]
+  implicit fwks: []
+
+

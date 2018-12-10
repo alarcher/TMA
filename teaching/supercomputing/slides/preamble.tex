@@ -1,0 +1,102 @@
+\documentclass[10pt,final,leqno]{beamer}
+
+%\usetheme{CambridgeUS}
+\usetheme[style=ntnu,language=en]{ntnu2015}
+%\usecolortheme{orchid}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+% Paths
+\newcommand{\figs}{../figs}
+\newcommand{\data}{../data}
+\newcommand{\code}{../code}
+
+% URL styles
+\usepackage{url}
+\urlstyle{sf}
+
+% Units
+\usepackage[detect-weight=true, binary-units=true]{siunitx}
+\DeclareSIUnit\flop{FLOPS}
+
+% Math
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{nicefrac}
+\newcommand{\dif}[1]{{\;\text{d}#1}}
+
+% Graphics
+\usepackage{graphicx}
+\usepackage{caption}
+%\usepackage{subcaption}
+\graphicspath{{../figs/}}
+
+% Tikz
+\usepackage{tikz}
+\usetikzlibrary{positioning,shapes,arrows,calc,intersections}
+\usepackage{pgfplots}
+\usepgfplotslibrary{dateplot}
+\pgfplotsset{compat=1.14} 
+
+% Colors
+\definecolor{darkblue}{HTML}{00688B}
+\definecolor{darkgreen}{HTML}{6E8B3D}
+\definecolor{cadet}{HTML}{DAE1FF}
+\definecolor{salmon}{HTML}{FFB08A}
+
+\usepackage{algorithm}
+
+% Listings
+\usepackage{textcomp}
+\usepackage{listings}
+\lstset{
+  keywordstyle=\bfseries\color{orange},
+  stringstyle=\color{darkblue!80},
+  commentstyle=\color{darkblue!80},
+  showstringspaces=false,
+  basicstyle=\ttfamily,
+  upquote=true,
+}
+\lstdefinestyle{fortran}{
+  language=Fortran,
+  morekeywords={for},
+  deletekeywords={status},
+}
+\lstdefinestyle{c}{
+  language=C,
+  morekeywords={include},
+}
+\lstdefinestyle{glsl}{
+  language=C,
+  morekeywords={attribute, vec2, vec3, vec4, varying, uniform, mat2, mat3, mat4},
+}
+\lstdefinestyle{cuda}{
+  language=C,
+  morekeywords={__global__, __device__, __host__, __shared__},
+}
+\lstdefinestyle{shell}{
+  language=bash,
+  morekeywords={mkdir, ssh, cmake},
+}
+
+% Double hlines
+\usepackage{hhline}
+
+% Misc
+\usepackage{nth}
+
+\subtitle{TMA4280---Introduction to Supercomputing}
+
+\graphicspath {{../figs/}}
+
+\AtBeginSection[]
+{
+ \begin{frame}<beamer>
+ \frametitle{Outline}
+ \tableofcontents[currentsection]
+ \end{frame}
+}
+
+\begin{document}

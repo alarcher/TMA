@@ -1,0 +1,346 @@
+\documentclass[onecolumn, oneside, a4paper, 11pt]{memoir}
+
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+% Paths
+\newcommand{\figs}{../figs}
+\newcommand{\data}{../data}
+
+% Fonts
+\usepackage{newpxtext,newpxmath}
+\renewcommand*\sfdefault{cmss}
+
+% Units
+\usepackage[detect-weight=true, binary-units=true]{siunitx}
+\DeclareSIUnit\flop{Flops}
+
+% Math
+\let\openbox\undefined
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+
+\theoremstyle{remark}
+\newtheorem{ex}{Exercise}
+\newtheorem*{sol}{Solution}
+
+% Graphics
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\graphicspath{{../figs/}}
+
+% Tikz
+\usepackage{tikz}
+\usetikzlibrary{positioning,shapes,arrows,calc,intersections}
+\usepackage{pgfplots}
+\usepgfplotslibrary{dateplot}
+\pgfplotsset{compat=1.8}
+
+% Colors
+\definecolor{darkblue}{HTML}{00688B}
+\definecolor{darkgreen}{HTML}{6E8B3D}
+\definecolor{cadet}{HTML}{DAE1FF}
+\definecolor{salmon}{HTML}{FFB08A}
+
+% Listings
+\usepackage{textcomp}
+\usepackage{listings}
+\lstset{
+  keywordstyle=\bfseries\color{orange},
+  stringstyle=\color{darkblue!80},
+  commentstyle=\color{darkblue!80},
+  showstringspaces=false,
+  basicstyle=\ttfamily,
+  upquote=true,
+}
+\lstdefinestyle{fortran}{
+  language=Fortran,
+  morekeywords={for},
+  deletekeywords={status},
+}
+\lstdefinestyle{c}{
+  language=C,
+  morekeywords={include},
+}
+\lstdefinestyle{shell}{
+  language=bash,
+}
+
+\begin{document}
+
+\pagestyle{empty}
+
+\begin{center}
+  {\Huge \bfseries \scshape
+    Introduction to \\[0.2\baselineskip] Supercomputing} \\[2\baselineskip]
+  {\Large TMA4280 $\cdot$ Introduction to UNIX environment and tools} \\[2\baselineskip]
+\end{center}
+
+\section{Getting started with the environment and the \texttt{bash} shell interpreter}
+
+
+Desktop computers are usually operated from a  \textit{graphical user interface} (GUI), but they have historically been interacted with by using a command interpreter: a sequence of commands is enter in a \textit{terminal}.
+Since supercomputers do not run a graphical interface,
+As of November 2017, 100\% of the supercomputers listed on the Top500 run a flavour of GNU/Linux system and they are exclusively operated without a GUI.
+The most common interactive command interpreter, a \textit{shell}, is \texttt{bash}, the Bourne Again SHell. Other \textit{shell} programs exist and offer their own scripting language: \textit{csh}, \textit{tcsh}, \textit{ksh}, \textit{zsh}\dots
+
+The \textit{shell} can be used interactively in a terminal and to run scripts: it is a very powerful tool which allows the user to interact with all the aspects of the system and perform tasks automatically.
+
+\medskip
+This section is a basic introduction to the \texttt{UNIX} environment which covers:
+\begin{itemize}
+\item getting information from the system,
+\item navigating in directories,
+\item manipulating files,
+\item and processing text.
+\end{itemize}
+
+\medskip
+At first learning \texttt{shell} can seem difficult and may have a steep learning curve, but in the long term it provides an elegant tool to perform tasks in a very efficient way. 
+
+\subsubsection{Some aspects of the interaction with the \texttt{bash} shell}
+
+The computer is operated by entering commands at the \textit{prompt}: it is called a \textit{command line}.
+By convention the \textit{prompt} can be set to either:
+\begin{enumerate}
+\item $\$$ for a normal user,
+\item $\#$ for an administrator.
+\end{enumerate}
+
+\medskip
+The behaviour of commands can be modified with flags,and arguments can be provided.
+For example, the following line can be entered:
+\begin{lstlisting}[style=shell]
+$ <command> -f0 -f1 <argument0> <argument1>
+\end{lstlisting}
+to call the command with two flags \texttt{-f0}, \texttt{-f1}, and two arguments.
+
+\bigskip
+Interacting with the \textit{bash} command line consists of:
+\begin{itemize}
+\item typing sequences of commands and arguments on the \textit{command line},
+\item auto-completion of arguments with the \texttt{TAB} key to expand the name of a command or file,
+\item navigation in the history of commands entered can be done with \texttt{UP}/\texttt{DOWN} arrow keys, or searched with \texttt{CTRL-R},
+\item built-in functions that can be used for scripting.
+\end{itemize}
+
+\bigskip
+All commands are documented and the manual pages can be displayed using the tools listed in Table \ref{tab:doc}.
+\begin{table}[h!]
+\centering
+\caption{Basic commands: documentation}
+\label{tab:doc}
+\begin{tabular}{|c|l|}
+  \hline
+  Command & Description \\
+  \hline
+  \texttt{info} & Display manual pages in the \texttt{GNU Texinfo} format. \\
+  \texttt{man}  & Display \textbf{man}ual pages in the \texttt{troff} format. \\
+  \hline
+\end{tabular}
+\end{table}
+
+The \texttt{man} utility is definitely the most important command on the system.
+
+
+\subsubsection{Basic commands to get information on the system}
+
+The \textit{command line} offers several tools to get various information of the computer and the users.
+Before using commands that perform actions, it is a good idea to start with a few commands that will help you understand the environment.
+
+\medskip
+Open a terminal and look at the information provided by the \textit{prompt}, for example:
+\begin{lstlisting}[style=shell]
+[aurelila@lille-login2 ~]$
+\end{lstlisting}
+and let us discuss the information presented.
+The first concept to understand is that:
+\begin{itemize}
+\item you are identified by a \textit{user} on a system identified by his \textit{hostname},
+\item this \textit{user} belongs to one or more \textit{groups},
+\item which define the \textit{permissions} you possess on the system. 
+\end{itemize}
+
+\bigskip
+\begin{table}[h!]
+\centering
+\caption{Basic commands: information}
+\label{tab:inf}
+\begin{tabular}{|c|l|}
+  \hline
+  Command & Description \\
+  \hline
+  \texttt{df} & Display status of \textbf{d}isk space on \textbf{f}ile systems. \\
+  \texttt{du} & Summarize \textbf{d}isk \textbf{u}sage. \\
+  \texttt{env} & Print \textbf{env}ironment variables. \\
+  \texttt{groups} &  Print \textbf{group} membership of user.\\
+  \texttt{hostname} &  Set or print \textbf{name} of current \textbf{host} system.\\
+  \texttt{top} & Display system usage information. \\
+  \texttt{uname} & Print \textbf{name} of current system. \\
+  \texttt{uptime} & Show how long the system has been \textbf{up}. \\
+  \texttt{which} &  Which - locate a command and display its pathname or alias. \\
+  \texttt{who} &  Who is logged on the system. \\
+  \texttt{whoami} &  Print effective user identity. \\
+  \hline
+\end{tabular}
+\end{table}
+
+\begin{ex}
+Before starting to navigate, let us inspect the work environment using the commands listed in Table \ref{tab:inf}.
+
+Open a text editor and create an empty document that you will use to describe your steps and copy sample outputs from the terminal.
+From the graphical interface save the file as \texttt{unix.txt}.
+\begin{enumerate}
+\item Open a terminal and inspect information about your user and the system:
+\begin{itemize}
+\item Print your user name, the machine name (\texttt{hostname}).
+\item Use the manual page of \texttt{uname} to find how to print the machine name.
+\item Find out to which groups your user belongs to.
+\end{itemize}
+\item Inspect the environment variables:
+\begin{itemize}
+\item Display the environment variables and note the value of \texttt{SHELL}, \texttt{PATH} and \texttt{HOME}.
+\item For each of these variables, type \texttt{echo \$VARIABLE}, this is how to return the value of an environment variable.
+\item Print the current working directory and observe that it is your home directory, i.e the value returned.
+\end{itemize}
+\item Find out more about resources:
+\begin{itemize}
+\item Display the time elapsed since the machine was booted and inspect the resources (memory, processes, disk space).
+\item Look at the \texttt{du} manual page and determine the current disk usage of your home directory.
+\end{itemize}
+\end{enumerate}
+\end{ex}
+
+\subsubsection{Permissions}
+
+A set of \textit{permissions} can be applied to files: in the UNIX philosophy, everything is represented as a file (text files, directories, devices).
+Any file is attributed to a \textit{user} and a \textit{group}.
+
+\medskip
+The set is composed of three subsets describing permissions for:
+\begin{enumerate}
+\item \textit{user} (\textbf{u})
+\item \textit{group} (\textbf{g})
+\item \textit{others} (\textbf{o})
+\end{enumerate}
+and is encoded using an octal triplet.
+For example, the triplet \texttt{644}, will give read/write permissions to the \textit{user}, and only read permissions to the \textit{group} and \textit{others}.
+
+\medskip
+\begin{table}[h!]
+\centering
+\caption{Permissions}
+\begin{tabular}{|c|l|c|}
+  \hline
+  Type       & Description            & Octal value\\
+  \hline
+  \textbf{r} & \textbf{R}ead from the file.& 4 \\
+  \textbf{w} & \textbf{W}rite to the file. & 2 \\
+  \textbf{x} & E\textbf{x}ecute the file. &  1 \\
+  \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\caption{Basic commands: permissions}
+\begin{tabular}{|l|c|r|}
+  \hline
+  Command & Description \\
+  \hline
+  \texttt{chmod} & Change the permission set. \\
+  \texttt{chown} & Change the user ownership. \\
+  \texttt{chgrp} & Change the group ownership. \\
+  \hline
+\end{tabular}
+\end{table}
+
+
+\begin{ex}
+Use the command \texttt{ls -lha} to list the files in the current working directory and understand the information printed.
+\end{ex}
+
+
+\subsubsection{Basic commands to navigate on the system}
+
+The set of commands essential to navigate in a \textit{terminal} is small but provides many possibilities.
+
+\begin{table}[h!]
+\centering
+\caption{Basic commands: navigation}
+\begin{tabular}{|c|l|}
+  \hline
+  Command & Description \\
+  \hline
+  \texttt{cd} & \textbf{C}hange working \textbf{d}irectory. \\
+  \texttt{cp} & \textbf{C}o\textbf{p}y files. \\
+  \texttt{find} & \textbf{Find} files in the directory hierarchy. \\
+  \texttt{ls} & \textbf{L}i\textbf{s}t contents of directory. \\
+  \texttt{mkdir} & \textbf{M}a\textbf{k}e \textbf{dir}ectories \\
+  \texttt{mv} & \textbf{M}o\textbf{v}e files. \\
+  \texttt{pwd} & \textbf{P}rint \textbf{w}orking \textbf{d}irectory name. \\
+  \texttt{rm, rmdir} & \textbf{R}e\textbf{m}ove (directory) entries. \\
+  \texttt{touch, settime} & Change file access and modification times. \\
+  \hline
+\end{tabular}
+\end{table}
+
+\begin{ex}
+Now that you are familiar with your system, let us navigate and create directories/files.
+\begin{itemize}
+\item Create a directory named \texttt{TMA4280} and move inside it.
+\item Create a directory named \texttt{shell} and move inside it.
+\item Find your \texttt{unix.txt} file and copy it to the current directory.
+\item Move one level up (two options possible) and create a directory named \texttt{prog}.
+\item Move one level up again and type the command \texttt{ls -lha}, inspect the different folders.
+\item Open the manual pages of \texttt{chown}, \texttt{chgrp} and \texttt{chmod}: which one should you use to change the read permission of \textit{others}?
+\item Create a \texttt{README} file using the command \texttt{touch}.
+\end{itemize}
+\end{ex}
+
+\begin{table}[h!]
+\centering
+\caption{Basic commands: text utilities}
+\begin{tabular}{|l|c|r|}
+  \hline
+  Command & Description \\
+  \hline
+  \texttt{awk} & Pattern scanning and processing language. \\
+  \texttt{cat} & Concatenate and display files. \\
+  \texttt{grep} & Search a file for a pattern. \\
+  \texttt{more, less} & Display text content with pagination. \\
+  \texttt{sed} & Stream editor for text manipulation. \\
+  \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\caption{Basic commands: pipes and redirections}
+\begin{tabular}{|l|c|r|}
+  \hline
+  Command & Description \\
+  \hline
+  \texttt{|} & Pipe operator. \\
+  \texttt{>} & Redirection. \\
+  \texttt{<} & Redirection. \\
+  \hline
+\end{tabular}
+\end{table}
+
+\begin{ex}
+Just introducing a few concept for text and file manipulation:
+\begin{itemize}
+\item Enter the \texttt{shell} directory and create a \texttt{cat} subdirectory.
+\item Create three files named \texttt{1.txt}, \texttt{2.txt} and \texttt{3.txt} and write the text \texttt{foo}, \texttt{bar} and \texttt{braz} into them using \textit{echo}.
+\item Concatenate the content of the three files into the file \texttt{all.txt}.
+\item Display it in a pager.
+\item Together let us use the different utilities to search and replace text in these files: substitute \texttt{braz} with \texttt{babar}.
+\end{itemize}
+\end{ex}
+
+\end{document}

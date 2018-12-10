@@ -21,7 +21,7 @@ TEX_ENV+= TEXINPUTS="$(TEXINPUTS)"
 MAINTEX=main.tex
 
 BIBTEX=bibtex
-MAINBIB=$(MAINTEX:%.tex=%.bib)
+MAINBIB?=$(MAINTEX:%.tex=%.bib)
 BIBTEX_CMD=$(BIBTEX)
 
 PDFLATEX=pdflatex
@@ -34,10 +34,11 @@ endif
 
 TEXSRC=$(wildcard *.tex)
 
+	#&& ([ ! -f "$(MAINBIB)"] || $(ENV) $(TEX_ENV) $(BIBTEX_CMD) $(<:%.tex=%)) \
+	#&& $(ENV) $(TEX_ENV) $(PDFTEX_CMD) $< 
+
 $(MAINPDF): $(MAINTEX) $(TEXSRC)
 	@($(ENV) $(TEX_ENV) $(PDFTEX_CMD) $< \
-	&& ([ ! -f "$(MAINBIB)"] || $(ENV) $(TEX_ENV) $(BIBTEX_CMD) $(<:%.tex=%)) \
-	&& $(ENV) $(TEX_ENV) $(PDFTEX_CMD) $< \
 	&& $(ENV) $(TEX_ENV) $(PDFTEX_CMD) $<) || rm $(MAINPDF)
 
 all: $(MAINPDF) $(TEXSRC)

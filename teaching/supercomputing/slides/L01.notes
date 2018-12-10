@@ -1,0 +1,92 @@
+--------------------------------------------------------------------------------
+
+HPL
+
+http://www.netlib.org/benchmark/hpl/
+
+HPL is a software package that solves a (random) dense linear system in double precision (64 bits) arithmetic on distributed-memory computers. It can thus be regarded as a portable as well as freely available implementation of the High Performance Computing Linpack Benchmark.
+
+The algorithm used by HPL can be summarized by the following keywords: Two-dimensional block-cyclic data distribution - Right-looking variant of the LU factorization with row partial pivoting featuring multiple look-ahead depths - Recursive panel factorization with pivot search and column broadcast combined - Various virtual panel broadcast topologies - bandwidth reducing swap-broadcast algorithm - backward substitution with look-ahead of depth 1.
+
+The HPL package provides a testing and timing program to quantify the accuracy of the obtained solution as well as the time it took to compute it. The best performance achievable by this software on your system depends on a large variety of factors. Nonetheless, with some restrictive assumptions on the interconnection network, the algorithm described here and its attached implementation are scalable in the sense that their parallel efficiency is maintained constant with respect to the per processor memory usage.
+
+The HPL software package requires the availibility on your system of an implementation of the Message Passing Interface MPI (1.1 compliant). An implementation of either the Basic Linear Algebra Subprograms BLAS or the Vector Signal Image Processing Library VSIPL is also needed. Machine-specific as well as generic implementations of MPI, the BLAS and VSIPL are available for a large variety of systems.
+
+--------------------------------------------------------------------------------
+
+- Jun 1993: UNIX 94%, BSD 5%
+- Nov 1998: UNIX reaches 99.4% of share
+- Jun 2004: Linux passes 58%
+- Jun 2006: MacOS reaches 1%, maximum for Windows 1%
+- Nov 2016: Linux 498 / UNIX 2
+
+--------------------------------------------------------------------------------
+
+Architectures:
+
+Top500:
+
+- Vector
+- Scalar single-processor
+- MPP
+- Constellation
+- Cluster
+
+Compute grids:
+
+On March 22, 2007, SCE and Stanford University expanded the Folding@home project to the PS3.[24] Along with thousands of PCs already joined over the Internet, PS3 owners are able to lend the computing power of their game systems to the study of improper protein folding and associated diseases, such as Alzheimer's, Parkinson's, Huntington's, cystic fibrosis, and several forms of cancer. The software was included as part of the 1.6 firmware update (March 22, 2007), and can be set to run manually or automatically when the PS3 is idle through the Cross Media Bar. The processed information is then sent back to project's central servers over the Internet. Processing power from PS3 users is greatly contributing to the Folding@home project, and PS3s are third to both NVIDIA and AMD GPUs in terms of teraflops contributed.[25] As of March 2011, more than a million PS3 owners have allowed the Folding@home software to be run on their systems, with over 27,000 currently active, for a total of 8.1 petaFLOPS. By comparison, the world's most powerful supercomputer as of November 2010, the Tianhe-IA has a peak performance of 2.56 petaFLOPS, or 2566 teraFLOPS.[26] The latest report stated that Folding@Home has passed the 5 native petaFLOP mark, of which 767 teraFLOPS are supplied by PlayStation 3 clients.
+
+--------------------------------------------------------------------------------
+
+Cores:
+
+- Jun 2006: First System with accelerator Clearspeed CSX600
+			The CSX architecture is a family of processors based on ClearSpeed’s
+			multi-threaded array processor (MTAP) core).
+			96 PE cores, 33GFLOPS of performance (DGEMM) 10W avg dissipation
+- Jun 2008: Three systems with IBM PowerXCell 8i
+            1 PPE core + 8 SPE cores designed specifically for vector operations
+            102.4 GFLOPS (LINPACK double precision), 92 W
+            IBM Roadrunner (12,960 IBM PowerXCell 8i CPUs, 6,480 AMD Opteron dual-core processors, Infiniband)
+            Used in Sony Playstation 3 (2009).
+- Nov 2016: 414 systems with no accelerator, 531M GFLOPS
+
+--------------------------------------------------------------------------------
+
+Accelerators:
+
+- Jun 2006: First System with accelerator Clearspeed CSX600
+			The CSX architecture is a family of processors based on ClearSpeed’s
+			multi-threaded array processor (MTAP) core).
+			96 PE cores, 33GFLOPS of performance (DGEMM) 10W avg dissipation
+- Jun 2008: Three systems with IBM PowerXCell 8i
+            1 PPE core + 8 SPE cores designed specifically for vector operations
+            102.4 GFLOPS (LINPACK double precision), 92 W
+            IBM Roadrunner (12,960 IBM PowerXCell 8i CPUs, 6,480 AMD Opteron dual-core processors, Infiniband)
+            Used in Sony Playstation 3 (2009).
+- Nov 2016: 414 systems with no accelerator, 531M GFLOPS
+
+--------------------------------------------------------------------------------
+
+LINPACK
+
+http://www.netlib.org/utk/people/JackDongarra/faq-linpack.html
+
+The Linpack Benchmark is a measure of a computer’s floating-point rate of execution. It is determined by running a computer program that solves a dense system of linear equations. Over the years the characteristics of the benchmark has changed a bit. In fact, there are three benchmarks included in the Linpack Benchmark report.
+
+What is the theoretical peak performance?
+
+The theoretical peak is based not on an actual performance from a benchmark run, but on a paper computation to determine the theoretical peak rate of execution of floating point operations for the machine. This is the number manufacturers often cite; it represents an upper bound on performance. That is, the manufacturer guarantees that programs will not exceed this rate-sort of a "speed of light" for a given computer.  The theoretical peak performance is determined by counting the number of floating-point additions and multiplications (in full precision) that can be completed during a period of time, usually the cycle time of the machine. For example, an Intel Itanium 2 at 1.5 GHz can complete 4 floating point operations per cycle or a theoretical peak performance of 6 GFlop/s.
+
+Is Linpack the most efficient way to solve systems of equations?
+
+Linpack is not the most efficient software for solving matrix problems. This is mainly due to the way the algorithm and resulting software accesses memory.  The memory access patterns of the algorithm has disregard for the multi-layered memory hierarchies of RISC architecture and vector computers, thereby spending too much time moving data instead of doing useful floating-point operations. LAPACK addresses this problem by reorganizing the algorithms to use block matrix operations, such as matrix multiplication in the innermost loops. For each computer architecture block operations can be optimized to account for memory hierarchies, providing a transportable way to achieve high efficiency on diverse modern machines. We use the term “Transportable” instead of “portable” because, for fastest possible performance, LAPACK requires that highly optimized block matrix operations be already implemented on each machine. These operations are performed by the Level 3 BLAS in most cases.
+
+Can I use Strassen’s Method when doing the matrix multiples in the HPL benchmark or for the Top500 run?
+
+The normal matrix multination algorithm requires n3 + O(n2) multiplications and about the same number of additions.  Strassen's algorithm reduces the total number of operations to O(n2.82) by recursively multiplying 2n × 2n matrices using seven n × n matrix multiplications. Thus using Strassen’s Algorithm will distort the true execution rate. As a result we do not allow Strassen’s Algorithm to be used for the TOP500 reporting. As a side note, in the "usual" matrix multiplication, we have an n2 error term. In Strassen's method, the error exponent p for np ranges from 2-3.85 and the numerical error can be 10-100 times greater than that for standard multiplication.
+
+--------------------------------------------------------------------------------
+
+Strategic: huge investments. 238M dollars for Taihulight, 260C, 15MW
+

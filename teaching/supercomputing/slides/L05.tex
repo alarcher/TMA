@@ -1,0 +1,757 @@
+\input{preamble}
+
+\title{The Message Passing Interface (MPI)}
+\institute{NTNU, IMF}
+\date{February 9. 2018}
+%\author{Aurélien Larcher}
+
+\maketitle
+
+
+\begin{frame}
+  \frametitle{Recap: Parallelism with MPI}
+
+An MPI execution is started on a set of processes $\mathcal{P}$ with:
+\begin{center}
+\texttt{mpirun -n $N_P$ ./exe}
+\end{center}
+with $\texttt{$N_P$} = card(\mathcal{P})$ the number of processes.
+
+\bigskip
+A program is executed in parallel on each process:
+\begin{center}
+    \scalebox{0.8}{\input{\figs/tma4280/mpi-model}}
+\end{center}
+where each process in $\mathcal{P} = \lbrace P0, P1, P2 \rbrace$ has a access to data in its memory space: remote data exchanged through interconnect.
+
+\medskip
+An ordered set of processes defines a \textbf{Group} (\texttt{MPI\_Group}): the inital group (\texttt{WORLD}) consists of \textbf{all} processes.
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Recap: Parallelism with MPI}
+
+An MPI execution is enclosed between calls of function to initialize and finalize the subsystem:
+\begin{center}
+\texttt{MPI\_Init}, \dots $\lbrace$ Program body $\rbrace$ \dots, \texttt{MPI\_Finalize}.
+\end{center}
+\bigskip
+
+Processes in a \textbf{Group} can communicate through a \textbf{Communicator} (\texttt{MPI\_Comm}) with attributes:
+\begin{itemize}
+\item rank: \texttt{MPI\_Comm\_rank(MPI\_COMM\_WORLD, \&rank);}
+\item size: \texttt{MPI\_Comm\_size(MPI\_COMM\_WORLD, \&size);}
+\end{itemize}
+
+\bigskip
+The default communicator for \textbf{all} processes is \texttt{MPI\_COMM\_WORLD}.
+
+\bigskip
+New \textbf{Groups} can be created on subsets of $\mathcal{P}$ to restrict the communication between selected processes.\\[2ex]
+Example: Monte-Carlo simulation, structure implementation of adjacent exchange. 
+
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Recap: Parallelism with MPI}
+
+Process communicate using the \textbf{Message Passing} paradigm:
+\begin{enumerate}
+\item Envelope: how to process the message,
+\item Body: data to exchange. 
+\end{enumerate}
+
+\bigskip
+MPI routines are categorized depending on their relation:
+\begin{center}
+\begin{tabular}{|l|c|}
+\hline
+Point-to-Point & \textcolor{red}{one-to-one}\\
+\hline
+\hfill & \textcolor{red}{one-to-all}\\
+Collective & \textcolor{red}{all-to-one}\\
+\hfill & \textcolor{red}{all-to-all}\\
+\hline
+\end{tabular}
+\end{center}
+where \textbf{all} is defined by the \textbf{Communicator} used.
+
+\bigskip
+Point-to-Point operations are the base of \textbf{Message Passing}: \texttt{MPI\_Send}, \texttt{MPI\_Recv} to exchange data.
+
+\medskip
+Collective operations are implemented in terms of Point-to-Point operations but may be optimized.
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Message buffers}
+
+\begin{center}
+\texttt{\textcolor{red}{MPI\_Send}($\underbrace{buffer, count, datatype}_{\textcolor{blue}{data}}$,
+    $\underbrace{dest, tag, comm}_{\textcolor{blue}{envelope}}$); }
+\end{center}
+
+\begin{tabular}{|c|l|}
+\hline
+\texttt{buffer}    & memory location defining the begining of the buffer\\
+\texttt{count}     & max length in bytes of the send buffer (\textbf{bigger} than actual)\\
+\texttt{dest} & receiving process rank\\
+\texttt{tag}        & arbitrary identifier \\
+\texttt{comm}        & communicator \\
+\hline
+\end{tabular}
+
+\begin{center}
+\texttt{\textcolor{red}{MPI\_Recv}($\underbrace{buffer, count, datatype}_{\textcolor{blue}{data}}$,
+    $\underbrace{source, tag, comm,\&status}_{\textcolor{blue}{envelope}}$); }
+\end{center}
+
+\begin{tabular}{|c|l|}
+\hline
+\texttt{buffer}    & memory location defining the begining of the buffer\\
+\texttt{count}  & maxlength in bytes of received data\\
+\texttt{datatype}  & MPI data type\\
+\texttt{source}& sending process rank\\
+\texttt{tag}        & arbitrary identifier \\
+\texttt{comm}        & communicator \\
+\texttt{status}     & metadata: actual length \\
+\hline
+\end{tabular}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Recap: Parallelism with MPI}
+
+Two types of MPI commmunication: block and non-blocking.
+\begin{center}
+    \scalebox{0.8}{\input{\figs/tma4280/mpi-p2p}}
+\end{center}
+\begin{enumerate}
+\item blocking: the function returns once the buffer is processed (what ``processed'' (\textcolor{red}{$\ast$})
+\item non-blocking: the function returns immediately
+\end{enumerate}
+
+\bigskip
+MPI implementations use an internal buffer:
+\begin{itemize}
+\item data may be buffered internally on both sides,
+\item sending process can modify the send buffer once it is copied to the internal buffe regardless of receiver status,
+\item receiver process can buffer the data internally before creation of the recv buffer.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Recap: Parallelism with MPI}
+
+(\textcolor{red}{$\ast$}) What ``processed'' means depends on the communication mode:
+\begin{center}
+\texttt{MPI\_Send}, \texttt{MPI\_SSend}, \texttt{MPI\_RSend}, \texttt{MPI\_BSend}
+\end{center}.
+
+\bigskip
+MPI may provide several versions of a routine for different communication modes
+\begin{itemize}
+\item Synchronous: send blocks until handshake is done and matching receive has started.
+\item Ready: send blocks until matching receive has started (no handshake).
+\item Buffered: send returns as soon as data is buffered internally.
+\item Standard: Synchronous or Buffered depending on message size and resources.
+\end{itemize}
+
+\textcolor{red}{Important}: do not assume anything about the implementation, different handling of buffers can hide bugs!
+\end{frame}
+
+\begin{frame}
+  \frametitle{Parallelism}
+
+Pairwise send--receive:
+\begin{center}
+    \scalebox{0.8}{
+\begin{tikzpicture}
+  \node[anchor=south] at (2,-1) {send(x1, 1)};
+  \draw[darkblue, very thick] (0,-1) -- (9,-1);
+  \node[anchor=west] at (9,-1) {Process 0};
+  \node[anchor=south] at (2,-3) {send(x2, 2)};
+  \draw[orange, ultra thick, -latex] (2,-1) -- (7,-3);
+  \node[anchor=north] at (7,-3) {recv(y0, 0)};
+  \draw[darkblue, very thick] (0,-3) -- (9,-3);
+  \node[anchor=west] at (9,-3) {Process 1};
+  \draw[darkblue, very thick] (0,-5) -- (9,-5);
+  \node[anchor=west] at (9,-5) {Process 2};
+  \node[anchor=north] at (7,-5) {recv(y1, 1)};
+  \draw[orange, ultra thick, -latex] (2,-3) -- (7,-5);
+\end{tikzpicture}
+}
+
+\bigskip
+A safe choice for Point-to-Point communication and optimized by vendors for their hardware.
+\end{center}
+
+\end{frame}
+
+
+\begin{frame}[fragile]
+  \frametitle{Collective operations}
+  In general,
+  \begin{itemize}
+  \item \textcolor{red}{MUST} involves all of the processes in a group, and
+  \item are more efficient and less tedious to use compared to point-to-point
+    communication.
+  \end{itemize}
+
+\begin{enumerate}
+\item Barrier synchronization
+\item Broadcast (one-to-all)
+\item Scatter (one-to-all)
+\item Gather (all-to-one)
+\item Global reduction operations: min, max, sum (all-to-all)
+\item All-to-all data exchange
+\item Scan across all processes
+\end{enumerate}
+
+  An example (synchronization between processes):
+  \begin{center}
+    \begin{tabular}{c}
+\begin{lstlisting}[style=c,morekeywords={MPI_Barrier}]
+MPI_Barrier(comm);
+\end{lstlisting}
+    \end{tabular}
+  \end{center}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Collective operations}
+  \begin{center}
+    \begin{tikzpicture}[scale=0.6]
+      \foreach \i in {0,...,4} {
+        \foreach \j in {0,9} {
+          \foreach \k in {0,6} {
+            \draw[darkblue, thick] (\i+\j,0+\k) -- (\i+\j,4+\k);
+            \draw[darkblue, thick] (0+\j,\i+\k) -- (4+\j,\i+\k);
+          }
+        }
+      }
+      \node at (0.5,9.5) {$A_0$};
+      \node at (9.5,9.5) {$A_0$};
+      \node at (9.5,8.5) {$A_0$};
+      \node at (9.5,7.5) {$A_0$};
+      \node at (9.5,6.5) {$A_0$};
+
+      \node at (0.5,3.5) {$A_0$};
+      \node at (0.5,2.5) {$A_1$};
+      \node at (0.5,1.5) {$A_2$};
+      \node at (0.5,0.5) {$A_3$};
+      \node at (9.5,3.5) {$A_0$};
+      \node at (10.5,3.5) {$A_1$};
+      \node at (11.5,3.5) {$A_2$};
+      \node at (12.5,3.5) {$A_3$};
+      \node[color=black!30] at (9.5,2.5) {$A_1$};
+      \node[color=black!30] at (9.5,1.5) {$A_2$};
+      \node[color=black!30] at (9.5,0.5) {$A_3$};
+
+      \draw[red, very thick, ->] (4.5,8) -- (8.5,8);
+      \draw[red, very thick, ->] (4.5,2) -- (8.5,2);
+      \node[anchor=north] at (6.5,8) {\texttt{MPI\_Bcast}};
+      \node[anchor=south] at (6.5,8) {\scriptsize One-to-all broadcast};
+      \node[anchor=north] at (6.5,2) {\texttt{MPI\_Gather}};
+      \node[anchor=south] at (6.5,2) {\scriptsize All-to-one gather};
+
+      \node[anchor=west, color=darkblue] (data) at (0,10.5) {\scriptsize Data};
+      \node[anchor=west, color=darkblue, rotate=-90] (procs) at (-0.5,10) {\scriptsize Processes};
+      \draw[darkblue, ->] (data.east) -- ($ (data.east) + (1.5,0) $);
+      \draw[darkblue, ->] (procs.east) -- ($ (procs.east) - (0,1.5) $);
+    \end{tikzpicture}
+  \end{center}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Global reduction}
+  \begin{center}
+    \begin{tikzpicture}[scale=0.6]
+      \foreach \i in {0,4,8,12} {
+        \foreach \j in {0,4,8} {
+          \draw[darkblue, thick] (\i,\j) rectangle (\i+2,\j+1);
+          \draw[darkblue, thin] (\i+1,\j) -- (\i+1,\j+1);
+        }
+      }
+
+      \node[anchor=south] at (7,9) {Processes with initial data};
+      \node[anchor=north] at (1,8) {\scriptsize $p=0$};
+      \node[anchor=north] at (5,8) {\scriptsize $p=1$};
+      \node[anchor=north] at (9,8) {\scriptsize $p=2$};
+      \node[anchor=north] at (13,8) {\scriptsize $p=3$};
+      \node at (0.5,8.5) {$2$}; \node at (1.5,8.5) {$4$};
+      \node at (4.5,8.5) {$5$}; \node at (5.5,8.5) {$7$};
+      \node at (8.5,8.5) {$0$}; \node at (9.5,8.5) {$3$};
+      \node at (12.5,8.5) {$6$}; \node at (13.5,8.5) {$2$};
+
+      \node[anchor=south] at (7,5) {After \texttt{MPI\_Reduce(..., MPI\_MIN, 0, ...)}};
+      \node at (0.5,4.5) {$0$}; \node at (1.5,4.5) {$2$};
+      \node at (4.5,4.5) {$-$}; \node at (5.5,4.5) {$-$};
+      \node at (8.5,4.5) {$-$}; \node at (9.5,4.5) {$-$};
+      \node at (12.5,4.5) {$-$}; \node at (13.5,4.5) {$-$};
+
+      \node[anchor=south] at (7,1) {After \texttt{MPI\_Allreduce(..., MPI\_MIN, ...)}};
+      \node at (0.5,0.5) {$0$}; \node at (1.5,0.5) {$2$};
+      \node at (4.5,0.5) {$0$}; \node at (5.5,0.5) {$2$};
+      \node at (8.5,0.5) {$0$}; \node at (9.5,0.5) {$2$};
+      \node at (12.5,0.5) {$0$}; \node at (13.5,0.5) {$2$};
+    \end{tikzpicture}
+  \end{center}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Global reduction}
+  \texttt{\textcolor{red}{MPI\_Reduce}($\underbrace{sbuf, rbuf, count, datatype}_{\textcolor{blue}{data}}$,
+    $\underbrace{op, root, comm}_{\textcolor{blue}{envelope}}$); } \\
+  \texttt{\textcolor{red}{MPI\_Allreduce}($\underbrace{sbuf, rbuf, count, datatype}_{\textcolor{blue}{data}}$,
+    $\underbrace{op, comm}_{\textcolor{blue}{envelope}}$); }
+
+  Examples of predefined operations (C):
+  \begin{itemize}
+  \item \texttt{MPI\_SUM}
+  \item \texttt{MPI\_PROD}
+  \item \texttt{MPI\_MIN}
+  \item \texttt{MPI\_MAX}
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Numerical integration}
+  \begin{center}
+    \begin{tikzpicture}[scale=0.7]
+      \begin{axis}[
+        xmin=0,
+        xmax=1.1,
+        ymin=0,
+        ymax=5,
+        axis lines=middle,
+        xlabel={$x$},
+        ylabel={$f(x)$},
+        xtick={0.001,0.4,1},
+        xticklabels={$0$, $x_i$, $1$},
+        ]
+        \draw[darkblue, fill=cadet] (axis cs:0.36,0) rectangle (axis cs:0.44,3.4482);
+        \addplot[darkblue, thick, domain=0:1, samples=100]{4/(1+x^2)};
+      \end{axis}
+    \end{tikzpicture}
+  \end{center}
+  \[
+    A_i = \left ( \frac{4}{1+x_i^2} \right ) \cdot h, \qquad
+    \text{with} \quad x_i = \left (i+\frac{1}{2} \right )\cdot h
+  \]
+  where $i=0,\ldots,n-1$, and $h=1/n$.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Numerical integration}
+  \begin{align*}
+    \pi = \int_0^1 \frac{4}{1 + x^2} \dif{x} \approx
+    h \sum_{i=0}^{n-1} \frac{4}{1 + x_i^2} = \pi_n
+  \end{align*}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Calculating pi with MPI in C}
+  \begin{center}
+    \begin{tabular}{c}
+      \scalebox{0.65}{
+      \lstinputlisting
+      [style=c, firstline=1, lastline=22, morekeywords={
+      MPI_Init, MPI_Comm_size, MPI_Comm_rank, MPI_Wtime}]{\code/pi/pi.c}
+      }
+    \end{tabular}
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Calculating pi with MPI in C (cntd.)}
+  \begin{center}
+    \begin{tabular}{c}
+      \scalebox{0.65}{
+      \lstinputlisting
+      [style=c, firstline=24, lastline=45, morekeywords={
+      MPI_Reduce, MPI_Finalize, MPI_Wtime}]{\code/pi/pi.c}
+      }
+    \end{tabular}
+  \end{center}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Things to consider}
+  \begin{enumerate}
+  \item Is the program correct, e.g., is the convergence rate as expected?
+  \item Is the program load-balanced?
+  \item Do we get the same value of $\pi_n$ for different values of $P$?
+  \item Is the program scalable?
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Convergence test}
+  \begin{center}
+    \bgroup\def\arraystretch{1.2}
+    \begin{tabular}{cc}
+      \hline
+      $n$ & $\text{error} = |\pi - \pi_n |$
+      \\ \hhline{==} 10 & $8.33\cdot 10^{-4}$
+      \\ \hline $10^2$ & $8.33\cdot 10^{-6}$
+      \\ \hline $10^3$ & $8.33\cdot 10^{-8}$
+      \\ \hline $10^4$ & $8.33\cdot 10^{-10}$
+      \\ \hline $10^5$ & $8.37\cdot 10^{-12}$
+      \\ \hline
+    \end{tabular}
+    \egroup
+  \end{center}
+  Hence, $|\pi - \pi_n | \sim {\cal O}(h^2)$ where $h = 1/n$.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Scalability: timing results on Vilje}
+  \begin{center}
+    \begin{tikzpicture}
+      \begin{axis}[
+        xmin=1,
+        xmax=40,
+        ymin=0,
+        ymax=10,
+        axis lines=middle,
+        xlabel={{\footnotesize $P$}},
+        ylabel={{\footnotesize Speedup, $T_1/T_P$}},
+        xtick={1,2,4,8,16,32},
+        xticklabels={1,2,4,8,16,32},
+        xmode=log,
+        legend style={
+          at={(1,0.50)},
+          draw=none,
+        }
+        ]
+        \addplot[domain=1:32, dashed] {x};
+        \addplot[only marks, draw=darkblue, fill=cadet, mark=square*]
+        coordinates {(1,1) (2,1.083) (4,1.020) (8,0.782)};
+        \addplot[only marks, draw=darkblue, fill=salmon, mark=*]
+        coordinates {(1,1) (2,1.966) (4,3.729) (8,6.586) (16,9.548) (32,9.196)};
+        \addplot[only marks, draw=darkblue, fill=salmon, mark=otimes*] coordinates {(32,6.791)};
+        \legend{Ideal, $n=10^4$, $n=10^6$}
+      \end{axis}
+    \end{tikzpicture}
+  \end{center}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Inner product}
+  \begin{align*}
+    \sigma = \bm x^\intercal \bm y = \bm x \cdot \bm y = \sum_{m=0}^{N-1} x_m y_m
+  \end{align*}
+  \begin{center}
+    \begin{tikzpicture}[scale=0.7]
+      \foreach \i in {0,...,9} {
+        \node at (\i+0.5,2.5) {$x_\i$};
+        \node at (\i+0.5,0.5) {$y_\i$};
+        \draw[darkblue, thick] (\i,0) rectangle (\i+1,1);
+        \draw[darkblue, thick] (\i,2) rectangle (\i+1,3);
+      }
+      \node at (-0.5,0.5) {$\bm y$};
+      \node at (-0.5,2.5) {$\bm y$};
+    \end{tikzpicture}
+  \end{center}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Distribution of work}
+  \begin{center}
+    \begin{tikzpicture}[scale=0.45]
+      \foreach \i in {0,...,2} {
+        \draw[darkblue, fill=cadet, thick] (\i,0) rectangle (\i+1,1);
+        \draw[darkblue, fill=cadet, thick] (\i,1.5) rectangle (\i+1,2.5);
+      }
+      \foreach \i in {3,...,9} {
+        \draw[darkblue, thick] (\i,0) rectangle (\i+1,1);
+        \draw[darkblue, thick] (\i,1.5) rectangle (\i+1,2.5);
+      }
+      \foreach \i in {0,...,9} {
+        \node at (\i+0.5,2.0) {${\scriptstyle x_\i}$};
+        \node at (\i+0.5,0.5) {${\scriptstyle y_\i}$};
+      }
+      \node[anchor=west] at (10.5,1.25) {$\omega_0 = \sum_{m=0}^2 x_m y_m$};
+    \end{tikzpicture}
+    \\~\\
+    \begin{tikzpicture}[scale=0.45]
+      \foreach \i in {3,4,5} {
+        \draw[darkblue, fill=cadet, thick] (\i,0) rectangle (\i+1,1);
+        \draw[darkblue, fill=cadet, thick] (\i,1.5) rectangle (\i+1,2.5);
+      }
+      \foreach \i in {0,1,2,6,7,8,9} {
+        \draw[darkblue, thick] (\i,0) rectangle (\i+1,1);
+        \draw[darkblue, thick] (\i,1.5) rectangle (\i+1,2.5);
+      }
+      \foreach \i in {0,...,9} {
+        \node at (\i+0.5,2.0) {${\scriptstyle x_\i}$};
+        \node at (\i+0.5,0.5) {${\scriptstyle y_\i}$};
+      }
+      \node[anchor=west] at (10.5,1.25) {$\omega_1 = \sum_{m=3}^5 x_m y_m$};
+    \end{tikzpicture}
+    \\~\\
+    \begin{tikzpicture}[scale=0.45]
+      \foreach \i in {6,7} {
+        \draw[darkblue, fill=cadet, thick] (\i,0) rectangle (\i+1,1);
+        \draw[darkblue, fill=cadet, thick] (\i,1.5) rectangle (\i+1,2.5);
+      }
+      \foreach \i in {0,1,2,3,4,5,8,9} {
+        \draw[darkblue, thick] (\i,0) rectangle (\i+1,1);
+        \draw[darkblue, thick] (\i,1.5) rectangle (\i+1,2.5);
+      }
+      \foreach \i in {0,...,9} {
+        \node at (\i+0.5,2.0) {${\scriptstyle x_\i}$};
+        \node at (\i+0.5,0.5) {${\scriptstyle y_\i}$};
+      }
+      \node[anchor=west] at (10.5,1.25) {$\omega_2 = \sum_{m=6}^7 x_m y_m$};
+    \end{tikzpicture}
+    \\~\\
+    \begin{tikzpicture}[scale=0.45]
+      \foreach \i in {8,9} {
+        \draw[darkblue, fill=cadet, thick] (\i,0) rectangle (\i+1,1);
+        \draw[darkblue, fill=cadet, thick] (\i,1.5) rectangle (\i+1,2.5);
+      }
+      \foreach \i in {0,...,7} {
+        \draw[darkblue, thick] (\i,0) rectangle (\i+1,1);
+        \draw[darkblue, thick] (\i,1.5) rectangle (\i+1,2.5);
+      }
+      \foreach \i in {0,...,9} {
+        \node at (\i+0.5,2.0) {${\scriptstyle x_\i}$};
+        \node at (\i+0.5,0.5) {${\scriptstyle y_\i}$};
+      }
+      \node[anchor=west] at (10.5,1.25) {$\omega_3 = \sum_{m=8}^9 x_m y_m$};
+    \end{tikzpicture}
+  \end{center}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Program on processor $p$}
+  \begin{align*}
+    \bm x, \bm y &: \text{ vectors of dimension } N \\
+    \omega_p &= \sum_{m \in \mathcal{N}_p} x_m y_m \\
+                 & \text{Send } \omega_p  \text{ to processor } q \not= p \\
+                 & \text{Receive } \omega_q  \text{ from processor } q \\
+    \sigma &= \sum_{q=0}^{P-1} \omega_q.
+  \end{align*}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Local and global numbering}
+  Global indices: $\mathcal{N} = \{0,1,2,\ldots,N-1\}$.
+  Cardinality $|\mathcal{N}| = N$.
+
+  Subdivision:
+  \begin{align*}
+    \mathcal{N} = \bigcup_{p=0}^{P-1} \mathcal{N}_p, \qquad
+    \mathcal{N}_p \cap \mathcal{N}_q = \emptyset, \qquad
+    p \not= q.
+  \end{align*}
+
+  \begin{itemize}
+  \item $\mathcal{N}_p$: a subset of global indices
+  \item $N_p = |\mathcal{N}_p|$: the number of global indices assigned to
+    process $p$.
+  \item $\mathcal{I}_p = \{0,1,\ldots,N_p-1\}$: a \emph{local} index set
+  \end{itemize}
+
+  Note $|\mathcal{I}_p| = |\mathcal{N}_p| = N_p$.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Local and global numbering}
+  \begin{center}
+    \begin{tikzpicture}
+      \node[circle, thick, fill=cadet, draw=darkblue, minimum size=1cm] (g) at (-3,0) {$m$};
+      \node[circle, thick, fill=cadet, draw=darkblue, minimum size=1cm] (l) at (3,0) {$p,i$};
+      \draw[->, draw=darkblue, thick] (g) edge[bend left] node [above] {$\mu$} (l);
+      \draw[->, draw=darkblue, thick] (l) edge[bend left] node [below] {$\mu^{-1}$} (g);
+      \node at (-3,-1) {$m\in\mathcal{N}$};
+      \node (p) at (3,-1) {$0 \leq p < P$};
+      \node[anchor=north] at (p.south) {$i \in \mathcal{I}_p$};
+    \end{tikzpicture}
+  \end{center}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Local and global numbering}
+
+Requirements for the numbering of entities:
+\begin{itemize}
+\item The local-to-global numbering is a one-to-one relationship.
+\item Local indices are found in the interval $\mathcal{I}_p = \{0,1,\ldots,N_p-1\}$.
+\item Global indices are not necessarily alway contiguous: this is the case when the global number of entities is not known.
+\end{itemize}
+
+\medskip
+The entities are usually renumbered globally such that global indices are packed contiguously.
+
+\medskip
+Each process $p$ is then assigned a \textbf{range} $[ i^p_0, i^p_{N_p}  [$ with
+\begin{enumerate}
+\item $i^p_0$ is the process range \textit{offset},
+\item $i^p_{N_p}$ is the \textit{local size}.
+\end{enumerate}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Local and global numbering}
+
+How to compute the offset with MPI?
+\begin{enumerate}
+\item MPI 1: \texttt{MPI\_Scan}
+\item MPI 2: \texttt{MPI\_Exscan}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Distribution of work and data}
+  \begin{center}
+    \begin{tikzpicture}[scale=0.45]
+      \foreach \i in {0,1,2} {
+        \draw[darkblue, fill=cadet, thick] (\i,0) rectangle (\i+1,1);
+        \draw[darkblue, fill=cadet, thick] (\i,1.5) rectangle (\i+1,2.5);
+        \node at (\i+0.5,2.0) {${\scriptstyle \hat{x}_\i}$};
+        \node at (\i+0.5,0.5) {${\scriptstyle \hat{y}_\i}$};
+      }
+      \node[anchor=west] at (4.5,1.25) {$\omega_0 = \sum_{i=0}^2 \hat{x}_i \hat{y}_i$};
+    \end{tikzpicture}
+    \\~\\
+    \begin{tikzpicture}[scale=0.45]
+      \foreach \i in {0,1,2} {
+        \draw[darkblue, fill=cadet, thick] (\i,0) rectangle (\i+1,1);
+        \draw[darkblue, fill=cadet, thick] (\i,1.5) rectangle (\i+1,2.5);
+        \node at (\i+0.5,2.0) {${\scriptstyle \hat{x}_\i}$};
+        \node at (\i+0.5,0.5) {${\scriptstyle \hat{y}_\i}$};
+      }
+      \node[anchor=west] at (4.5,1.25) {$\omega_1 = \sum_{i=0}^2 \hat{x}_i \hat{y}_i$};
+    \end{tikzpicture}
+    \\~\\
+    \begin{tikzpicture}[scale=0.45]
+      \foreach \i in {0,1} {
+        \draw[darkblue, fill=cadet, thick] (\i,0) rectangle (\i+1,1);
+        \draw[darkblue, fill=cadet, thick] (\i,1.5) rectangle (\i+1,2.5);
+        \node at (\i+0.5,2.0) {${\scriptstyle \hat{x}_\i}$};
+        \node at (\i+0.5,0.5) {${\scriptstyle \hat{y}_\i}$};
+      }
+      \node[anchor=west] at (4.5,1.25) {$\omega_2 = \sum_{i=0}^1 \hat{x}_i \hat{y}_i$};
+    \end{tikzpicture}
+    \\~\\
+    \begin{tikzpicture}[scale=0.45]
+      \foreach \i in {0,1} {
+        \draw[darkblue, fill=cadet, thick] (\i,0) rectangle (\i+1,1);
+        \draw[darkblue, fill=cadet, thick] (\i,1.5) rectangle (\i+1,2.5);
+        \node at (\i+0.5,2.0) {${\scriptstyle \hat{x}_\i}$};
+        \node at (\i+0.5,0.5) {${\scriptstyle \hat{y}_\i}$};
+      }
+      \node[anchor=west] at (4.5,1.25) {$\omega_3 = \sum_{i=0}^1 \hat{x}_i \hat{y}_i$};
+    \end{tikzpicture}
+  \end{center}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Program on processor $p$}
+  \begin{align*}
+    \hat{\bm x}, \hat{\bm y} &: \text{ vectors of dimension } I_p \\
+    \omega_p &= \sum_{i=0}^{I_p-1} \hat{x}_i \hat{y}_i
+    = \sum_{i=0}^{I_p-1} x_{\mu^{-1}(p,i)} y_{\mu^{-1}(p,i)}
+    = \sum_{m \in \mathcal{N}_p} x_m y_m. \\
+                 & \text{Send } \omega_p  \text{ to processor } q \not= p \\
+                 & \text{Receive } \omega_q  \text{ from processor } q \\
+    \sigma &= \sum_{q=0}^{P-1} \omega_q.
+  \end{align*}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Global reduction}
+  Reduction algorithm for the global sum
+  \[
+    \sigma = \sum_{q=0}^{P-1} \omega_q.
+  \]
+  \texttt{\textcolor{red}{MPI\_Reduce}(}$\omega$, $\sigma$,
+  \texttt{1, MPI\_DOUBLE, MPI\_SUM, 0, MPI\_COMM\_WORLD)} \\
+  (the answer will be known to process zero), or \\~\\
+  \texttt{\textcolor{red}{MPI\_Allreduce}(}$\omega$, $\sigma$,
+  \texttt{1, MPI\_DOUBLE, MPI\_SUM, MPI\_COMM\_WORLD)}
+  (the answer will be known to every process)
+\end{frame}
+
+\begin{frame}
+  \frametitle{Global sum $P=4$, \texttt{MPI\_Reduce}}
+  \begin{center}
+    \begin{tikzpicture}[scale=0.7]
+      \node (a0) at (0,3) {$p=0: \quad \omega_0$};
+      \node (a1) at (0,2) {$p=1: \quad \omega_1$};
+      \node (a2) at (0,1) {$p=2: \quad \omega_2$};
+      \node (a3) at (0,0) {$p=3: \quad \omega_3$};
+
+      \node[right=1 of a0] (b0) {$\omega_0 + \omega_1$};
+      \node[right=1 of a2] (b2) {$\omega_2 + \omega_3$};
+
+      \node[right=1 of b0] (c0) {$\omega_0 + \omega_1 + \omega_2 + \omega_3 = \sigma$};
+
+      \draw[thick, darkblue, ->] (a1.east) -- (b0.west);
+      \draw[thick, darkblue, ->] (a3.east) -- (b2.west);
+      \draw[thick, darkblue, ->] (b2.east) -- (c0.west);
+    \end{tikzpicture}
+  \end{center}
+  Can be completed in $\log_2 P$ steps.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Global sum $P=4$, \texttt{MPI\_Allreduce}}
+  \begin{center}
+    \begin{tikzpicture}[scale=0.7]
+      \node (a0) at (0,3) {$p=0: \quad \omega_0$};
+      \node (a1) at (0,2) {$p=1: \quad \omega_1$};
+      \node (a2) at (0,1) {$p=2: \quad \omega_2$};
+      \node (a3) at (0,0) {$p=3: \quad \omega_3$};
+
+      \node[right=1 of a0] (b0) {$\omega_0 + \omega_1$};
+      \node[right=1 of a1] (b1) {$\omega_1 + \omega_0$};
+      \node[right=1 of a2] (b2) {$\omega_2 + \omega_3$};
+      \node[right=1 of a3] (b3) {$\omega_3 + \omega_2$};
+
+      \node[right=1 of b0] (c0) {$\omega_0 + \omega_1 + \omega_2 + \omega_3 = \sigma$};
+      \node[right=1 of b1] (c1) {$\omega_1 + \omega_0 + \omega_3 + \omega_2 = \sigma$};
+      \node[right=1 of b2] (c2) {$\omega_2 + \omega_3 + \omega_0 + \omega_1 = \sigma$};
+      \node[right=1 of b3] (c3) {$\omega_3 + \omega_2 + \omega_1 + \omega_0 = \sigma$};
+
+      \draw[thick, darkblue, ->] (a0.east) -- (b1.west);
+      \draw[thick, darkblue, ->] (a1.east) -- (b0.west);
+      \draw[thick, darkblue, ->] (a2.east) -- (b3.west);
+      \draw[thick, darkblue, ->] (a3.east) -- (b2.west);
+      \draw[thick, darkblue, ->] (b0.east) -- (c2.west);
+      \draw[thick, darkblue, ->] (b1.east) -- (c3.west);
+      \draw[thick, darkblue, ->] (b2.east) -- (c0.west);
+      \draw[thick, darkblue, ->] (b3.east) -- (c1.west);
+    \end{tikzpicture}
+  \end{center}
+  Can be completed in $\log_2 P$ steps.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Program on processor $p$}
+  \begin{align*}
+    \hat{\bm x}, \hat{\bm y} &: \text{ vectors of dimension } I_p \\
+    \sigma &= \sum_{i=0}^{I_p-1} \hat{x}_i \hat{y}_i
+             = \sum_{i=0}^{I_p-1} x_{\mu^{-1}(p,i)} y_{\mu^{-1}(p,i)}
+             = \sum_{m \in \mathcal{N}_p} x_m y_m. \\
+                             & \text{for } d=0,\ldots,\log_2 P - 1 \\
+    & \quad \text{Send } \sigma \text{ to processor } q = p \;\overline{\vee}\; 2^d \\
+    & \quad \text{Receive } \sigma_q \text{ from processor } q = p \;\overline{\vee}\; 2^d \\
+    & \quad \sigma = \sigma + \sigma_q \\
+    & \text{end}
+  \end{align*}
+  Here, $\overline{\vee}$ is exclusive or. $p$ and $p\;\overline{\vee}\;2^d$
+  differ only in bit $d$.
+\end{frame}
+
+\input{postamble}

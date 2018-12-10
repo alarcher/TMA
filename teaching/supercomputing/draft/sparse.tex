@@ -1,0 +1,319 @@
+\documentclass{article}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+
+\newcommand{\xC}{\mathbb{C}}
+\newcommand{\xR}{\mathbb{R}}
+\newcommand{\xRd}{{\xR^d}}
+\newcommand{\xRN}{{\xR^N}}
+\newcommand{\xMNR}{{M_N(\xR)}}
+\newcommand{\bb}{{\boldsymbol b}}
+\newcommand{\ee}{{\boldsymbol e}}
+\newcommand{\ev}{{\boldsymbol \epsilon}}
+\newcommand{\rr}{{\boldsymbol r}}
+\newcommand{\xx}{{\boldsymbol x}}
+\newcommand{\hx}{\hat{\boldsymbol x}}
+\newcommand{\yy}{{\boldsymbol y}}
+\newcommand{\vv}{{\boldsymbol v}}
+\newcommand{\ww}{{\boldsymbol w}}
+\newcommand{\zz}{{\boldsymbol z}}
+\newcommand{\mA}{{\mathrm A}}
+\newcommand{\mB}{{\mathrm B}}
+\newcommand{\mC}{{\mathrm C}}
+\newcommand{\mD}{{\mathrm D}}
+\newcommand{\mG}{{\mathrm G}}
+\newcommand{\mH}{{\mathrm H}}
+\newcommand{\mL}{{\mathrm L}}
+\newcommand{\mLs}{{\mathrm L_0}}
+\newcommand{\mM}{{\mathrm M}}
+\newcommand{\mRs}{{\mathrm R_0}}
+\newcommand{\mR}{{\mathrm R}}
+\newcommand{\mP}{{\mathrm P}}
+\newcommand{\mQ}{{\mathrm Q}}
+\newcommand{\mU}{{\mathrm U}}
+\newcommand{\mId}{{\mathbf{Id}}}
+\newcommand{\mII}{{\mathbf{\mathbb{I}}}}
+\newcommand{\Seq}[1]{\bigl(#1\bigr)}
+\newcommand{\Cond}[1]{\mathcal{C}(#1)}
+\newcommand{\Order}[1]{\mathcal{O}\left(#1\right)}
+\newcommand{\norm}[1]{{\lVert #1 \rVert}}
+\newcommand{\norminf}[1]{\norm{#1}_{\infty}}
+
+\newcommand{\InnerK}[2]{{{\mathbf\langle}\;#1\:,\: #2 \;{\rangle}}}
+\newcommand{\Inner}[2]{{{\scriptstyle\mathbf{(}}\;#1\:,\: #2 \;{\scriptstyle\mathbf{)}}}}
+
+\begin{document}
+
+PETSc
+
+Portable, Extensible Toolkit for
+Scientific Computation
+
+https://www.mcs.anl.gov/petsc/
+
+PETSc, pronounced PET-see (the S is silent), is a suite of data structures and routines for the scalable (parallel) solution of scientific applications modeled by partial differential equations. It supports MPI, and GPUs through CUDA or OpenCL, as well as hybrid MPI-GPU parallelism. 
+
+ Features include:
+
+    Parallel vectors
+        includes code for communicating ghost points
+    Parallel matrices
+        several sparse storage formats
+        easy, efficient assembly
+    Scalable parallel preconditioners
+    Krylov subspace methods
+    Parallel Newton-based nonlinear solvers
+    Parallel timestepping (ODE) solvers
+    Support for Nvidia GPU cards
+    Complete documentation
+    Automatic profiling of floating point and memory usage
+    Consistent user interface
+    Intensive error checking
+    Portable to UNIX and Windows
+    Over one hundred examples
+    PETSc is supported and will be actively enhanced for many years
+
+
+C, C++, Fortran,    bindings : Python, Java
+
+parallel distributed arrays useful for finite difference methods. 
+
+
+
+Vec: Vectors
+Mat: Matrices
+KSP: Krylov space solvers
+PC: Preconditioners
+
+Extensive dolcumentation:
+http://www.mcs.anl.gov/petsc/petsc-current/docs/manualpages/singleindex.html
+
+---
+Linear
+
+Convenience one interface to use several solvers
+
+https://www.mcs.anl.gov/petsc/documentation/linearsolvertable.html
+
+
+Preconditioners
+
+Jacobi
+SOR
+block Jacobi
+
+
+
+Direct solvers
+
+LU
+
+Krylov methods
+
+Conjugate Gradient
+Bi-CG Stab
+GMRES
+
+
+Can be implemented in PETSc or in external packages
+
+Example LU:
+
+
+----
+
+Matrix Types
+
+Structure and implementations for sequential and parallel
+
+ MATSEQAIJ MATMPIAIJ Sparse
+
+
+MATDENSE = "dense" - A matrix type to be used for dense matrices
+MATAIJ = "aij" A matrix type to be used for sparse matrices.
+
+MATBAIJ = "baij" - A matrix type to be used for block sparse matrices.
+MATSBAIJ = "sbaij" - A matrix type to be used for symmetric block sparse matrices
+
+---
+
+Assembly
+
+different states
+
+VecAssemblyBegin(b);
+VecAssemblyEnd(b);
+
+MatAssemblyBegin(A, MAT_FINAL_ASSEMBLY);
+MatAssemblyEnd(A, MAT_FINAL_ASSEMBLY);
+
+Synchronization, communication
+
+Possibility to overlap
+
+---
+
+// Look at petscvec.h
+typedef struct _p_Vec*         Vec;
+
+// PETSc Vec pointer
+Vec x;
+// Local size
+PetscInt n;
+
+VecCreateMPI(PETSC_COMM_WORLD, n, PETSC_DETERMINE, &x);
+
+VecCreate(PETSC_COMM_SELF, &x);
+VecSetSizes(x, PETSC_DECIDE, n);
+VecSetFromOptions(x);
+
+// Set all entries to zero
+PetscScalar a = 0.0;
+VecSet(x, a);
+
+// Get global size
+PetscInt N;
+VecGetSize(x, &N);
+
+Display contents:
+VecView(x, PETSC_VIEWER_STDOUT_WORLD);
+
+VecDestroy(&x);
+
+---
+
+PetscScalar a; Vec x; Vec y; Vec w;
+
+VecScale(x, a);
+
+VecAXPY(x, a, y);
+
+VecDot(x, y, &a);
+
+VecPointwiseMult(w, x, y);
+
+VecMin(x, PETSC_NULL, &a);
+VecMax(x, PETSC_NULL, &a);
+
+VecNorm(x, NORM_2, &a);
+
+---
+
+Different operations for reducing values
+
+//-----------------------------------------------------------------------------
+void PETScVector::set(const real* block, int m, int* rows)
+{
+  dolfin_assert(x);
+  VecSetValues(x, m, rows, block, INSERT_VALUES);
+}
+//-----------------------------------------------------------------------------
+void PETScVector::add(const real* block, int m, int* rows)
+{
+  dolfin_assert(x);
+  VecSetValues(x, m, rows, block, ADD_VALUES);
+}
+//-----------------------------------------------------------------------------
+
+---
+
+Data ownership
+
+Distributed vector: range = [offset, offset + local_size [
+
+int low, high;
+VecGetOwnershipRange(x, &low, &high);
+
+
+---
+Example of encapsulation: getting/setting values owned by the process
+
+//-----------------------------------------------------------------------------
+void PETScVector::get(real * values) const
+{
+  real * data = NULL;
+  VecGetArray(x, &data);
+  dolfin_assert(data);
+  
+  int n = 0;
+  VecGetLocalSize(x, &n);
+  std::copy(data, data + n, values);
+  VecRestoreArray(x, &data);
+  dolfin_assert(x);
+}
+//-----------------------------------------------------------------------------
+void PETScVector::set(real * values)
+{
+  real * data = NULL;
+  VecGetArray(x, &data);
+  dolfin_assert(data);
+
+  int n = 0;
+  VecGetLocalSize(x, &n);
+  std::copy(values, values + n, data);
+  VecRestoreArray(x, &data);
+  dolfin_assert(x);
+}
+//-----------------------------------------------------------------------------
+
+---
+
+Ghosted entries: VecCreateGhost
+
+
+int local_size, size, low, high;
+VecGetSize(x, &size);
+VecGetLocalSize(x, &local_size);
+VecGetOwnershipRange(x, &low, &high);
+
+
+
+VecCreateGhost(MPI::DOLFIN_COMM, local_size, size, (int) ghost_indices.size(),
+                 (const int *) &ghost_indices[0], &x);
+VecSetValues(x, local_size, rows, values, INSERT_VALUES);
+
+
+if ( is_ghosted )
+{
+  VecGhostUpdateBegin(x, INSERT_VALUES, SCATTER_FORWARD);
+  VecGhostUpdateEnd(x, INSERT_VALUES, SCATTER_FORWARD);
+}
+
+---
+
+Sparse Matrices:
+
+Mat A;
+PetscInt M;
+PetscInt N;
+
+// Distributed with 120 non-zero entries per-row in DIAGONAL and OFF-DIAGONAL
+MatCreateAIJ(PETSC_COMM_WORLD, PETSC_DECIDE, PETSC_DECIDE, M, N,
+                 120, PETSC_NULL, 120, PETSC_NULL, &A);
+
+// Distributed with 50 non-zero entries per-row
+MatCreateSeqAIJ(PETSC_COMM_SELF, M, N, 50, PETSC_NULL, &A);
+
+Leads to 
+
+
+---
+
+// Specify non-zero entries for each row on DIAGONAL and OFF-DIAGONAL
+MatCreateAIJ(MPI::DOLFIN_COMM, M, N, PETSC_DETERMINE, PETSC_DETERMINE,
+               PETSC_DETERMINE, (PetscInt*) d_nzrow, PETSC_DETERMINE, (PetscInt*) o_nzrow,
+               &A);
+
+
+
+---
+
+Sparsity pattern:
+
+
+---
+
+
+
+\end{document}

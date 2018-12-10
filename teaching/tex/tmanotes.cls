@@ -45,11 +45,14 @@
 
 % Colors
 \RequirePackage{pgfplots}
+\usepgfplotslibrary{dateplot}
 \pgfplotsset{compat=1.8}
 \definecolor{darkblue}{HTML}{00688B}
 \definecolor{darkgreen}{HTML}{6E8B3D}
 \definecolor{cadet}{HTML}{DAE1FF}
 \definecolor{salmon}{HTML}{FFB08A}
+
+\usepackage{bm}
 
 % Algorithms
 \RequirePackage{algpseudocode}

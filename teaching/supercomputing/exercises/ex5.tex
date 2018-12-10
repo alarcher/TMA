@@ -1,0 +1,252 @@
+\documentclass[onecolumn, oneside, a4paper, 11pt]{memoir}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+% Paths
+\newcommand{\figs}{../figs}
+\newcommand{\data}{../data}
+
+% Fonts
+\usepackage{newpxtext,newpxmath}
+\renewcommand*\sfdefault{cmss}
+
+% References
+\usepackage{hyperref}
+
+% Units
+\usepackage[detect-weight=true, binary-units=true]{siunitx}
+\DeclareSIUnit\flop{Flops}
+
+% Math
+\let\openbox\undefined
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+
+\theoremstyle{remark}
+\newtheorem{ex}{Exercise}
+\newtheorem*{sol}{Solution}
+
+% Graphics
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\graphicspath{{../figs/}}
+
+% Tikz
+\usepackage{tikz}
+\usetikzlibrary{positioning,shapes,arrows,calc,intersections}
+\usepackage{pgfplots}
+\usepgfplotslibrary{dateplot}
+\pgfplotsset{compat=1.8}
+
+% Colors
+\definecolor{darkblue}{HTML}{00688B}
+\definecolor{darkgreen}{HTML}{6E8B3D}
+\definecolor{cadet}{HTML}{DAE1FF}
+\definecolor{salmon}{HTML}{FFB08A}
+
+% Listings
+\usepackage{textcomp}
+\usepackage{listings}
+\lstset{
+  keywordstyle=\bfseries\color{orange},
+  stringstyle=\color{darkblue!80},
+  commentstyle=\color{darkblue!80},
+  showstringspaces=false,
+  basicstyle=\ttfamily,
+  upquote=true,
+}
+\lstdefinestyle{fortran}{
+  language=Fortran,
+  morekeywords={for},
+  deletekeywords={status},
+}
+\lstdefinestyle{c}{
+  language=C,
+  morekeywords={include},
+}
+\lstdefinestyle{shell}{
+  language=bash,
+}
+
+\begin{document}
+
+\pagestyle{empty}
+
+\begin{center}
+  {\Huge \bfseries \scshape
+    Introduction to \\[0.2\baselineskip] Supercomputing} \\[2\baselineskip]
+  {\Large TMA4280 $\cdot$ Problem set 4} \\[2\baselineskip]
+\end{center}
+
+\begin{ex} Answer the following questions.
+  \begin{enumerate}
+  \item On which multi-processor systems is it of interest to use message
+    passing?
+  \item What are the advantages of using a standardized communication library
+    (or message passing library) such as MPI?
+  \item A communication library consists of many specific message passing
+    operations. How would you classify these operations into a few main groups,
+    or types of communication patterns?
+  \item Explain what is wrong with the following code segment. It is written in
+    C but the language is not important.
+    \begin{lstlisting}[style=c]
+  MPI_Comm_rank(comm, &rank);
+  if (rank == 0) {
+    MPI_Recv(recvbuf, count, MPI_DOUBLE, 1,
+             tag, comm, &status);
+    MPI_Send(sendbuf, count, MPI_DOUBLE, 1, tag, comm);
+  }
+  else if (rank == 1) {
+    MPI_Recv(recvbuf, count, MPI_DOUBLE, 0,
+             tag, comm, &status);
+    MPI_Send(sendbuf, count, MPI_DOUBLE, 0, tag, comm);
+  }
+    \end{lstlisting}
+  \end{enumerate}
+\end{ex}
+
+%\begin{sol} \\~\\
+%  \begin{enumerate}
+%  \item Message passing can be used on all multi-processor systems, but is
+%    mostly relevant on distributed memory systems, where it is the only viable
+%    way to communicate between different processes. On shared memory systems you
+%    can use shared memory between threads as an implicit form of communication.
+%  \item The advantages of using a standardized \emph{anything} is that your code
+%    can (should) run on any implementation of MPI that conforms with the MPI
+%    standard. In practice, that means your code will run without changes on your
+%    own computer (which runs e.g. OpenMPI or MPICH or a similar library) and on
+%    Vilje (which uses Intel's MPI implementation).
+%  \item The main groups of communication routines are: one-to-one, one-to-all
+%    (as well as all-to-one) and all-to-all.
+%  \item This is a deadlock situation. Since both processes expect to receive a
+%    message before they send one, both of them will block waiting for a message
+%    that never appears. The program will stall.
+%  \end{enumerate}
+%\end{sol}
+
+\begin{ex}
+  Assume a distributed memory multiprocessor computer with the following
+  interconnect charateristic: the time $\tau(k)$ it takes to send a message with
+  $k$ bytes can be approximated as
+  \[
+    \tau(k) = \tau_\text{s} + \beta k,
+  \]
+  where $\tau_\text{s}$ is a fixed startup time and $\beta$ is the inverse
+  bandwidth (units of seconds per byte).
+
+  For our setup, $\tau_\text{s} = \SI{1}{\micro\second}$ and
+  $\beta = \SI{1.25}{\nano\second\per\byte}$.
+  \begin{enumerate}
+  \item How many bytes can we send in a single message before the time to send
+    the message is twice the startup time? To how many (double precision)
+    floating-point numbers does this correspond?
+  \item How long does it take to send a message with a single floating point
+    number? Is it preferable to send many short messages instead of a single,
+    long one?
+  \end{enumerate}
+\end{ex}
+
+%\begin{sol} \\~\\
+%  \begin{enumerate}
+%  \item Setting $\tau(k) = 2\tau_\text{s}$ and solving for $k$, we get
+%    \[
+%      k = \frac{\tau_\text{s}}{\beta} = \SI{800}{\byte}.
+%    \]
+%  \item A (double precision) floating point number is eight bytes, so it takes
+%    \[
+%      \tau(8) = \SI{1}{\micro\second} +
+%      \SI{8}{\byte}\cdot\SI{1.25}{\nano\second\per\byte}
+%      = \SI{1.01}{\micro\second}
+%    \]
+%    This is about half the time for one hundredth of the message length, so it
+%    is clearly preferable to send long messages when possible.
+%  \end{enumerate}
+%\end{sol}
+
+\begin{ex}
+  Let $\bm A, \bm B, \bm C, \bm D$ be matrices of size $n \times n$, and let the
+  matrix $\bm D$ be constructed as
+  \[
+    \bm D = 3 \bm A \bm B + \bm C.
+  \]
+  How many floating point operations does it take to construct $\bm D$?
+\end{ex}
+
+%\begin{sol}
+%  A scalar (inner) product takes $n$ multiplications and $n-1$ additions, so
+%  $2n-1$ operations in total. A matrix-matrix product is $n^2$ such inner
+%  products, so it takes $n^2(2n-1)$ operations. The multiplication with the
+%  scalar and the addition of another matrix both require $n^2$ operations (since
+%  they are single operations applied to each element). In total we get
+%  \[
+%    n^2(2n-1) + 2n^2
+%  \]
+%  operations.
+%\end{sol}
+
+\begin{ex}
+  Implement an MPI-based matrix multiplication program. It should accept one
+  command-line argument, which is the size of the matrix and vector to multiply.
+  Use arbitrary data (e.g. random).
+
+  You are free to choose the structure of the matrix and vector, but a typical
+  approach is the following:
+  \begin{itemize}
+  \item Each process ``owns'' a certain set of indices.
+  \item Each process only stores the part of the vector that it owns, and the
+    part of the matrix corresponding to the \emph{columns} that it owns.
+  \item The result of the local matrix-vector product is then a full-sized
+    vector, with contributions to the vector chunks of all other processes.
+  \end{itemize}
+
+  Things to consider:
+  \begin{enumerate}
+  \item What changes will you have to make if you want to store the matrix on each
+    process by rows instead of columns?
+  \item For some types of matrices it is possible to minimize communication by
+    cleverly choosing the index sets. What characterizes these matrices?
+  \item What would a matrix transpose operation look like?
+  \end{enumerate}
+\end{ex}
+
+%\begin{sol}
+%  See the attached file for the source code.
+%
+%  \begin{enumerate}
+%  \item If we store the matrix by rows instead of columns (but we keep the
+%    vector in the same format), we have to collect the vector \emph{before} the
+%    local matrix-vector product, since this product will now expect a ``long''
+%    vector as input and produce a ``short'' vector as output. Correspondingly,
+%    there will not be a need for communication \emph{after} the local product
+%    has been computed, as the result will be immediately usable as the local
+%    result vector.
+%  \item The communication in this method occurs when the global matrix-vector
+%    product must be assembled on each process after the local producs have been
+%    computed. This takes place because the local product on process $p$ may have
+%    contributions to elements which are owned by another process $q \not= p$.
+%
+%    However, for many applications the sparsity pattern of the matrix is known
+%    in advance, so it is possible to predict exactly which elements must be
+%    communicated where: process $p$ must communicate element $j$ to process $q$
+%    (who owns element $j$) the local matrix $\bm A$ on process $p$ has any
+%    nonzero element in row $j$. If there are only zeros in that row, then
+%    clearly no communication is necessary because the contribution will be zero.
+%
+%    In other words, the best possible outcome is if all local matrices on each
+%    process only have nonzero elements corresponding to those indices which are
+%    owned by that process. Such matrices are \emph{block diagonal}. If the index
+%    sets for the processes correspond to the blocks, no communication will be
+%    necessary.
+%
+%    In reality this almost never happens, but many matrices are \emph{almost}
+%    block diagonal, in which case it is possible to compute matrix vector
+%    products with very little communication indeed.
+%  \item For the next exercise!
+%  \end{enumerate}
+%\end{sol}
+
+\end{document}

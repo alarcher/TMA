@@ -1,0 +1,63 @@
+1 	National Supercomputing Center in Wuxi
+China 	Sunway TaihuLight - Sunway MPP, Sunway SW26010 260C 1.45GHz, Sunway
+NRCPC 	10,649,600 	93,014.6 	125,435.9 	15,371
+1 	National Super Computer Center in Guangzhou
+China 	Tianhe-2 (MilkyWay-2) - TH-IVB-FEP Cluster, Intel Xeon E5-2692 12C 2.200GHz, TH Express-2, Intel Xeon Phi 31S1P
+NUDT 	3,120,000 	33,862.7 	54,902.4 	17,808
+1 	National Super Computer Center in Guangzhou
+China 	Tianhe-2 (MilkyWay-2) - TH-IVB-FEP Cluster, Intel Xeon E5-2692 12C 2.200GHz, TH Express-2, Intel Xeon Phi 31S1P
+NUDT 	3,120,000 	33,862.7 	54,902.4 	17,808
+1 	National Super Computer Center in Guangzhou
+China 	Tianhe-2 (MilkyWay-2) - TH-IVB-FEP Cluster, Intel Xeon E5-2692 12C 2.200GHz, TH Express-2, Intel Xeon Phi 31S1P
+NUDT 	3,120,000 	33,862.7 	54,902.4 	17,808
+1 	DOE/SC/Oak Ridge National Laboratory
+United States 	Titan - Cray XK7 , Opteron 6274 16C 2.200GHz, Cray Gemini interconnect, NVIDIA K20x
+Cray Inc. 	560,640 	17,590.0 	27,112.5 	8,209
+1 	RIKEN Advanced Institute for Computational Science (AICS)
+Japan 	K computer, SPARC64 VIIIfx 2.0GHz, Tofu interconnect
+Fujitsu 	705,024 	10,510.0 	11,280.4 	12,659.9
+1 	National Supercomputing Center in Tianjin
+China 	Tianhe-1A - NUDT TH MPP, X5670 2.93Ghz 6C, NVIDIA GPU, FT-1000 8C
+NUDT 	186,368 	2,566.0 	4,701.0 	4,04
+1 	DOE/SC/Oak Ridge National Laboratory
+United States 	Jaguar - Cray XT5-HE Opteron 6-core 2.6 GHz
+Cray Inc. 	224,162 	1,759.0 	2,331.0 	6,950
+1 	DOE/NNSA/LANL
+United States 	Roadrunner - BladeCenter QS22/LS21 Cluster, PowerXCell 8i 3.2 Ghz / Opteron DC 1.8 GHz, Voltaire Infiniband
+IBM 	129,600 	1,105.0 	1,456.7 	2,483
+1 	DOE/NNSA/LLNL
+United States 	BlueGene/L - eServer Blue Gene Solution
+IBM 	212,992 	478.2 	596.4 	2,329
+1 	DOE/NNSA/LLNL
+United States 	BlueGene/L - eServer Blue Gene Solution
+IBM 	131,072 	280.6 	367.0 	1,433
+1 	DOE/NNSA/LLNL
+United States 	BlueGene/L - eServer Blue Gene Solution
+IBM 	131,072 	280.6 	367.0 	1,433
+1 	IBM/DOE
+United States 	BlueGene/L beta-System - BlueGene/L DD2 beta-System (0.7 GHz PowerPC 440)
+IBM 	32,768 	70,720.0 	91,750.0
+1 	Japan Agency for Marine -Earth Science and Technology
+Japan 	Earth-Simulator
+NEC 	5,120 	35,860.0 	40,960.0 	3,200
+1 	Japan Agency for Marine -Earth Science and Technology
+Japan 	Earth-Simulator
+NEC 	5,120 	35,860.0 	40,960.0 	3,200
+1 	Lawrence Livermore National Laboratory
+United States 	ASCI White, SP Power3 375 MHz
+IBM 	8,192 	7,226.0 	12,288.0
+1 	Lawrence Livermore National Laboratory
+United States 	ASCI White, SP Power3 375 MHz
+IBM 	8,192 	4,938.0 	12,288.0
+1 	Sandia National Laboratories
+United States 	ASCI Red
+Intel 	9,632 	2,379.0 	3,207.0
+1 	Sandia National Laboratories
+United States 	ASCI Red
+Intel 	9,152 	1,338.0 	1,830.4
+1 	Sandia National Laboratories
+United States 	ASCI Red
+Intel 	9,152 	1,338.0 	1,830.4
+1 	Center for Computational Sciences, University of Tsukuba
+Japan 	CP-PACS/2048
+Hitachi/Tsukuba 	2,048 	368.2 	614.4

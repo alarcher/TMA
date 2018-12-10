@@ -1,0 +1,458 @@
+The system is: SunOS - 5.11 - i386
+Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+Compiler: /usr/bin/cc 
+Build flags: 
+Id flags: 
+
+The output was:
+0
+
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.out"
+
+The C compiler identification is SunPro, found in "/home/alarcher/TMA4280/code/common/CMakeFiles/3.5.2/CompilerIdC/a.out"
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+Compiler: /usr/bin/CC 
+Build flags: 
+Id flags: 
+
+The output was:
+0
+
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.out"
+
+The CXX compiler identification is SunPro, found in "/home/alarcher/TMA4280/code/common/CMakeFiles/3.5.2/CompilerIdCXX/a.out"
+
+Determining if the C compiler works passed with the following output:
+Change Dir: /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_f345b/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_f345b.dir/build.make CMakeFiles/cmTC_f345b.dir/build
+gmake[1] : on entre dans le répertoire « /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp »
+Building C object CMakeFiles/cmTC_f345b.dir/testCCompiler.c.o
+/usr/bin/cc     -o CMakeFiles/cmTC_f345b.dir/testCCompiler.c.o   -c /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp/testCCompiler.c
+Linking C executable cmTC_f345b
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f345b.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTC_f345b.dir/testCCompiler.c.o  -o cmTC_f345b  
+gmake[1] : on quitte le répertoire « /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp »
+
+
+Detecting C compiler ABI info compiled with the following output:
+Change Dir: /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_bd261/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_bd261.dir/build.make CMakeFiles/cmTC_bd261.dir/build
+gmake[1] : on entre dans le répertoire « /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp »
+Building C object CMakeFiles/cmTC_bd261.dir/CMakeCCompilerABI.c.o
+/usr/bin/cc     -o CMakeFiles/cmTC_bd261.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.5/Modules/CMakeCCompilerABI.c
+Linking C executable cmTC_bd261
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_bd261.dir/link.txt --verbose=1
+/usr/bin/cc      -# CMakeFiles/cmTC_bd261.dir/CMakeCCompilerABI.c.o  -o cmTC_bd261   
+### cc: Note: NLSPATH = /opt/sunstudio12.1/prod/bin/../lib/locale/%L/LC_MESSAGES/%N.cat:/opt/sunstudio12.1/prod/bin/../../lib/locale/%L/LC_MESSAGES/%N.cat
+###     command line files and options (expanded):
+### -# CMakeFiles/cmTC_bd261.dir/CMakeCCompilerABI.c.o -ocmTC_bd261
+### cc: Note: LD_LIBRARY_PATH = /usr/lib/amd64/mpich/gcc/lib
+### cc: Note: LD_RUN_PATH     = (null)
+### cc: Note: LD_OPTIONS      = (null)
+ln -s /opt/sunstudio12.1/prod/lib /tmp/lib_link.1483706209.16484.01
+/usr/ccs/bin/ld -zld32=-S/tmp/lib_link.1483706209.16484.01/libldstab_ws.so -zld32=-S/tmp/lib_link.1483706209.16484.01/libld_annotate.so /opt/sunstudio12.1/prod/lib/crti.o /opt/sunstudio12.1/prod/lib/crt1.o /opt/sunstudio12.1/prod/lib/values-xa.o CMakeFiles/cmTC_bd261.dir/CMakeCCompilerABI.c.o -o cmTC_bd261 -Y "P,/opt/sunstudio12.1/prod/lib:/usr/ccs/lib:/lib:/usr/lib" -Qy -lc /opt/sunstudio12.1/prod/lib/crtn.o
+gmake[1] : on quitte le répertoire « /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp »
+
+
+Parsed C implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command:"/usr/bin/gmake" "cmTC_bd261/fast"]
+  ignore line: [/usr/bin/gmake -f CMakeFiles/cmTC_bd261.dir/build.make CMakeFiles/cmTC_bd261.dir/build]
+  ignore line: [gmake[1] : on entre dans le répertoire « /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp »]
+  ignore line: [Building C object CMakeFiles/cmTC_bd261.dir/CMakeCCompilerABI.c.o]
+  ignore line: [/usr/bin/cc     -o CMakeFiles/cmTC_bd261.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.5/Modules/CMakeCCompilerABI.c]
+  ignore line: [Linking C executable cmTC_bd261]
+  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_bd261.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/cc      -# CMakeFiles/cmTC_bd261.dir/CMakeCCompilerABI.c.o  -o cmTC_bd261   ]
+  ignore line: [### cc: Note: NLSPATH = /opt/sunstudio12.1/prod/bin/../lib/locale/%L/LC_MESSAGES/%N.cat:/opt/sunstudio12.1/prod/bin/../../lib/locale/%L/LC_MESSAGES/%N.cat]
+  ignore line: [###     command line files and options (expanded):]
+  ignore line: [### -# CMakeFiles/cmTC_bd261.dir/CMakeCCompilerABI.c.o -ocmTC_bd261]
+  ignore line: [### cc: Note: LD_LIBRARY_PATH = /usr/lib/amd64/mpich/gcc/lib]
+  ignore line: [### cc: Note: LD_RUN_PATH     = (null)]
+  ignore line: [### cc: Note: LD_OPTIONS      = (null)]
+  ignore line: [ln -s /opt/sunstudio12.1/prod/lib /tmp/lib_link.1483706209.16484.01]
+  link line: [/usr/ccs/bin/ld -zld32=-S/tmp/lib_link.1483706209.16484.01/libldstab_ws.so -zld32=-S/tmp/lib_link.1483706209.16484.01/libld_annotate.so /opt/sunstudio12.1/prod/lib/crti.o /opt/sunstudio12.1/prod/lib/crt1.o /opt/sunstudio12.1/prod/lib/values-xa.o CMakeFiles/cmTC_bd261.dir/CMakeCCompilerABI.c.o -o cmTC_bd261 -Y "P,/opt/sunstudio12.1/prod/lib:/usr/ccs/lib:/lib:/usr/lib" -Qy -lc /opt/sunstudio12.1/prod/lib/crtn.o]
+    arg [/usr/ccs/bin/ld] ==> ignore
+    arg [-zld32=-S/tmp/lib_link.1483706209.16484.01/libldstab_ws.so] ==> ignore
+    arg [-zld32=-S/tmp/lib_link.1483706209.16484.01/libld_annotate.so] ==> ignore
+    arg [/opt/sunstudio12.1/prod/lib/crti.o] ==> ignore
+    arg [/opt/sunstudio12.1/prod/lib/crt1.o] ==> ignore
+    arg [/opt/sunstudio12.1/prod/lib/values-xa.o] ==> ignore
+    arg [CMakeFiles/cmTC_bd261.dir/CMakeCCompilerABI.c.o] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTC_bd261] ==> ignore
+    arg [-YP,/opt/sunstudio12.1/prod/lib:/usr/ccs/lib:/lib:/usr/lib] ==> dirs [/opt/sunstudio12.1/prod/lib;/usr/ccs/lib;/lib;/usr/lib]
+    arg [-Qy] ==> ignore
+    arg [-lc] ==> lib [c]
+    arg [/opt/sunstudio12.1/prod/lib/crtn.o] ==> ignore
+  collapse library dir [/opt/sunstudio12.1/prod/lib] ==> [/opt/sunstudio12.1/prod/lib]
+  collapse library dir [/usr/ccs/lib] ==> [/usr/ccs/lib]
+  collapse library dir [/lib] ==> [/lib]
+  collapse library dir [/usr/lib] ==> [/usr/lib]
+  implicit libs: [c]
+  implicit dirs: [/opt/sunstudio12.1/prod/lib;/usr/ccs/lib;/lib;/usr/lib]
+  implicit fwks: []
+
+
+Determining if the CXX compiler works passed with the following output:
+Change Dir: /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_655b4/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_655b4.dir/build.make CMakeFiles/cmTC_655b4.dir/build
+gmake[1] : on entre dans le répertoire « /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp »
+Building CXX object CMakeFiles/cmTC_655b4.dir/testCXXCompiler.cxx.o
+/usr/bin/CC      -o CMakeFiles/cmTC_655b4.dir/testCXXCompiler.cxx.o -c /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp/testCXXCompiler.cxx
+Linking CXX executable cmTC_655b4
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_655b4.dir/link.txt --verbose=1
+/usr/bin/CC        CMakeFiles/cmTC_655b4.dir/testCXXCompiler.cxx.o  -o cmTC_655b4  
+gmake[1] : on quitte le répertoire « /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp »
+
+
+Detecting CXX compiler ABI info compiled with the following output:
+Change Dir: /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_4a5b0/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_4a5b0.dir/build.make CMakeFiles/cmTC_4a5b0.dir/build
+gmake[1] : on entre dans le répertoire « /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp »
+Building CXX object CMakeFiles/cmTC_4a5b0.dir/CMakeCXXCompilerABI.cpp.o
+/usr/bin/CC      -o CMakeFiles/cmTC_4a5b0.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.5/Modules/CMakeCXXCompilerABI.cpp
+Linking CXX executable cmTC_4a5b0
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4a5b0.dir/link.txt --verbose=1
+/usr/bin/CC       -v CMakeFiles/cmTC_4a5b0.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_4a5b0   
+###     command line files and options (expanded):
+### -v CMakeFiles/cmTC_4a5b0.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_4a5b0 
+### CC: Note: NLSPATH = /opt/sunstudio12.1/prod/bin/../lib/locale/%L/LC_MESSAGES/%N.cat:/opt/sunstudio12.1/prod/bin/../../lib/locale/%L/LC_MESSAGES/%N.cat
+### CC: Note: LD_LIBRARY_PATH = /usr/lib/amd64/mpich/gcc/lib
+### CC: Note: LD_RUN_PATH     = (null)
+### CC: Note: LD_OPTIONS = (null)
+ln -s /opt/sunstudio12.1/prod/lib /tmp/lib_link.1483706209.16506
+ln -s /opt/sunstudio12.1/prod/lib /tmp/lib_base_link.1483706209.16506
+/usr/ccs/bin/ld -u __1cH__CimplKcplus_init6F_v_ -zld32=-S/tmp/lib_base_link.1483706209.16506/libldstab_ws.so -zld64=-S/tmp/lib_base_link.1483706209.16506/amd64/libldstab_ws.so -zld32=-S/tmp/lib_base_link.1483706209.16506/libCCexcept.so.1 -zld32=-S/tmp/lib_base_link.1483706209.16506/libld_annotate.so -zld64=-S/tmp/lib_base_link.1483706209.16506/amd64/libld_annotate.so -R/opt/sunstudio12.1/lib/rw7:/opt/sunstudio12.1/lib:/usr/ccs/lib:/lib:/usr/lib -o cmTC_4a5b0 /opt/sunstudio12.1/prod/lib/crti.o /opt/sunstudio12.1/prod/lib/CCrti.o /opt/sunstudio12.1/prod/lib/crt1.o /opt/sunstudio12.1/prod/lib/values-xa.o -Y P,/opt/sunstudio12.1/lib/rw7:/opt/sunstudio12.1/lib:/opt/sunstudio12.1/prod/lib/rw7:/opt/sunstudio12.1/prod/lib:/usr/ccs/lib:/lib:/usr/lib CMakeFiles/cmTC_4a5b0.dir/CMakeCXXCompilerABI.cpp.o -lCstd -lCrun -lm -lc /opt/sunstudio12.1/prod/lib/CCrtn.o /opt/sunstudio12.1/prod/lib/crtn.o >&/tmp/ld.16506.0.err
+rm /tmp/lib_link.1483706209.16506
+rm /tmp/lib_base_link.1483706209.16506
+rm /tmp/ld.16506.0.err
+gmake[1] : on quitte le répertoire « /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp »
+
+
+Parsed CXX implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command:"/usr/bin/gmake" "cmTC_4a5b0/fast"]
+  ignore line: [/usr/bin/gmake -f CMakeFiles/cmTC_4a5b0.dir/build.make CMakeFiles/cmTC_4a5b0.dir/build]
+  ignore line: [gmake[1] : on entre dans le répertoire « /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp »]
+  ignore line: [Building CXX object CMakeFiles/cmTC_4a5b0.dir/CMakeCXXCompilerABI.cpp.o]
+  ignore line: [/usr/bin/CC      -o CMakeFiles/cmTC_4a5b0.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.5/Modules/CMakeCXXCompilerABI.cpp]
+  ignore line: [Linking CXX executable cmTC_4a5b0]
+  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4a5b0.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/CC       -v CMakeFiles/cmTC_4a5b0.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_4a5b0   ]
+  ignore line: [###     command line files and options (expanded):]
+  ignore line: [### -v CMakeFiles/cmTC_4a5b0.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_4a5b0 ]
+  ignore line: [### CC: Note: NLSPATH = /opt/sunstudio12.1/prod/bin/../lib/locale/%L/LC_MESSAGES/%N.cat:/opt/sunstudio12.1/prod/bin/../../lib/locale/%L/LC_MESSAGES/%N.cat]
+  ignore line: [### CC: Note: LD_LIBRARY_PATH = /usr/lib/amd64/mpich/gcc/lib]
+  ignore line: [### CC: Note: LD_RUN_PATH     = (null)]
+  ignore line: [### CC: Note: LD_OPTIONS = (null)]
+  ignore line: [ln -s /opt/sunstudio12.1/prod/lib /tmp/lib_link.1483706209.16506]
+  ignore line: [ln -s /opt/sunstudio12.1/prod/lib /tmp/lib_base_link.1483706209.16506]
+  link line: [/usr/ccs/bin/ld -u __1cH__CimplKcplus_init6F_v_ -zld32=-S/tmp/lib_base_link.1483706209.16506/libldstab_ws.so -zld64=-S/tmp/lib_base_link.1483706209.16506/amd64/libldstab_ws.so -zld32=-S/tmp/lib_base_link.1483706209.16506/libCCexcept.so.1 -zld32=-S/tmp/lib_base_link.1483706209.16506/libld_annotate.so -zld64=-S/tmp/lib_base_link.1483706209.16506/amd64/libld_annotate.so -R/opt/sunstudio12.1/lib/rw7:/opt/sunstudio12.1/lib:/usr/ccs/lib:/lib:/usr/lib -o cmTC_4a5b0 /opt/sunstudio12.1/prod/lib/crti.o /opt/sunstudio12.1/prod/lib/CCrti.o /opt/sunstudio12.1/prod/lib/crt1.o /opt/sunstudio12.1/prod/lib/values-xa.o -Y P,/opt/sunstudio12.1/lib/rw7:/opt/sunstudio12.1/lib:/opt/sunstudio12.1/prod/lib/rw7:/opt/sunstudio12.1/prod/lib:/usr/ccs/lib:/lib:/usr/lib CMakeFiles/cmTC_4a5b0.dir/CMakeCXXCompilerABI.cpp.o -lCstd -lCrun -lm -lc /opt/sunstudio12.1/prod/lib/CCrtn.o /opt/sunstudio12.1/prod/lib/crtn.o >&/tmp/ld.16506.0.err]
+    arg [/usr/ccs/bin/ld] ==> ignore
+    arg [-u] ==> ignore
+    arg [__1cH__CimplKcplus_init6F_v_] ==> ignore
+    arg [-zld32=-S/tmp/lib_base_link.1483706209.16506/libldstab_ws.so] ==> ignore
+    arg [-zld64=-S/tmp/lib_base_link.1483706209.16506/amd64/libldstab_ws.so] ==> ignore
+    arg [-zld32=-S/tmp/lib_base_link.1483706209.16506/libCCexcept.so.1] ==> ignore
+    arg [-zld32=-S/tmp/lib_base_link.1483706209.16506/libld_annotate.so] ==> ignore
+    arg [-zld64=-S/tmp/lib_base_link.1483706209.16506/amd64/libld_annotate.so] ==> ignore
+    arg [-R/opt/sunstudio12.1/lib/rw7:/opt/sunstudio12.1/lib:/usr/ccs/lib:/lib:/usr/lib] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTC_4a5b0] ==> ignore
+    arg [/opt/sunstudio12.1/prod/lib/crti.o] ==> ignore
+    arg [/opt/sunstudio12.1/prod/lib/CCrti.o] ==> ignore
+    arg [/opt/sunstudio12.1/prod/lib/crt1.o] ==> ignore
+    arg [/opt/sunstudio12.1/prod/lib/values-xa.o] ==> ignore
+    arg [-YP,/opt/sunstudio12.1/lib/rw7:/opt/sunstudio12.1/lib:/opt/sunstudio12.1/prod/lib/rw7:/opt/sunstudio12.1/prod/lib:/usr/ccs/lib:/lib:/usr/lib] ==> dirs [/opt/sunstudio12.1/lib/rw7;/opt/sunstudio12.1/lib;/opt/sunstudio12.1/prod/lib/rw7;/opt/sunstudio12.1/prod/lib;/usr/ccs/lib;/lib;/usr/lib]
+    arg [CMakeFiles/cmTC_4a5b0.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+    arg [-lCstd] ==> lib [Cstd]
+    arg [-lCrun] ==> lib [Crun]
+    arg [-lm] ==> lib [m]
+    arg [-lc] ==> lib [c]
+    arg [/opt/sunstudio12.1/prod/lib/CCrtn.o] ==> ignore
+    arg [/opt/sunstudio12.1/prod/lib/crtn.o] ==> ignore
+    arg [>&/tmp/ld.16506.0.err] ==> ignore
+  collapse library dir [/opt/sunstudio12.1/lib/rw7] ==> [/opt/sunstudio12.1/lib/rw7]
+  collapse library dir [/opt/sunstudio12.1/lib] ==> [/opt/sunstudio12.1/lib]
+  collapse library dir [/opt/sunstudio12.1/prod/lib/rw7] ==> [/opt/sunstudio12.1/prod/lib/rw7]
+  collapse library dir [/opt/sunstudio12.1/prod/lib] ==> [/opt/sunstudio12.1/prod/lib]
+  collapse library dir [/usr/ccs/lib] ==> [/usr/ccs/lib]
+  collapse library dir [/lib] ==> [/lib]
+  collapse library dir [/usr/lib] ==> [/usr/lib]
+  implicit libs: [Cstd;Crun;m;c]
+  implicit dirs: [/opt/sunstudio12.1/lib/rw7;/opt/sunstudio12.1/lib;/opt/sunstudio12.1/prod/lib/rw7;/opt/sunstudio12.1/prod/lib;/usr/ccs/lib;/lib;/usr/lib]
+  implicit fwks: []
+
+
+Compiling the Fortran compiler identification source file "CMakeFortranCompilerId.F" succeeded.
+Compiler: /usr/bin/f95 
+Build flags: 
+Id flags: -v
+
+The output was:
+0
+###     command line files and options (expanded):
+### -v CMakeFortranCompilerId.F 
+### f95: Note: NLSPATH = /opt/sunstudio12.1/prod/bin/../lib/locale/%L/LC_MESSAGES/%N.cat:/opt/sunstudio12.1/prod/bin/../../lib/locale/%L/LC_MESSAGES/%N.cat
+/opt/sunstudio12.1/prod/bin/fpp -undef -D__SunOS_5_11 -vax=bslash -D__SUNPRO_F90=0x840 -D__SUNPRO_F95=0x840 -Dunix -D__unix -Dsun -D__sun -D__SunOS -D__SVR4 -Di386 -D__i386 -Y/opt/sunstudio12.1/prod/include/f95 -I/opt/sunstudio12.1/prod/include/f95 CMakeFortranCompilerId.F >/tmp/fpp.16508.0.f
+/opt/sunstudio12.1/prod/bin/f90comp -ECMakeFortranCompilerId.F -y-o -yCMakeFortranCompilerId.o -ev -m3 -dq -y-fbe -y/opt/sunstudio12.1/prod/bin/fbe -y-xarch=generic -y-s -H "/opt/sunstudio12.1/prod/bin/f90 -v " -y-xcache=generic -xcache=generic -xivdep=loop -I/opt/sunstudio12.1/prod/include/f95 -p/opt/sunstudio12.1/prod/lib/modules -y-verbose -xall -fstore -y-xdbggen=no%stabs+dwarf2 -y-xdbggen=incl -y-fsr=34 -xassume_control=optimize -y-xassume_control=optimize -iorounding=processor-defined -xhasc=yes /tmp/fpp.16508.0.f /tmp/f90comp.16508.s.1.s
+/opt/sunstudio12.1/prod/bin/fbe -s -o CMakeFortranCompilerId.o -warn=%none -Qy /tmp/yabeCAAowaiqG 
+rm /tmp/yabeCAAowaiqG
+rm /tmp/fpp.16508.0.f
+### f95: Note: LD_LIBRARY_PATH = /usr/lib/amd64/mpich/gcc/lib
+### f95: Note: LD_RUN_PATH     = (null)
+### f95: Note: LD_OPTIONS = (null)
+ln -s /opt/sunstudio12.1/prod/lib /tmp/lib_link.1483706209.16508
+ln -s /opt/sunstudio12.1/prod/lib /tmp/lib_base_link.1483706209.16508
+/usr/ccs/bin/ld -zld32=-S/tmp/lib_base_link.1483706209.16508/libldstab_ws.so -zld64=-S/tmp/lib_base_link.1483706209.16508/amd64/libldstab_ws.so -zld32=-S/tmp/lib_base_link.1483706209.16508/libld_annotate.so -zld64=-S/tmp/lib_base_link.1483706209.16508/amd64/libld_annotate.so -t -R/opt/sunstudio12.1/lib -o a.out /opt/sunstudio12.1/prod/lib/crti.o /opt/sunstudio12.1/prod/lib/crt1.o /opt/sunstudio12.1/prod/lib/values-xi.o -Y P,/opt/sunstudio12.1/lib:/opt/sunstudio12.1/prod/lib:/usr/ccs/lib:/lib:/usr/lib CMakeFortranCompilerId.o -lfui -lfai -lfsu -lsunquad -lsunmath -Bdynamic -lmtsk -lm -lc /opt/sunstudio12.1/prod/lib/crtn.o
+rm CMakeFortranCompilerId.o
+rm /tmp/f90comp.16508.s.1.s
+rm /tmp/lib_link.1483706209.16508
+rm /tmp/lib_base_link.1483706209.16508
+
+
+Compilation of the Fortran compiler identification source "CMakeFortranCompilerId.F" produced "a.out"
+
+The Fortran compiler identification is SunPro, found in "/home/alarcher/TMA4280/code/common/CMakeFiles/3.5.2/CompilerIdFortran/a.out"
+
+Determining if the Fortran compiler works passed with the following output:
+Change Dir: /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_288b8/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_288b8.dir/build.make CMakeFiles/cmTC_288b8.dir/build
+gmake[1] : on entre dans le répertoire « /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp »
+Building Fortran object CMakeFiles/cmTC_288b8.dir/testFortranCompiler.f.o
+/usr/bin/f95     -c /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp/testFortranCompiler.f -o CMakeFiles/cmTC_288b8.dir/testFortranCompiler.f.o
+Linking Fortran executable cmTC_288b8
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_288b8.dir/link.txt --verbose=1
+/usr/bin/f95       CMakeFiles/cmTC_288b8.dir/testFortranCompiler.f.o  -o cmTC_288b8  
+gmake[1] : on quitte le répertoire « /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp »
+
+
+Detecting Fortran compiler ABI info compiled with the following output:
+Change Dir: /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_a6bff/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_a6bff.dir/build.make CMakeFiles/cmTC_a6bff.dir/build
+gmake[1] : on entre dans le répertoire « /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp »
+Building Fortran object CMakeFiles/cmTC_a6bff.dir/CMakeFortranCompilerABI.F.o
+/usr/bin/f95     -c /usr/share/cmake-3.5/Modules/CMakeFortranCompilerABI.F -o CMakeFiles/cmTC_a6bff.dir/CMakeFortranCompilerABI.F.o
+Linking Fortran executable cmTC_a6bff
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a6bff.dir/link.txt --verbose=1
+/usr/bin/f95    -v   CMakeFiles/cmTC_a6bff.dir/CMakeFortranCompilerABI.F.o  -o cmTC_a6bff   
+###     command line files and options (expanded):
+### -v CMakeFiles/cmTC_a6bff.dir/CMakeFortranCompilerABI.F.o -o cmTC_a6bff 
+### f95: Note: NLSPATH = /opt/sunstudio12.1/prod/bin/../lib/locale/%L/LC_MESSAGES/%N.cat:/opt/sunstudio12.1/prod/bin/../../lib/locale/%L/LC_MESSAGES/%N.cat
+### f95: Note: LD_LIBRARY_PATH = /usr/lib/amd64/mpich/gcc/lib
+### f95: Note: LD_RUN_PATH     = (null)
+### f95: Note: LD_OPTIONS = (null)
+ln -s /opt/sunstudio12.1/prod/lib /tmp/lib_link.1483706210.16542
+ln -s /opt/sunstudio12.1/prod/lib /tmp/lib_base_link.1483706210.16542
+/usr/ccs/bin/ld -zld32=-S/tmp/lib_base_link.1483706210.16542/libldstab_ws.so -zld64=-S/tmp/lib_base_link.1483706210.16542/amd64/libldstab_ws.so -zld32=-S/tmp/lib_base_link.1483706210.16542/libld_annotate.so -zld64=-S/tmp/lib_base_link.1483706210.16542/amd64/libld_annotate.so -t -R/opt/sunstudio12.1/lib -o cmTC_a6bff /opt/sunstudio12.1/prod/lib/crti.o /opt/sunstudio12.1/prod/lib/crt1.o /opt/sunstudio12.1/prod/lib/values-xi.o -Y P,/opt/sunstudio12.1/lib:/opt/sunstudio12.1/prod/lib:/usr/ccs/lib:/lib:/usr/lib CMakeFiles/cmTC_a6bff.dir/CMakeFortranCompilerABI.F.o -lfui -lfai -lfsu -lsunquad -lsunmath -Bdynamic -lmtsk -lm -lc /opt/sunstudio12.1/prod/lib/crtn.o
+rm /tmp/lib_link.1483706210.16542
+rm /tmp/lib_base_link.1483706210.16542
+gmake[1] : on quitte le répertoire « /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp »
+
+
+Parsed Fortran implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command:"/usr/bin/gmake" "cmTC_a6bff/fast"]
+  ignore line: [/usr/bin/gmake -f CMakeFiles/cmTC_a6bff.dir/build.make CMakeFiles/cmTC_a6bff.dir/build]
+  ignore line: [gmake[1] : on entre dans le répertoire « /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp »]
+  ignore line: [Building Fortran object CMakeFiles/cmTC_a6bff.dir/CMakeFortranCompilerABI.F.o]
+  ignore line: [/usr/bin/f95     -c /usr/share/cmake-3.5/Modules/CMakeFortranCompilerABI.F -o CMakeFiles/cmTC_a6bff.dir/CMakeFortranCompilerABI.F.o]
+  ignore line: [Linking Fortran executable cmTC_a6bff]
+  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a6bff.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/f95    -v   CMakeFiles/cmTC_a6bff.dir/CMakeFortranCompilerABI.F.o  -o cmTC_a6bff   ]
+  ignore line: [###     command line files and options (expanded):]
+  ignore line: [### -v CMakeFiles/cmTC_a6bff.dir/CMakeFortranCompilerABI.F.o -o cmTC_a6bff ]
+  ignore line: [### f95: Note: NLSPATH = /opt/sunstudio12.1/prod/bin/../lib/locale/%L/LC_MESSAGES/%N.cat:/opt/sunstudio12.1/prod/bin/../../lib/locale/%L/LC_MESSAGES/%N.cat]
+  ignore line: [### f95: Note: LD_LIBRARY_PATH = /usr/lib/amd64/mpich/gcc/lib]
+  ignore line: [### f95: Note: LD_RUN_PATH     = (null)]
+  ignore line: [### f95: Note: LD_OPTIONS = (null)]
+  ignore line: [ln -s /opt/sunstudio12.1/prod/lib /tmp/lib_link.1483706210.16542]
+  ignore line: [ln -s /opt/sunstudio12.1/prod/lib /tmp/lib_base_link.1483706210.16542]
+  link line: [/usr/ccs/bin/ld -zld32=-S/tmp/lib_base_link.1483706210.16542/libldstab_ws.so -zld64=-S/tmp/lib_base_link.1483706210.16542/amd64/libldstab_ws.so -zld32=-S/tmp/lib_base_link.1483706210.16542/libld_annotate.so -zld64=-S/tmp/lib_base_link.1483706210.16542/amd64/libld_annotate.so -t -R/opt/sunstudio12.1/lib -o cmTC_a6bff /opt/sunstudio12.1/prod/lib/crti.o /opt/sunstudio12.1/prod/lib/crt1.o /opt/sunstudio12.1/prod/lib/values-xi.o -Y P,/opt/sunstudio12.1/lib:/opt/sunstudio12.1/prod/lib:/usr/ccs/lib:/lib:/usr/lib CMakeFiles/cmTC_a6bff.dir/CMakeFortranCompilerABI.F.o -lfui -lfai -lfsu -lsunquad -lsunmath -Bdynamic -lmtsk -lm -lc /opt/sunstudio12.1/prod/lib/crtn.o]
+    arg [/usr/ccs/bin/ld] ==> ignore
+    arg [-zld32=-S/tmp/lib_base_link.1483706210.16542/libldstab_ws.so] ==> ignore
+    arg [-zld64=-S/tmp/lib_base_link.1483706210.16542/amd64/libldstab_ws.so] ==> ignore
+    arg [-zld32=-S/tmp/lib_base_link.1483706210.16542/libld_annotate.so] ==> ignore
+    arg [-zld64=-S/tmp/lib_base_link.1483706210.16542/amd64/libld_annotate.so] ==> ignore
+    arg [-t] ==> ignore
+    arg [-R/opt/sunstudio12.1/lib] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTC_a6bff] ==> ignore
+    arg [/opt/sunstudio12.1/prod/lib/crti.o] ==> ignore
+    arg [/opt/sunstudio12.1/prod/lib/crt1.o] ==> ignore
+    arg [/opt/sunstudio12.1/prod/lib/values-xi.o] ==> ignore
+    arg [-YP,/opt/sunstudio12.1/lib:/opt/sunstudio12.1/prod/lib:/usr/ccs/lib:/lib:/usr/lib] ==> dirs [/opt/sunstudio12.1/lib;/opt/sunstudio12.1/prod/lib;/usr/ccs/lib;/lib;/usr/lib]
+    arg [CMakeFiles/cmTC_a6bff.dir/CMakeFortranCompilerABI.F.o] ==> ignore
+    arg [-lfui] ==> lib [fui]
+    arg [-lfai] ==> lib [fai]
+    arg [-lfsu] ==> lib [fsu]
+    arg [-lsunquad] ==> lib [sunquad]
+    arg [-lsunmath] ==> lib [sunmath]
+    arg [-Bdynamic] ==> ignore
+    arg [-lmtsk] ==> lib [mtsk]
+    arg [-lm] ==> lib [m]
+    arg [-lc] ==> lib [c]
+    arg [/opt/sunstudio12.1/prod/lib/crtn.o] ==> ignore
+  collapse library dir [/opt/sunstudio12.1/lib] ==> [/opt/sunstudio12.1/lib]
+  collapse library dir [/opt/sunstudio12.1/prod/lib] ==> [/opt/sunstudio12.1/prod/lib]
+  collapse library dir [/usr/ccs/lib] ==> [/usr/ccs/lib]
+  collapse library dir [/lib] ==> [/lib]
+  collapse library dir [/usr/lib] ==> [/usr/lib]
+  implicit libs: [fui;fai;fsu;sunquad;sunmath;mtsk;m;c]
+  implicit dirs: [/opt/sunstudio12.1/lib;/opt/sunstudio12.1/prod/lib;/usr/ccs/lib;/lib;/usr/lib]
+  implicit fwks: []
+
+
+Determining if the Fortran compiler supports Fortran 90 passed with the following output:
+Change Dir: /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_6ee2e/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_6ee2e.dir/build.make CMakeFiles/cmTC_6ee2e.dir/build
+gmake[1] : on entre dans le répertoire « /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp »
+Building Fortran object CMakeFiles/cmTC_6ee2e.dir/testFortranCompilerF90.f90.o
+/usr/bin/f95     -c /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp/testFortranCompilerF90.f90 -o CMakeFiles/cmTC_6ee2e.dir/testFortranCompilerF90.f90.o
+Linking Fortran executable cmTC_6ee2e
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6ee2e.dir/link.txt --verbose=1
+/usr/bin/f95       CMakeFiles/cmTC_6ee2e.dir/testFortranCompilerF90.f90.o  -o cmTC_6ee2e  
+gmake[1] : on quitte le répertoire « /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp »
+
+
+Performing C SOURCE FILE Test OpenMP_FLAG_DETECTED succeeded with the following output:
+Change Dir: /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_c82ad/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_c82ad.dir/build.make CMakeFiles/cmTC_c82ad.dir/build
+gmake[1] : on entre dans le répertoire « /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp »
+Building C object CMakeFiles/cmTC_c82ad.dir/src.c.o
+/usr/bin/cc    -DOpenMP_FLAG_DETECTED -xopenmp   -o CMakeFiles/cmTC_c82ad.dir/src.c.o   -c /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp/src.c
+cc: Warning: Optimizer level changed from 0 to 3 to support parallelized code.
+Linking C executable cmTC_c82ad
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c82ad.dir/link.txt --verbose=1
+/usr/bin/cc   -DOpenMP_FLAG_DETECTED -xopenmp    CMakeFiles/cmTC_c82ad.dir/src.c.o  -o cmTC_c82ad  
+cc: Warning: Optimizer level changed from 0 to 3 to support parallelized code.
+gmake[1] : on quitte le répertoire « /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp »
+
+Source file was:
+
+#include <omp.h>
+int main() {
+#ifdef _OPENMP
+  return 0;
+#else
+  breaks_on_purpose
+#endif
+}
+
+Performing C++ SOURCE FILE Test OpenMP_FLAG_DETECTED succeeded with the following output:
+Change Dir: /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_30770/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_30770.dir/build.make CMakeFiles/cmTC_30770.dir/build
+gmake[1] : on entre dans le répertoire « /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp »
+Building CXX object CMakeFiles/cmTC_30770.dir/src.cxx.o
+/usr/bin/CC     -DOpenMP_FLAG_DETECTED -xopenmp   -o CMakeFiles/cmTC_30770.dir/src.cxx.o -c /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp/src.cxx
+CC: Warning: Specify a supported level of optimization when using -xopenmp, -xopenmp will not set an optimization level in a future release. Optimization level changed to 3 to support -xopenmp.
+Linking CXX executable cmTC_30770
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_30770.dir/link.txt --verbose=1
+/usr/bin/CC    -DOpenMP_FLAG_DETECTED -xopenmp    CMakeFiles/cmTC_30770.dir/src.cxx.o  -o cmTC_30770  
+CC: Warning: Specify a supported level of optimization when using -xopenmp, -xopenmp will not set an optimization level in a future release. Optimization level changed to 3 to support -xopenmp.
+gmake[1] : on quitte le répertoire « /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp »
+
+Source file was:
+
+#include <omp.h>
+int main() {
+#ifdef _OPENMP
+  return 0;
+#else
+  breaks_on_purpose
+#endif
+}
+
+Performing Fortran SOURCE FILE Test OpenMP_FLAG_DETECTED succeeded with the following output:
+Change Dir: /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_d1211/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_d1211.dir/build.make CMakeFiles/cmTC_d1211.dir/build
+gmake[1] : on entre dans le répertoire « /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp »
+Building Fortran object CMakeFiles/cmTC_d1211.dir/src.F.o
+/usr/bin/f95    -DOpenMP_FLAG_DETECTED -xopenmp   -c /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp/src.F -o CMakeFiles/cmTC_d1211.dir/src.F.o
+f95: Warning: Specify a supported level of optimization when using -xopenmp, -xopenmp will not set an optimization level in a future release. Optimization level changed to 3 to support -xopenmp.
+Linking Fortran executable cmTC_d1211
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d1211.dir/link.txt --verbose=1
+/usr/bin/f95      -DOpenMP_FLAG_DETECTED -xopenmp CMakeFiles/cmTC_d1211.dir/src.F.o  -o cmTC_d1211  
+f95: Warning: Specify a supported level of optimization when using -xopenmp, -xopenmp will not set an optimization level in a future release. Optimization level changed to 3 to support -xopenmp.
+gmake[1] : on quitte le répertoire « /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp »
+
+Source file was:
+
+      program test
+      use omp_lib
+      integer :: n
+      n = omp_get_num_threads()
+      end program test
+  
+Determining if the include file pthread.h exists passed with the following output:
+Change Dir: /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_b445a/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_b445a.dir/build.make CMakeFiles/cmTC_b445a.dir/build
+gmake[1] : on entre dans le répertoire « /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp »
+Building C object CMakeFiles/cmTC_b445a.dir/CheckIncludeFile.c.o
+/usr/bin/cc     -o CMakeFiles/cmTC_b445a.dir/CheckIncludeFile.c.o   -c /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_b445a
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b445a.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTC_b445a.dir/CheckIncludeFile.c.o  -o cmTC_b445a  
+gmake[1] : on quitte le répertoire « /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp »
+
+
+Determining if the pthread_create exist passed with the following output:
+Change Dir: /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_f7b53/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_f7b53.dir/build.make CMakeFiles/cmTC_f7b53.dir/build
+gmake[1] : on entre dans le répertoire « /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp »
+Building C object CMakeFiles/cmTC_f7b53.dir/CheckSymbolExists.c.o
+/usr/bin/cc     -o CMakeFiles/cmTC_f7b53.dir/CheckSymbolExists.c.o   -c /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTC_f7b53
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f7b53.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTC_f7b53.dir/CheckSymbolExists.c.o  -o cmTC_f7b53  
+gmake[1] : on quitte le répertoire « /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp »
+
+File /home/alarcher/TMA4280/code/common/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <pthread.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef pthread_create
+  return ((int*)(&pthread_create))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+

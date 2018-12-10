@@ -1,0 +1,50 @@
+http://www.hpcg-benchmark.org/
+
+Sparse matrix versus dense matrix computations.
+
+HPCG Benchmark
+
+The High Performance Conjugate Gradients (HPCG) Benchmark project is an effort to create a new metric for ranking HPC systems. HPCG is intended as a complement to the High Performance LINPACK (HPL) benchmark, currently used to rank the TOP500 computing systems. The computational and data access patterns of HPL are still representative of some important scalable applications, but not all. HPCG is designed to exercise computational and data access patterns that more closely match a different and broad set of important applications, and to give incentive to computer system designers to invest in capabilities that will have impact on the collective performance of these applications.
+
+HPCG is a complete, stand-alone code that measures the performance of basic operations in a unified code:
+
+    Sparse matrix-vector multiplication.
+    Vector updates.
+    Global dot products.
+    Local symmetric Gauss-Seidel smoother.
+    Sparse triangular solve (as part of the Gauss-Seidel smoother).
+    Driven by multigrid preconditioned conjugate gradient algorithm that exercises the key kernels on a nested set of coarse grids.
+    Reference implementation is written in C++ with MPI and OpenMP support.
+
+ The HPCG Benchmark represent a significant departure from the classic high performance Linpack benchmark (HPL) presently used for ranking the top 500 computer systems. HPCG generates and uses sparse data structures that have a very low compute-to-data-movement ratio, especially compared to HPL.
+
+For a given problem size N, HPL performs floating point operations proportional to N*N*N operations while performing memory reads and write proportional to N*N. That means, if the problem size doubles, the number of floating point operations increases by a factor of 8 while the number of memory operations only grows by a factor of 4. This property of HPL means that it performs very well on systems that have many floating point functional units relative to data movement support. The result is that HPL tends to represent a very optimistic performance prediction that can only be matched by a small number of real scientific applications.
+
+HPCG has a floating point operations rate proportional to N and a memory access rate also proportional to N. This property means that, unlike HPL, HPCG performance is strongly influenced by memory bandwidth. Some have even claimed that HPCG is just like another popular benchmark called STREAMS, but this is a simplistic analysis that does not take into account the other challenges that HPCG presents to a given computing platform.
+
+HPCG Performance Signatures
+HPCG performance can be impacted by many system capabilities, each of which has strong correlation to performance requirements of real applications. Major features include:
+
+    Sparse Matrix Vector Multiplication (SpMV): SpMV is a common and challenging kernel for many applications. It stresses the memory system by using both streaming memory and indexed reads of memory. The operation can take advantage of temporal locality (when computing y = Ax, each value of x is typically use about 25 times). It also requires a "neighborhood collective" where each processor communicates with on average 26 neighboring processors. Also, optimal implementation of the neighborhood collective will overlap this communication with local computation of the y values. Finally, this kernel can be vectorized, either with small vector lengths (order 25) in the reference sparse matrix format used in HPCG, or with long vector lengths (order N), if a different (e.g., ELLPACK) format is used.
+
+    Symmetric Gauss-Seidel smoother (SymGS): SymGS is a form of sparse triangular solve requiring fine-grain recursive execution that tests the latency optimization capabilities of a processor. Also, in the case of a multicore or manycore processor, it presents a challenging target for fine-grain cooperative threading. It also has the indexed read challenge of SpMV.
+
+    Global Dot Product: Global collective operations such dot product require the scanning of a large distributed array of values to produce a single value that is available to every processor on the system. This operation is so ubiquitous and important that some supercomputers have dedicated special hardware to perform this specific type of operation. HPCG requires efficient execution of this operation across all processors on the computer system.
+
+    Vector Update: This is the simplest kernel, which tests the raw streaming bandwidth of the processor. Although it is essentially a STREAMS operation, it consumes a tiny fraction of the overall execution time in HPCG.
+
+    Multigrid preconditioner: The multigrid preconditioner provides further challenge to the processor by presenting all of the above kernels at 4 different grid sizes that vary in size by a factor of 8 from level to level, so that the coarsest grid is approximately 4000 times smaller than the original fine grid. 
+
+HPL and HPCG as Bookends
+
+HPL represents an attainable, but optimistic performance target for applications. While there are applications, for example in material sciences, that have performance signatures similar to HPL, very many applications do not.
+
+HPCG represents a large class of applications, but demands a lot from a computer system and can be considered a lower bound on the achievable performance for many applications.
+
+Together HPCG and HPL can be interpreted as bookends on the range of performance a collection of applications can experience. Using the HPCG and HPL results for a given system as an interval, we have a basic metric for the balance of that system. The smaller the interval between HPCG and HPL, the better balanced the system is for a range of problems.
+HPCG and Modern Preconditioned Iterative Methods
+
+HPCG uses a simple implementation of the Conjugate Gradients and multigrid algorithms. This design choice is deliberate in order to make the algorithms accessible to a broad community. Although HPCG is a preconditioned iterative solver, its real purpose is to present a combination of important computational kernels in a cohesive algorithmic framework.
+
+There are numerous advances made in better latency hiding for iterative methods, but HPCG does not pursue the use of these new algorithms. In fact, the strict synchronous requirements of HPCG global collective operations provide incentive to make collective operations perform well, and will benefit latency hiding techniques by reducing how much work must be done to hide latency. 
+

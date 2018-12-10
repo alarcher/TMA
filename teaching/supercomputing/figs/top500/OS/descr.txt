@@ -1,0 +1,11 @@
+- Jun 1993: UNIX 94%, BSD 5%
+- Nov 1998: UNIX reaches 99.4% of share
+- Jun 2004: Linux passes 58%
+- Jun 2006: MacOS reaches 1%
+- Nov 2016: Linux 498 / UNIX 2
+
+            
+          
+
+
+

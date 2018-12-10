@@ -5,38 +5,81 @@ The objective of this section is to introduce the \apriori stability analysis of
 
 \section{Time marching schemes}
 
-Open cylinder $\cyl = \dom \times (0,T)$.
+In this section, problems describing the evolution in time of an unknown $u$ will be considered.
+Since the unknown depends on the space coordinates and on the time, such evolution problem will be posed on a domain which is the open cylinder $\cyl = \dom \times (0,T)$.
 
-Initial Value problem:
+\medskip
+The Initial and Boundary Value problem for a Partial Differential Equation will therefore take a form such as
 \begin{equation*}
 \left\lvert
-\begin{array}{l}
-\partial_t u(\xx,t) + \matA\;u(\xx,t) = f(\xx,t) \\
-u(\xx,t) = g(\xx,t) \\
-u(\xx,0) = u_0(\xx)
+\begin{array}{ll}
+\mbox{Find $u(\xx, t)$ satisfying:}&\\[2ex]
+\partial_t u(\xx,t) + \matA\;u(\xx,t) = f(\xx,t) &, \forany(\xx,t)\in\cyl\\
+u(\xx,t) = g(\xx,t) &, \forany\xx\in\bound, t\in(0,T) \\
+u(\xx,0) = u_0(\xx) &, \forany\xx\in\bound
 \end{array}
 \right.
 \end{equation*}
+in the case of a Dirichlet problem which is first-order in time, and with $\matA$ a differential operator in space.
+The differential operator and the right-hand side may depend on $u$, in which case the problem becomes non-linear.
 
-Time stepping, discretization in time on $(0,T)$.
+\medskip
+The equation can be recast under the form of a Cauchy problem
+\begin{equation}\label{eq:td_cauchy}
+\dot u(\xx,t) = F(\xx,t; u)
+\end{equation}
+so that an evolution problem can be seen as the coupling between a partial differential equation in space, and an ordinary differential equation in time.
 
-Coupling ODE PDE.
+This suggests that two discretizations may be considered: a Finite Element discretization in space which was discussed for elliptic problems in Chapter \ref{chap:rg} and Chapter \ref{chap:fem}, and a time discretization.
+Similarly to the one-dimensional spatial case, the time discretization consists of solving the problem on a partition of $(0,T)$.
+Let us define a family $\Fam{t^n}_{0\leq n \leq N}$ of $N+1$ discrete times, with $t^0 < \cdots < t^N$, and integrate the equation on each subinterval $[t^{n-1}, t^{n}]$, $1\leq n \leq N$, characterized by the time-step $\kt^n = t^{n} - t^{n-1}$.
+Marching in time consists of solving a succession of problems at discrete times $t^n$, $1\leq n \leq N$ given solutions at previous discrete times.
 
-Different types of marching schemes.
+\medskip
+For example, in the case of a first order approximation in time, the discrete time-derivative is
+\begin{equation}
+\pd{t,n} u = \dfrac{u^{n} - u^{n-1}}{\kt^n}
+\end{equation}
+for $n = 1,\dots,N$, so that Relation \eqref{eq:td_cauchy} reads
+\begin{equation}\label{eq:td_scheme}
+u^n = u^{n-1} + \kt^n F(\xx,t; u)
+\end{equation}
+and the treatment of term $F(\xx,t; u)$ is left to be determined as it can be expressed as a function of $u^n$ but also of solutions $u^{n-k}$, $k = 1,\dots, n$ at previous time-steps.
 
-Implicit
-Explicit
+\medskip
+The choice of the time-derivative and the way $F(\xx,t; u)$ is expressed will define the type of numerical scheme.
+For example, in Relation \eqref{eq:td_scheme} $F(\xx,t; u)$ can be evaluated at time $t^n$,
+\begin{equation}\label{eq:td_implicit}
+u^n = u^{n-1} + \kt^n F^n(\xx,t; u)
+\end{equation}
+or at time $t^{n-1}$,
+\begin{equation}\label{eq:td_implicit}
+u^n = u^{n-1} + \kt^n F^{n-1}(\xx,t; u)
+\end{equation}
+which correspond respectively to Backward Euler and Forward Euler schemes.
+The former is an \textit{implicit scheme} as the term $F(\xx,t; u)$ depends on the unknown $u^n$, while the latter is an \textit{explicit scheme} as the term $F(\xx,t; u)$ is expressed in terms of $u^{n-1}$ which is known.
+In a more general fashion, the theta-scheme reads,
+\begin{equation}\label{eq:td_implicit}
+u^n = u^{n-1} + \kt^n \bigl[\theta F^n(\xx,t; u) + (1-\theta)F^{n-1}(\xx,t; u)\bigr]
+\end{equation}
+with parameter $\theta \in [0,1]$, so that Backward Euler is recovered for $\theta = 1$, Forward Euler is recovered for $\theta = 0$, and Crank--Nicolson corresponds to the choice $\theta = \sfrac{1}{2}$.
 
-Parabolic problem: smoothing property, dissipation by elliptic operator.
+\medskip
+Stability and accuracy properties of the numerical scheme will depend on which terms are chosen as implicit or explicit: without going into the details and as a general rule implicit schemes tend to be more stable while explicit schemes will be limited by a condition on the time-step.
+You can refer Von Neumann stability analysis for ordinary differential equations, and the Courant--Friedrichs--Levi (CFL) condition.
 
-Hyperbolic propagation of shocks
-
+\medskip
+Regardless of the numerical scheme, properties of solutions will also depend on the regularity of the initial condition and the nature of the differential operator.
+Parabolic equations involving an elliptic operator will enjoy a smoothing property, given that energy dissipation is induce by diffusion-type operators, while hyperbolic equations may give rise to discontinuities and see the propagation of shocks.
 
 
 \section{\textit{A priori} stability estimate}
 
+In a similar fashion as elliptic problems, \textit{a priori} estimates can be derived by a careful choice of test function.
+
 \subsection{Heat equation}
 
+In the continuity of the Poisson problem the following unsteady problem is considered
 \begin{equation*}
 \left\lvert
 \begin{array}{l}
@@ -46,7 +89,7 @@ u(\xx,0) = u_0(\xx)
 \end{array}
 \right.
 \end{equation*}
-$\matA\;u = - \Delta\;u$.
+which corresponds to the case $\matA\;u = - \Delta\;u$.
 
 \begin{equation*}
 \InnerP{\matA\;u}{v} = - \intD \Delta\;u v \dxx = \intD \Grad u \cdot \Grad v \dxx
@@ -54,7 +97,7 @@ $\matA\;u = - \Delta\;u$.
 
 Firstly, let us derive the energy estimate for the heat equation in the by recalling the weak form and then taking the test function to be the unknown $u$:
 \begin{eqnarray*}
-\intD \pdt u\, v \dxx + \kappa \intD \Grad u . \Grad v \dxx &=& \intD f\,v \dxx \\[2ex]
+\intD \pdt u\, v \dxx + \kappa \intD \Grad u \cdot \Grad v \dxx &=& \intD f\,v \dxx \\[2ex]
 \intD \pdt u\, u \dxx + \kappa \intD | \Grad u |^2 \dxx &=& \intD f\,u \dxx \\
 \dfrac{1}{2}\intD \pdt |u|^2 \dxx + \kappa \intD | \Grad u |^2 \dxx &=& \intD f\,u \dxx \\[2ex]
 \dfrac{1}{2} \ddd{t} \intD  |u|^2 \dxx + \kappa \intD | \Grad u |^2 \dxx &=& \intD f\,u \dxx \\[2ex]
@@ -150,6 +193,7 @@ t \intD \partial_t(\Grad u)\cdot\Grad u \dxx + t \intD \snorm{\Delta u}^2 \dxx
 + t\snHtwo{u}^2 = + \dfrac{1}{2}\int_0^T \snHone{u}^2 - \dfrac{T}{2}\snHone{u(T)}^2
 \end{equation*}
 
+Using the previous control in $\xHone$ allows us to conclude.
 
 
 

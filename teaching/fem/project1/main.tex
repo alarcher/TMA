@@ -201,6 +201,28 @@ with $u(\xx, 0) = u_0$ given initial data, and $\nu$ diffusivity.
 \item Describe how you would modify the algorithm developed for the Helmholtz problem to solve this equation for a given discretization in time. For example use the Backward Euler scheme. The function $\tilde u(\xx,t) = e^{-\nu t} \sin\bigl(x \cos(\theta) + y\sin(\theta)\bigr)$ can be used to verify the implementation for the homogeneous equation (optional); take $\nu = 1$ and $\theta = \pi/4$ for instance.
 \end{tmatsks}
 
+\begin{enumerate}
+\item Weak formulation:
+\begin{enumerate}
+\item (1p) Explain the motivation for seeking solutions to partial differential equations problems in a distributional sense and explain what is a weak formulation.
+\item (2p) State Lax--Milgram's Theorem and in particular explain the role of coercivity.
+\end{enumerate}
+\item Galerkin's method:
+\begin{enumerate}
+\vspace{0.1in}
+\item (1p) Explain what is the idea behind Ritz--Galerkin's method. What is a conformal approximation ?
+\item (2p) State Galerkin's orthogonality and explain its link to consistency.
+\end{enumerate}
+
+\item Finite Elements:
+\begin{enumerate}
+\item (2p) Give the definition of a Finite Element in the sense of Ciarlet and explain the notion of unisolvence.
+\item (1p) What is an interpolation operator ?
+\vspace{0.1in}
+\item (1p) What is the difference between \textit{a priori} and \textit{a posteriori} error estimations?
+
+\end{enumerate}
+\end{enumerate}
 
 \bibliography{../main}
 

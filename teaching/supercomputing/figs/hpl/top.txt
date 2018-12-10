@@ -1,0 +1,17 @@
+Top Computers Over Time for the Highly-Parallel Linpack Benchmark
+(Entries for this table began in 1991.)
+
+Year        Computer                                NumberOfProcessors  MeasuredGflops  SizeOfProblem SizeOf1/2Perf TheoreticalPeakGflops
+2005 - 2006 IBM Blue Gene/L                         131072              280600          1769471                     367001        
+2002 - 2004 Earth Simulator Computer, NEC           5104                35610           1041216       265408        40832
+2001        ASCI White-Pacific, IBM SP Power3       7424                7226            518096        179000        11136
+2000        ASCI White-Pacific, IBM SP Power3       7424                4938            430000                      11136
+1999        ASCI Red Intel Pentium II Xeon          9632                2379            362880        75400         3207
+1998        ASCI Blue-Pacific SST, IBM SP604E       5808                2144            431344                      3868      
+1997        Intel ASCI Option Red 200MHzPentiumPro  9152                1338            235000        63000         1830
+1996        Hitachi CP-PACS                         2048                368.2           103680        30720         614
+1995        Intel Paragon XP/S MP                   6768                281.1           128600        25700         338
+1994        Intel Paragon XP/S MP                   6768                281.1           128600        25700         338
+1993        Fujitsu NWT                             140                 124.5           31920         11950         236
+1992        NEC SX-3/44                             4                   20.0            6144          832           22
+1991        Fujitsu VP2600/10                       1                   4.0             1000          200           5

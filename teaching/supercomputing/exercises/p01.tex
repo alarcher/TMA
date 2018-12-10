@@ -1,0 +1,288 @@
+\documentclass[onecolumn, oneside, a4paper, 11pt]{memoir}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+% Paths
+\newcommand{\figs}{../figs}
+\newcommand{\data}{../data}
+
+% Fonts
+\usepackage{newpxtext,newpxmath}
+\renewcommand*\sfdefault{cmss}
+
+% References
+\usepackage{hyperref}
+
+% Units
+\usepackage[detect-weight=true, binary-units=true]{siunitx}
+\DeclareSIUnit\flop{Flops}
+
+% Math
+\let\openbox\undefined
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+
+\theoremstyle{remark}
+\newtheorem{ex}{Question}
+%\newtheorem{ex}{Exercise}
+\newtheorem*{sol}{Solution}
+
+% Graphics
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\graphicspath{{../figs/}}
+
+% Tikz
+\usepackage{tikz}
+\usetikzlibrary{positioning,shapes,arrows,calc,intersections}
+\usepackage{pgfplots}
+\usepgfplotslibrary{dateplot}
+\pgfplotsset{compat=1.8}
+
+% Colors
+\definecolor{darkblue}{HTML}{00688B}
+\definecolor{darkgreen}{HTML}{6E8B3D}
+\definecolor{cadet}{HTML}{DAE1FF}
+\definecolor{salmon}{HTML}{FFB08A}
+
+% Listings
+\usepackage{textcomp}
+\usepackage{listings}
+\lstset{
+  keywordstyle=\bfseries\color{orange},
+  stringstyle=\color{darkblue!80},
+  commentstyle=\color{darkblue!80},
+  showstringspaces=false,
+  basicstyle=\ttfamily,
+  upquote=true,
+}
+\lstdefinestyle{fortran}{
+  language=Fortran,
+  morekeywords={for},
+  deletekeywords={status},
+}
+\lstdefinestyle{c}{
+  language=C,
+  morekeywords={include},
+}
+\lstdefinestyle{shell}{
+  language=bash,
+}
+
+\begin{document}
+
+\pagestyle{empty}
+
+\begin{center}
+  {\Huge \bfseries \scshape
+    Introduction to \\[0.2\baselineskip] Supercomputing} \\[2\baselineskip]
+  {\Large TMA4280 $\cdot$ Project I} \\[2\baselineskip]
+\end{center}
+
+\textbf{This project is mandatory, counts for 10\% of the final grade and can be done in pairs or alone.}
+
+\section*{Instructions}
+
+The deadline is set on the \textbf{7th of March 2018}.
+
+\medskip
+The deliverable consists of:
+\begin{enumerate}
+\item a report describing your solutions and interpretation of the results, handed out through Blackboard in PDF format,
+\item a GIT repository containing the source code developed to perform the computations.
+\end{enumerate}
+
+\bigskip
+Practical requirements regarding the code:
+\begin{itemize}
+\item it should be hosted on \href{https://github.com/}{Github},
+\item it should be structured in different subdirectories addressing the different questions,
+\item it should contain results gathered in text files,
+\item it must be written in C, C++ using C arrays only, or FORTRAN,
+\item it must use double precision,
+\item it must compile and run using Makefile targets,
+\item results presented in the report have to be reproducible.
+\end{itemize}
+
+\bigskip
+As soon as you have decided whether you want to work in pairs or alone:
+\begin{itemize}
+\item create a Github repository (one per pair) named \texttt{TMA4280v2018},
+\item send your name(s) and the link to the repository by email.
+\end{itemize}
+
+All the developments for this project will be contained in a subdirectory named \texttt{P1}.
+
+
+\section*{Description}
+
+The project deals with the computation of $\pi$ using different approximations and their parallelization using first MPI, and then with a small modification to use OpenMP.
+
+\medskip
+Considered approximations are based on the development in series,
+\[
+  S_n = \sum_{i=1}^n v_i.
+\]
+with $v_i$ depending on the chosen method.
+
+\bigskip
+\textbf{1. Riemann zeta function $\zeta(s)$} with $s = 2$:
+Each term is defined as:
+\[
+  v_i = \frac{1}{i^2}, \qquad i=1,\ldots,n
+\]
+and
+\[
+S = \lim_{n\to\infty} S_n = \frac{\pi^2}{6}.
+\]
+
+\bigskip
+\textbf{2. Machin Formula}:
+Given $x \in [-1,1]$,
+\[
+  v_i(x) = (-1)^{i-1} \dfrac{x^{2i-1}}{2i - 1}
+\]
+and
+\[
+  S(x) = \lim_{n\to\infty} S_n(x) = \arctan(x)
+\]
+with
+\[
+\dfrac{\pi}{4} = 4 \arctan\Bigl(\dfrac{1}{5}\Bigr) - \arctan\Bigl(\dfrac{1}{239}\Bigr)
+\]
+
+\bigskip
+In all the questions, the name in bold and enclosed in parenthesis denotes the subdirectory where the implementation should be located. All the computations should run with the command \texttt{make test} and in the parallel case specifying the number of processes with the environment variable \texttt{NP}.
+You may factor common code in a library if you want, but it is not a requirement.
+
+\bigskip
+\begin{ex}
+\textit{Serial implementation.} Write a serial program implementing the computation of $\pi$ for a given $n$ read from the command line for:
+  \begin{itemize}
+  \item Method 1. add a program in (\textbf{zeta0})
+  \item Method 2. add a program in (\textbf{mach0})
+  \end{itemize}
+\end{ex}
+
+\bigskip
+\begin{ex}
+\textit{Unit test.} Every development should come with unit testing to check the logic of the implementation.
+Such tests should execute quickly and compare a computed value against an expected value.
+Implement a small test comparing the value of each series with $n = 3$.
+  \begin{itemize}
+  \item Method 1. add a unit test in (\textbf{zeta0})
+  \item Method 2. add a unit test in (\textbf{mach0})
+  \end{itemize}
+The test should be implemented in a simple function (no unit test framework required) and executed with \texttt{make utest}.
+Why do you think such test may be useful when parallelizing a computational code?
+\end{ex}
+
+\bigskip
+\begin{ex}
+\textit{Verification test.} When the logic of the implementation is tested then the mathematical properties of the algorithm should be assessed: convergence, stability.
+Such tests should execute fairly quickly and verify the behaviour of the algoritm as compared to the theory if possible.
+Implement a small test computing the error $|\pi - \pi_n|$ for $n=2^k$ with $k=1,\ldots,24$:
+  \begin{itemize}
+  \item Method 1. add a verification test in (\textbf{zeta0})
+  \item Method 2. add a verification test in (\textbf{mach0})
+  \end{itemize}
+The test should be executed with \texttt{make vtest} and results should be saved in a file.
+Comment on the obtained results.
+\end{ex}
+
+\bigskip
+\begin{ex}
+\textit{Data distribution.}
+As we are interested in computing the sum of all vector elements $v_i$ numerically, we will work under the constraint that the values should be put in a vector before being summed.
+The suggest program deliberatly relies on partitioning and distribution of the data by process zero.
+
+\medskip
+Process zero \textbf{only} should be responsible for:
+  \begin{itemize}
+  \item generating the vector elements,
+  \item partitioning the vector in a way that the problem is load-balanced,
+  \item and distribute the elements to all the processes.
+  \end{itemize}
+  Each process will work on the received data.
+\begin{itemize}
+  \item Method 1. add a program in (\textbf{zeta1})
+  \item Method 2. add a program in (\textbf{mach1})
+\end{itemize}
+Can you comment on the limitation of such approach for the data distribution and a possible improvement? Provide arguments to support your answer.
+\end{ex}
+
+\bigskip
+\begin{ex}
+\textit{MPI implementation.}
+  Modify further the program to compute the approximation of $\pi$ using both methods such that each process:
+  \begin{itemize}
+  \item computes a partial sum from its data,
+  \item then all the partial sums should be added together on the root process,
+  \item and then global sum is printed on the standard output by the root process.
+  \end{itemize}
+ Only the root process holds the final value. Report the error $|\pi-\pi_n|$ in double precision for different values of $n$ and the wall time, for different number of MPI processes which are powers of two.
+The program should contain an assertion and fail if the number of processes is not a power of two, as a design constraint.
+\begin{itemize}
+  \item Method 1. modify the program and add a test in (\textbf{zeta1})
+  \item Method 2. modify the program and add a test in (\textbf{mach1})
+\end{itemize}
+Plot the error and the timings.
+Which MPI calls were convenient and/or necessary to use?
+Can you comment on the methodoloy used for computing the wall time?
+\end{ex}
+
+\bigskip
+\begin{ex}
+\textit{Analysis}
+\item  Compare the errors from the single-process program and the multi-process  program for $P=2$ and $P=8$. Should the answer be the same in all cases?  Exactly, or approximately? Can you explain why? Provide arguments to support your answer.
+\end{ex}
+
+\bigskip
+\begin{ex}
+\textit{Global reduction.}
+  Modify the final step, the reduction with \texttt{MPI\_SUM}, such that all processes store the global sum: first by using an MPI function and then by implementing the recursive-doubling sum.
+\begin{itemize}
+  \item Add a program in (\textbf{reduc})
+\end{itemize}
+Do a small scaling study, what do you observe?
+\end{ex}
+
+\bigskip
+\begin{ex}
+\textit{OpenMP implementation.}
+  Make the necessary changes needed to use shared memory parallelization with
+  OpenMP.
+\begin{itemize}
+  \item Method 1. add a program in (\textbf{zeta2})
+  \item Method 2. add a program in (\textbf{mach2})
+\end{itemize}
+Perform the same analysis as for the \textit{MPI implementation}.
+\end{ex}
+
+\begin{ex}
+\textit{Hybrid MPI/OpenMP implementation.}
+  Confirm that your program also works when using OpenMP and MPI in combination. What is the advantage of running such configuration?
+\end{ex}
+
+\bigskip
+\begin{ex}
+\textit{Discussion.}
+\begin{itemize}
+\item Compare the memory requirement per process for the single-process program and the multi-process program when $n \gg 1$.
+\item How many floating point operations are needed to generate a vector $\bm v$?
+\item How many are needed to compute $S_n$?
+\item Is the multi-process program load balanced?
+\end{itemize}
+\end{ex}
+
+\bigskip
+\begin{ex}
+\textit{Conclusion.}
+  Do you consider parallel processing attractive for solving this problem? Explain why.
+\end{ex}
+
+\end{document}

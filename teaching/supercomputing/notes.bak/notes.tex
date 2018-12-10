@@ -1,0 +1,174 @@
+\documentclass[onecolumn, twoside, a4paper, 11pt]{memoir}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+% Paths
+\newcommand{\figs}{../figs}
+\newcommand{\data}{../data}
+
+% Fonts
+\usepackage{newpxtext,newpxmath}
+\renewcommand*\sfdefault{cmss}
+
+% References
+\usepackage{hyperref}
+
+% Fancy command for auto-refing multiple references
+\makeatletter
+\newcommand\Autoref[1]{\@first@ref#1,@}
+\def\@throw@dot#1.#2@{#1}% discard everything after the dot
+\def\@set@refname#1{%    % set \@refname to autoefname+s using \getrefbykeydefault
+    \edef\@tmp{\getrefbykeydefault{#1}{anchor}{}}%
+    \def\@refname{\@nameuse{\expandafter\@throw@dot\@tmp.@autorefname}s}%
+}
+\def\@first@ref#1,#2{%
+  \ifx#2@\autoref{#1}\let\@nextref\@gobble% only one ref, revert to normal \autoref
+  \else%
+    \@set@refname{#1}%  set \@refname to autoref name
+    \@refname~\ref{#1}% add autoefname and first reference
+    \let\@nextref\@next@ref% push processing to \@next@ref
+  \fi%
+  \@nextref#2%
+}
+\def\@next@ref#1,#2{%
+   \ifx#2@ and~\ref{#1}\let\@nextref\@gobble% at end: print and+\ref and stop
+   \else, \ref{#1}% print  ,+\ref and continue
+   \fi%
+   \@nextref#2%
+}
+\makeatother
+
+% URL styles
+\usepackage{url}
+\urlstyle{sf}
+
+% Units
+\usepackage[detect-weight=true, binary-units=true]{siunitx}
+\DeclareSIUnit\flop{Flops}
+
+% Math
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+
+\newtheorem{ex}{Exercise}[chapter]
+
+% Graphics
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\graphicspath{{../figs/}}
+
+% Tikz
+\usepackage{tikz}
+\usetikzlibrary{positioning,shapes,arrows,calc,intersections}
+\usepackage{pgfplots}
+\usepgfplotslibrary{dateplot}
+\pgfplotsset{compat=1.8}
+
+% Colors
+\definecolor{darkblue}{HTML}{00688B}
+\definecolor{darkgreen}{HTML}{6E8B3D}
+\definecolor{cadet}{HTML}{DAE1FF}
+\definecolor{salmon}{HTML}{FFB08A}
+
+% Listings
+\usepackage{textcomp}
+\usepackage{listings}
+\lstset{
+  keywordstyle=\bfseries\color{orange},
+  stringstyle=\color{darkblue!80},
+  commentstyle=\color{darkblue!80},
+  showstringspaces=false,
+  basicstyle=\ttfamily,
+  upquote=true,
+}
+\lstdefinestyle{fortran}{
+  language=Fortran,
+  morekeywords={for},
+  deletekeywords={status},
+}
+\lstdefinestyle{c}{
+  language=C,
+  morekeywords={include},
+}
+\lstdefinestyle{shell}{
+  language=bash,
+}
+
+% Double hlines
+\usepackage{hhline}
+
+% Make footnotes work inside tables
+\usepackage{footnote}
+\makesavenoteenv{tabular}
+\makesavenoteenv{table}
+
+% Numbering
+\makeatletter
+\AtBeginDocument{%
+  \let\c@lstlisting\c@figure
+  \let\c@table\c@figure
+}
+\makeatother
+
+\begin{document}
+
+\begin{titlingpage}
+  \centering
+  {\Huge \bfseries \scshape
+    Introduction to \\[0.2\baselineskip] Supercomputing} \\[2\baselineskip]
+  {\Large TMA4280} \\[0.7\textheight]
+  \copyright \\
+  Einar R{\o}nquist \\
+  Arne Morten Kvarving \\
+  Eivind Fonn
+\end{titlingpage}
+
+\input{01-introduction}
+\input{02-single}
+\input{03-git}
+\input{04-multi}
+\input{05-openmp}
+\input{06-linalg}
+\input{07-poisson}
+\input{08-finite-differences}
+\input{09-diagonalization}
+\input{10-io}
+
+\nocite{openmp}
+\nocite{openmptut}
+\nocite{towards}
+\nocite{mpi-io}
+\nocite{mpi-io2}
+\nocite{culler1999parallel}
+\nocite{douglas2000portable}
+\nocite{lande2004}
+
+\bibliographystyle{plain}
+\bibliography{references}
+
+\appendix
+
+\chapter{OpenMP code}
+\lstset{inputpath=code/openmp/}
+
+\section{Calculating $\pi$ with an integral in OpenMP}
+\label{app:openmp-integrate}
+\lstinputlisting[style=c]{serial.c}
+
+\chapter{MPI-IO code}
+\lstset{inputpath=code/mpiio/}
+
+\section{Storage of a cyclic-partitioned vector using MPI-IO}
+\label{app:cyclicvector}
+\lstinputlisting[style=c]{fileview.c}
+
+\newpage
+
+\section{Storage of a block/strip partitioned array using MPI-IO}
+\label{app:darray}
+\lstinputlisting[style=c]{combined.c}
+
+\end{document}
